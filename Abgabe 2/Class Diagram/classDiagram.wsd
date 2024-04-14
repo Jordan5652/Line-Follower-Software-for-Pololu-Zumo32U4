@@ -1,13 +1,265 @@
 @startuml
-abstract        abstract
-abstract class  "abstract class"
-annotation      annotation
-circle          circle
-()              circle_short_form
-class           class
-diamond         diamond
-<>              diamond_short_form
-entity          entity
-enum            enum
-interface       interface
+top to bottom direction
+
+package App
+{
+    class Main
+    {
+
+    }
+    
+    class StateHandler
+    {
+        +process()
+        +setState(AbstractState&)
+    }
+
+    class Parameters
+    {
+
+    }
+
+    package States
+    {
+        interface AbstractState
+        {
+            +AbstractState(StateHandler&)
+            +enter()
+            +process()
+            +leave()
+        }
+
+        class InitializationState
+        {
+
+        }
+        note top: Displays teams name and initializes robot
+
+        class StartLapState
+        {
+
+        }
+        note top: Start the lap time and emit beep
+
+        class EndLapState
+        {
+
+        }
+        note top: Stop the robot and lap time and emit a beep
+
+        class DriveLapState
+        {
+
+        }
+        note top: Drives the robot along the trackline
+
+        class ParameterSetState
+        {
+
+        }
+        note top: Allows the User to select between predefined parameter sets
+
+        class ErrorState
+        {
+
+        }
+        note top: Stops the robot and emits an alarm
+
+        class CalibrationState
+        {
+
+        }
+        note top: Calibrates the robots sensors
+    }
+}
+
+package Service
+{
+    class Button
+    {
+        +getState(): bool
+    }
+    note left: Provides the button state
+
+    class Led
+    {
+        +setState(isOn: bool): void
+    }
+
+    class TimeMeasurement
+    {
+        +time: uint16
+        +start(): void
+        +stop(): void
+        +getTime(): uint16
+    }
+    note bottom: Provides function to monitor the time measurement
+
+    class Motor
+    {
+        +setDirection(isForward: bool): void
+        +setSpeed(rpm: uint16): void
+        +getDirection(): bool
+        +getSpeed(): uint16
+    }
+    note bottom: Provides functions to control the movement of a motor
+
+    class DualDriveMotor
+    {
+        +leftMotor: Motor
+        +rightMotor: Motor
+        +drive(speed: uint16, turnFactor: int16)
+    }
+    note bottom: Provides functions to control the movement of the robot
+
+    class Buzzer
+    {
+        +playSound(freq: uint16, duration: uint8): void
+    }
+    note left: Provides functions to emit a sound via the buzzer
+
+    class Oled
+    {
+        +enable(): void
+        +disable(): void
+        +displayText(text: char[]): void
+    }
+    note left: Provides functions to control the OLED
+
+    class LineSensor
+    {
+        +calibrate(): void
+        +enable(): void
+        +disable(): void
+        +getReflectanceValue(): uint
+    }
+    note left: Provides functions to monitor a line sensor
+
+    class ProximitySensors
+    {
+        +calibrate(): void
+        +enable(): void
+        +disable(): void
+    }
+
+    class InertialSensors
+    {
+        +calibrate(): void
+        +enable(): void
+        +disable(): void
+        +getAcceleration(): uint
+    }
+}
+
+package Hal
+{
+    class Spi
+    {
+        +enable(): void
+        +disable(): void
+        +configure(): void
+        +exchange(): void
+    }
+
+    class Gpio
+    {
+        +init(): void
+        +setPin(): void
+        +clrPin(): void
+        +getPin(): void
+    }
+
+    class Pwm
+    {
+        +init()
+        +enable(): void
+        +disable(): void
+        +setDutyCycle(cycle: double): void
+    }
+
+    class Timer
+    {
+        +init(): void
+        +enable(): void
+        +disable(): void
+    }
+
+    class Adc
+    {
+        +init(): void
+        +enable(): void
+        +disable(): void
+        +readChannel(): void
+    }
+
+    class I2c
+    {
+        +enable(): void
+        +disable(): void
+        +configure(): void
+        +exchange(): void
+    }
+}
+
+
+
+AbstractState <|-- InitializationState
+AbstractState <|-- StartLapState
+AbstractState <|-- EndLapState
+AbstractState <|-- DriveLapState
+AbstractState <|-- ParameterSetState
+AbstractState <|-- CalibrationState
+AbstractState <|-- ErrorState
+
+InitializationState .d.........> Oled
+InitializationState .d...........> LineSensor
+InitializationState .d..> ProximitySensors
+InitializationState .d.> InertialSensors
+InitializationState .d.> Button
+
+StartLapState .d....> DualDriveMotor
+StartLapState .d.> LineSensor
+StartLapState .d.> TimeMeasurement
+StartLapState .d.> Buzzer
+
+EndLapState .d.> TimeMeasurement
+EndLapState .d.> DualDriveMotor
+EndLapState .d.> Buzzer
+EndLapState .d.> Oled
+
+DriveLapState .d.> DualDriveMotor
+DriveLapState .d.> LineSensor
+DriveLapState .d.> Parameters
+
+ParameterSetState .d.> Parameters
+ParameterSetState .d.> Button
+
+CalibrationState .d.> LineSensor
+CalibrationState .d.> ProximitySensors
+CalibrationState .d.> InertialSensors
+
+ErrorState .d.> DualDriveMotor
+ErrorState .d.> Buzzer
+ErrorState .d.> Oled
+
+DualDriveMotor ..> Motor
+
+StateHandler .d.> AbstractState
+
+Main .r.> StateHandler
+
+Button .d....> Gpio
+Motor .d.> Pwm
+Buzzer .d....> Pwm
+Led .d.> Gpio
+Oled .d.> Spi
+TimeMeasurement .d.> Timer
+LineSensor .d.> Adc
+ProximitySensors .d.> Adc
+InertialSensors .d.> I2c
+
+App -[hidden]down- Service
+Parameters ---[hidden]down--- Button
+StateHandler -[hidden]down- Service
+
 @enduml
