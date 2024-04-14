@@ -1,0 +1,23 @@
+@startuml USECASE
+left to right direction
+
+actor "TrackLine" as aTL 
+actor "User" as aUs
+
+'SYSTEM'
+rectangle "System Robot" {
+
+    'MAIN USE CASES'
+    usecase "Drive lap" as uDl
+    usecase "Set parameter sets" as uSps
+    usecase "Calibrate sensors" as uCs
+    
+    'ACTOR TO USE CASE CONNECTIONS'
+    aTL -- uDl: detected
+    aUs -- uDl: pushes ButtonA
+    aUs -- uSps: pushes ButtonB
+    aUs -- uCs: pushes ButtonC
+
+}
+
+@enduml
