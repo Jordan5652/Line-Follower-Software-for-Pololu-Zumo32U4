@@ -11,63 +11,72 @@ package App
     class StateHandler
     {
         +process()
-        +setState(AbstractState&)
     }
 
     class Parameters
     {
-
+        -set1: struct
+        -set2: struct
+        -set3: struct
+        +setSet(): void
+        +getSelectedSet(): struct
     }
 
     package States
     {
-        interface AbstractState
+        class InitializationState
         {
-            +AbstractState(StateHandler&)
             +enter()
             +process()
             +leave()
-        }
-
-        class InitializationState
-        {
-
         }
         note top: Displays teams name and initializes robot
 
         class StartLapState
         {
-
+            +enter()
+            +process()
+            +leave()
         }
         note top: Start the lap time and emit beep
 
         class EndLapState
         {
-
+            +enter()
+            +process()
+            +leave()
         }
         note top: Stop the robot and lap time and emit a beep
 
         class DriveLapState
         {
-
+            +enter()
+            +process()
+            +leave()
         }
         note top: Drives the robot along the trackline
 
         class ParameterSetState
         {
-
+            +enter()
+            +process()
+            +leave()
         }
         note top: Allows the User to select between predefined parameter sets
 
         class ErrorState
         {
-
+            +enter()
+            +process()
+            +leave()
         }
         note top: Stops the robot and emits an alarm
 
         class CalibrationState
         {
-
+            +enter()
+            +process()
+            +leave()
         }
         note top: Calibrates the robots sensors
     }
@@ -75,46 +84,50 @@ package App
 
 package Service
 {
+    class Initializer
+    {
+        +init(): void
+    }
+
     class Button
     {
-        +getState(): bool
+        +getState(button: Buttons): bool
     }
     note left: Provides the button state
 
-    class Led
+    enum Buttons
     {
-        +setState(isOn: bool): void
+        BUTTON_A
+        BUTTON_B
+        BUTTON_C
     }
 
     class TimeMeasurement
     {
-        +time: uint16
+        -time: uint16
         +start(): void
         +stop(): void
         +getTime(): uint16
     }
-    note bottom: Provides function to monitor the time measurement
+    note bottom: Provides the total runtime time, get specific time measurements with delta_t
 
     class Motor
     {
-        +setDirection(isForward: bool): void
-        +setSpeed(rpm: uint16): void
-        +getDirection(): bool
-        +getSpeed(): uint16
+        +setDirection(motor: Motors, isForward: bool): void
+        +setSpeed(motor: Motors, rpm: uint16): void
     }
     note bottom: Provides functions to control the movement of a motor
 
-    class DualDriveMotor
+    enum Motors
     {
-        +leftMotor: Motor
-        +rightMotor: Motor
-        +drive(speed: uint16, turnFactor: int16)
+        MOTOR_RIGHT
+        MOTOR_LEFT
     }
-    note bottom: Provides functions to control the movement of the robot
 
     class Buzzer
     {
-        +playSound(freq: uint16, duration: uint8): void
+        +playBeep(): void
+        +playAlarm(): void
     }
     note left: Provides functions to emit a sound via the buzzer
 
@@ -122,9 +135,18 @@ package Service
     {
         +enable(): void
         +disable(): void
-        +displayText(text: char[]): void
+        +displayTeamName(): void
+        +displayLapTime(): void
+        +displayError(errorID: ErrorID): void
     }
     note left: Provides functions to control the OLED
+
+    enum ErrorID
+    {
+        TRACK_NOT_FOUND
+        STARTLINE_NOT_FOUND
+        TIME_OUT_ERROR
+    }
 
     class LineSensor
     {
@@ -135,38 +157,16 @@ package Service
     }
     note left: Provides functions to monitor a line sensor
 
-    class ProximitySensors
-    {
-        +calibrate(): void
-        +enable(): void
-        +disable(): void
-    }
-
-    class InertialSensors
-    {
-        +calibrate(): void
-        +enable(): void
-        +disable(): void
-        +getAcceleration(): uint
-    }
 }
 
 package Hal
 {
-    class Spi
-    {
-        +enable(): void
-        +disable(): void
-        +configure(): void
-        +exchange(): void
-    }
-
     class Gpio
     {
-        +init(): void
-        +setPin(): void
-        +clrPin(): void
-        +getPin(): void
+        +init(pinNumber: uint8): void
+        +setPin(pinNumber: uint8): void
+        +clrPin(pinNumber: uint8): void
+        +getPin(pinNumber: uint8): bool
     }
 
     class Pwm
@@ -182,6 +182,7 @@ package Hal
         +init(): void
         +enable(): void
         +disable(): void
+        +getTimerCounter:() uint16
     }
 
     class Adc
@@ -191,43 +192,34 @@ package Hal
         +disable(): void
         +readChannel(): void
     }
-
-    class I2c
-    {
-        +enable(): void
-        +disable(): void
-        +configure(): void
-        +exchange(): void
-    }
 }
 
 
 
-AbstractState <|-- InitializationState
-AbstractState <|-- StartLapState
-AbstractState <|-- EndLapState
-AbstractState <|-- DriveLapState
-AbstractState <|-- ParameterSetState
-AbstractState <|-- CalibrationState
-AbstractState <|-- ErrorState
+StateHandler ..d..> InitializationState
+StateHandler ..d..> StartLapState
+StateHandler ..d..> EndLapState
+StateHandler ..d..> DriveLapState
+StateHandler ..d..> ParameterSetState
+StateHandler ..d..> CalibrationState
+StateHandler ..d..> ErrorState
 
 InitializationState .d.........> Oled
 InitializationState .d...........> LineSensor
-InitializationState .d..> ProximitySensors
-InitializationState .d.> InertialSensors
 InitializationState .d.> Button
+InitializationState .d.> Initializer
 
-StartLapState .d....> DualDriveMotor
+StartLapState .d....> Motor
 StartLapState .d.> LineSensor
 StartLapState .d.> TimeMeasurement
 StartLapState .d.> Buzzer
 
 EndLapState .d.> TimeMeasurement
-EndLapState .d.> DualDriveMotor
+EndLapState .d.> Motor
 EndLapState .d.> Buzzer
 EndLapState .d.> Oled
 
-DriveLapState .d.> DualDriveMotor
+DriveLapState .d.> Motor
 DriveLapState .d.> LineSensor
 DriveLapState .d.> Parameters
 
@@ -235,28 +227,27 @@ ParameterSetState .d.> Parameters
 ParameterSetState .d.> Button
 
 CalibrationState .d.> LineSensor
-CalibrationState .d.> ProximitySensors
-CalibrationState .d.> InertialSensors
 
-ErrorState .d.> DualDriveMotor
+ErrorState .d.> Motor
 ErrorState .d.> Buzzer
 ErrorState .d.> Oled
 
-DualDriveMotor ..> Motor
-
-StateHandler .d.> AbstractState
+Initializer .d.> Gpio
+Initializer .d.> Adc
+Initializer .d.> Timer
+Initializer .d.> Pwm
 
 Main .r.> StateHandler
 
 Button .d....> Gpio
 Motor .d.> Pwm
 Buzzer .d....> Pwm
-Led .d.> Gpio
-Oled .d.> Spi
 TimeMeasurement .d.> Timer
 LineSensor .d.> Adc
-ProximitySensors .d.> Adc
-InertialSensors .d.> I2c
+
+Motor ..> Motors
+Button ..> Buttons
+Oled ..> ErrorID
 
 App -[hidden]down- Service
 Parameters ---[hidden]down--- Button
