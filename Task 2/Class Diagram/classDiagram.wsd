@@ -18,12 +18,20 @@ package App
         -set1: struct
         -set2: struct
         -set3: struct
-        +setSet(): void
+        +setParameterSet(): void
         +getSelectedSet(): struct
     }
 
     package States
     {
+        class ReadyState
+        {
+            +enter()
+            +process()
+            +leave()
+        }
+        note top: Allows user to recalibrate or change parameter sets
+
         class InitializationState
         {
             +enter()
@@ -32,15 +40,15 @@ package App
         }
         note top: Displays teams name and initializes robot
 
-        class StartLapState
+        class SearchingStartLineState
         {
             +enter()
             +process()
             +leave()
         }
-        note top: Start the lap time and emit beep
+        note top: Starts the robot and starts the lap after detecting the startline
 
-        class EndLapState
+        class LapFinishedState
         {
             +enter()
             +process()
@@ -79,6 +87,14 @@ package App
             +leave()
         }
         note top: Calibrates the robots sensors
+
+        class SearchTrackState
+        {
+            +enter()
+            +process()
+            +leave()
+        }
+        note top: The robot tries to redetect the Trackline
     }
 }
 
@@ -104,12 +120,22 @@ package Service
 
     class TimeMeasurement
     {
-        -time: uint16
-        +start(): void
-        +stop(): void
-        +getTime(): uint16
+        -time1: uint16
+        -time2: uint16
+        -time3: uint16
+        +start(timer: Timers): void
+        +stop(timer: Timers): void
+        +reset(timer: Timers): void
+        +getTime(timer: Timers): uint16
     }
-    note bottom: Provides the total runtime time, get specific time measurements with delta_t
+    note bottom: Provides the time measurements
+
+    enum Timers
+    {
+        TIMER_1
+        TIMER_2
+        TIMER_3
+    }
 
     class Motor
     {
@@ -153,7 +179,7 @@ package Service
         +calibrate(): void
         +enable(): void
         +disable(): void
-        +getReflectanceValue(): uint
+        +getReflectanceValue(): uint8[]
     }
     note left: Provides functions to monitor a line sensor
 
@@ -195,59 +221,65 @@ package Hal
 }
 
 
+Main .r.> StateHandler
 
 StateHandler ..d..> InitializationState
-StateHandler ..d..> StartLapState
-StateHandler ..d..> EndLapState
-StateHandler ..d..> DriveLapState
-StateHandler ..d..> ParameterSetState
+InitializationState ..d...........> Initializer
+InitializationState ..d......> Oled
+InitializationState ..d...> LineSensor
+
+StateHandler ..d..> ReadyState
+ReadyState ..d..> Button
+ReadyState ..d..> TimeMeasurement
+
 StateHandler ..d..> CalibrationState
-StateHandler ..d..> ErrorState
-
-InitializationState .d.........> Oled
-InitializationState .d...........> LineSensor
-InitializationState .d.> Button
-InitializationState .d.> Initializer
-
-StartLapState .d....> Motor
-StartLapState .d.> LineSensor
-StartLapState .d.> TimeMeasurement
-StartLapState .d.> Buzzer
-
-EndLapState .d.> TimeMeasurement
-EndLapState .d.> Motor
-EndLapState .d.> Buzzer
-EndLapState .d.> Oled
-
-DriveLapState .d.> Motor
-DriveLapState .d.> LineSensor
-DriveLapState .d.> Parameters
-
-ParameterSetState .d.> Parameters
-ParameterSetState .d.> Button
-
 CalibrationState .d.> LineSensor
 
-ErrorState .d.> Motor
-ErrorState .d.> Buzzer
+StateHandler ..d..> ParameterSetState
+ParameterSetState .d.> Oled
+ParameterSetState ..> Parameters
+ParameterSetState ..d..> Button
+
+StateHandler ..d..> SearchingStartLineState
+SearchingStartLineState ..d..> TimeMeasurement
+SearchingStartLineState ..d..> LineSensor
+SearchingStartLineState ..d..> Motor
+SearchingStartLineState ..d..> Buzzer
+
+StateHandler ..d..> DriveLapState
+DriveLapState ..d..> Motor
+DriveLapState ..d..> LineSensor
+DriveLapState ....> Parameters
+
+StateHandler ..d..> LapFinishedState
+LapFinishedState ..d..> TimeMeasurement
+LapFinishedState ..d..> Motor
+LapFinishedState ..d..> Buzzer
+
+StateHandler ..d..> ErrorState
+ErrorState ..d..> Motor
+ErrorState ..d..> Buzzer
 ErrorState .d.> Oled
+
+StateHandler ..d..> SearchTrackState
+SearchTrackState ..d..> LineSensor
 
 Initializer .d.> Gpio
 Initializer .d.> Adc
 Initializer .d.> Timer
 Initializer .d.> Pwm
-
-Main .r.> StateHandler
-
 Button .d....> Gpio
+Oled .d.......> Gpio
+Oled .d.> TimeMeasurement
 Motor .d.> Pwm
 Buzzer .d....> Pwm
 TimeMeasurement .d.> Timer
 LineSensor .d.> Adc
 
-Motor ..> Motors
-Button ..> Buttons
-Oled ..> ErrorID
+Motor .r.> Motors
+Button .r.> Buttons
+Oled .r.> ErrorID
+TimeMeasurement .r.> Timers
 
 App -[hidden]down- Service
 Parameters ---[hidden]down--- Button
