@@ -22,8 +22,8 @@ State2 <-down- State3 : calibration done
 State2 <-left- State4 : ButtonB pressed or configuration done
 
 State5 -right-> State6 : Startline found /playBeep() /start timer 2
-State6 -down-> State8 : Application not found track
-State8 -up-> State6 : Application found track
+State6 -down-> State8 : not found track
+State8 -up-> State6 : found track
 State6 -down-> State7 : Startline found
 State6 -up-> State9 : [timer 2 >= 20s]
 State7 -down-> State2 : ButtonA pressed
