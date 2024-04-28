@@ -9,7 +9,7 @@ package App
     
     class StateHandler
     {
-        -state: struct
+        -state: state
         +stateHandler(): void
         -checkTransition(): bool
         -stateProcessHandler(): void
@@ -38,65 +38,65 @@ package App
     {
         class ReadyState
         {
+            +readyStateFunctions: state
             +processWatchButtons()
             +leaveRestartTimer1()
         }
-        note top: Allows user to recalibrate or change parameter sets
 
         class InitializationState
         {
+            +initializationStateFunctions: state
             +enterDisplayNameAndStartTimer1()
             +leaveStopTimer1()
         }
-        note top: Displays teams name and initializes robot
 
         class SearchingStartLineState
         {
+            +searchingStartLineStateFunctions: state
             +enterRestartTimer1AndStartDriving()
         }
-        note top: Starts the robot and starts the lap after detecting the startline
 
         class LapFinishedState
         {
+            +lapFinishedStateFunctions: state
             +enterStopTimer2AndDisplayTimeAndStopDriveAndPlayBeep()
             +leaveResetTimer2()
         }
-        note top: Stop the robot and lap time and emit a beep
 
         class DriveLapState
         {
+            +driveLapStateFunctions: state
             +enterStartTimer2AndPlayBeep()
             +processDriveOnTrackline()
         }
-        note top: Drives the robot along the trackline
 
         class ParameterSetState
         {
+            +parameterSetStateFunctions: state
             +enterDisplayParameterSets()
             +processSetParamterSet()
         }
-        note top: Allows the User to select between predefined parameter sets
 
         class ErrorState
         {
+            +errorStateFunctions: state
             +enterStopDriveAndPlayAlarmAndDisplayError()
             +processWatchButtonA()
         }
-        note top: Stops the robot and emits an alarm
 
         class CalibrationState
         {
+            +calibrationStateFunctions: state
             +enterCalibrate()
         }
-        note top: Calibrates the robots sensors
 
         class SearchTrackState
         {
+            +searchTrackStateFunctions: state
             +enterStartTimer1()
             +processFindTrackline()
             +leaveResetTimer1()
         }
-        note top: The robot tries to redetect the Trackline
     }
 }
 
@@ -224,6 +224,16 @@ StateHandler ..d..> LapFinishedState
 StateHandler ..d..> SearchTrackState
 StateHandler ..d..> ErrorState
 StateHandler..> state
+InitializationState .u.> state
+ReadyState .u.> state
+CalibrationState .u...> state
+ParameterSetState .u...> state
+SearchingStartLineState .u...> state
+DriveLapState .u...> state
+LapFinishedState .u...> state
+SearchTrackState .u...> state
+ErrorState .u.> state
+
 
 Parameters ..d..> Display
 
