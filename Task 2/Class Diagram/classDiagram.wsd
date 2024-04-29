@@ -9,12 +9,18 @@ package App
     
     class StateHandler
     {
-        -state: state
+        -currentState: state
+        -nextStateID: States
         +stateHandler(): void
-        -checkTransition(): bool
+        -stateEntryHandler(): void
         -stateProcessHandler(): void
         -stateExitHandler(): void
-        -stateTransitionHandler(): void
+        -getNextState(): States
+    }
+
+    class State
+    {
+    
     }
 
     struct state
@@ -22,6 +28,20 @@ package App
         pointerEntry: *function
         pointerProcess: *function
         pointerExit: *function
+        pointerGetTransition: *function
+    }
+
+    enum States
+    {
+        InitializationState
+        ReadyState
+        CalibrationState
+        ParameterSetState
+        SearchingStartLineState
+        DriveLapState
+        LapFinishedState
+        SearchTrackState
+        ErrorState
     }
 
     class Parameters
@@ -34,68 +54,77 @@ package App
         +displayParameterSets(): void
     }
 
-    package States
+    package StatesPackage
     {
         class ReadyState
         {
             +readyStateFunctions: state
-            +processWatchButtons()
-            +leaveRestartTimer1()
+            +processWatchButtons(): void
+            +leaveRestartTimer1(): void
+            +getTransition(): States
         }
 
         class InitializationState
         {
             +initializationStateFunctions: state
-            +enterDisplayNameAndStartTimer1()
-            +leaveStopTimer1()
+            +enterDisplayNameAndStartTimer1(): void
+            +leaveStopTimer1(): void
+            +getTransition(): States
         }
 
         class SearchingStartLineState
         {
             +searchingStartLineStateFunctions: state
-            +enterRestartTimer1AndStartDriving()
+            +enterRestartTimer1AndStartDriving(): void
+            +getTransition(): States
         }
 
         class LapFinishedState
         {
             +lapFinishedStateFunctions: state
-            +enterStopTimer2AndDisplayTimeAndStopDriveAndPlayBeep()
-            +leaveResetTimer2()
+            +enterStopTimer2AndDisplayTimeAndStopDriveAndPlayBeep(): void
+            +leaveResetTimer2(): void
+            +getTransition(): States
         }
 
         class DriveLapState
         {
             +driveLapStateFunctions: state
-            +enterStartTimer2AndPlayBeep()
-            +processDriveOnTrackline()
+            +enterStartTimer2AndPlayBeep(): void
+            +processDriveOnTrackline(): void
+            +getTransition(): States
         }
 
         class ParameterSetState
         {
             +parameterSetStateFunctions: state
-            +enterDisplayParameterSets()
-            +processSetParamterSet()
+            +enterDisplayParameterSets(): void
+            +processSetParamterSet(): void
+            +getTransition(): States
         }
 
         class ErrorState
         {
             +errorStateFunctions: state
-            +enterStopDriveAndPlayAlarmAndDisplayError()
-            +processWatchButtonA()
+            +enterStopDriveAndPlayAlarmAndDisplayError(): void
+            +processWatchButtonA(): void
+            +getTransition(): States
         }
 
         class CalibrationState
         {
             +calibrationStateFunctions: state
-            +enterCalibrate()
+            +enterCalibrate(): void
+            +getTransition(): States
         }
 
         class SearchTrackState
         {
             +searchTrackStateFunctions: state
-            +enterStartTimer1()
-            +processFindTrackline()
-            +leaveResetTimer1()
+            +enterStartTimer1(): void
+            +processFindTrackline(): void
+            +leaveResetTimer1(): void
+            +getTransition(): States
         }
     }
 }
@@ -223,17 +252,18 @@ StateHandler ..d..> DriveLapState
 StateHandler ..d..> LapFinishedState
 StateHandler ..d..> SearchTrackState
 StateHandler ..d..> ErrorState
-StateHandler..> state
-InitializationState .u.> state
-ReadyState .u.> state
-CalibrationState .u...> state
-ParameterSetState .u...> state
-SearchingStartLineState .u...> state
-DriveLapState .u...> state
-LapFinishedState .u...> state
-SearchTrackState .u...> state
-ErrorState .u.> state
-
+StateHandler..> State
+InitializationState .u.> State
+ReadyState .u.> State
+CalibrationState .u...> State
+ParameterSetState .u...> State
+SearchingStartLineState .u...> State
+DriveLapState .u...> State
+LapFinishedState .u...> State
+SearchTrackState .u...> State
+ErrorState .u.> State
+State ...> state
+State ...> States
 
 Parameters ..d..> Display
 
