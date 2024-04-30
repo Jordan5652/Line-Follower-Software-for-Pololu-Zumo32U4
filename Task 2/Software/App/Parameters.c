@@ -21,6 +21,9 @@
 /* PROTOTYPES *************************************************************************************/
 
 /* VARIABLES **************************************************************************************/
+static ParameterSet gSet1;
+static ParameterSet gSet2;
+static ParameterSet gSet3;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 /** @fn void Parameters_setParameterSet(void)
