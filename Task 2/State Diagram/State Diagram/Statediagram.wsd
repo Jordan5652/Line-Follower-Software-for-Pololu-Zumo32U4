@@ -1,27 +1,26 @@
 @startuml
 [*] --> State1
 
-state State1 as "InitializationState\n": /enter init() start timer 1 \n /enter displayTeamName() \n /leave reset timer 1
-state State2 as "ReadyState\n": /leave start timer 1 
+state State1 as "InitializationState\n": /enter init() Restart timer 1 \n /enter displayTeamName() \n /leave reset timer 1
+state State2 as "ReadyState\n": 
 state State3 as "CalibrationState\n": /enter calibrate()
-state State4 as "ParameterSetState\n": /enter setParameterSet() \n /process displayParameterSet()
-state State5 as "SearchingStartlineState\n": /enter reset timer1 \n /enter  start dual drive motor system
-state State6 as "DriveLapState\n": /enter start timer 2 \n /process findTracklineAndDrive()
-state State7 as "LapFinishedState\n": /enter stop timer 2 \n /enter  displayLapTime() \n /enter  reset dual drive motor system \n /enter  playBeep() \n /leave reset timer 2
-state State8 as "SearchTrackState\n": /enter start timer 1 \n /process findTrackline() \n /leave reset timer 1
-state State9 as "ErrorState\n": /enter stop dual drive motor system \n /enter  playAlarm() \n /enter  displayError()
-state State10 as "ButtonPressed\n": /leave reset timer 1
+state State4 as "ParameterSetState\n": /enter displayParameterSet() \n /process setParameterSet()
+state State5 as "SearchingStartlineState\n": /enter restart Timer 1 \n /enter stop Timer 1 \n /enter  start dual drive motor system
+state State6 as "DriveLapState\n": /enter restart timer 2 \n /enter playBeep() \n /process findTracklineAndDrive()
+state State7 as "LapFinishedState\n": /enter stop timer 2 \n /enter  displayLapTime() \n /enter  reset dual drive motor system \n /enter  playBeep()
+state State8 as "SearchTrackState\n": /enter restart timer 1 \n /process findTrackline() \n /leave stop Timer 1
+state State9 as "ErrorState\n": /enter stop timer 1 and 2 \n /enter stop dual drive motor system \n /enter  playAlarm() \n /enter  displayError()
 
- 
+
+
 State1 -down--> State3 : [timer 1 >= 2s]
 State2 -up-> State3 : ButtonC pressed
 State2 -down-> State4 : ButtonB pressed
-State2 -right-> State10 : ButtonA released
-State10 -right-> State5 : [timer 1 >= 3s]
+State2 -right-> State5 : ButtonA released
 State2 <-down- State3 : calibration done
 State2 <-left- State4 : ButtonB pressed or configuration done
 
-State5 -right-> State6 : Startline found /playBeep() /start timer 2
+State5 -right-> State6 : Startline found
 State6 -down-> State8 : not found track
 State8 -up-> State6 : found track
 State6 -down-> State7 : Startline found

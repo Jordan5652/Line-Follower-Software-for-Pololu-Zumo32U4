@@ -30,8 +30,17 @@
 /* PROTOTYPES *************************************************************************************/
 
 /* VARIABLES **************************************************************************************/
+/** @var StateFunctions gCurrentState
+ * @brief stores the current states functions
+*/
 static StateFunctions gCurrentState;
+/** @var static States gNextStateId
+ * @brief store the next states ID
+*/
 static States gNextStateId;
+/** @var StateFunctions* gStatesBuffer[9]
+ * @brief buffers the states functions
+*/
 static StateFunctions* gStatesBuffer[9];
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
