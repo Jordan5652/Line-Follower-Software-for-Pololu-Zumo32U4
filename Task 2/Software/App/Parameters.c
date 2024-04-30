@@ -21,8 +21,17 @@
 /* PROTOTYPES *************************************************************************************/
 
 /* VARIABLES **************************************************************************************/
+/** @var ParameterSet gSet1
+ * @brief stores the parameters for set 1
+*/
 static ParameterSet gSet1;
+/** @var ParameterSet gSet2
+ * @brief stores the parameters for set 2
+*/
 static ParameterSet gSet2;
+/** @var ParameterSet gSet3
+ * @brief stores the parameters for set 3
+*/
 static ParameterSet gSet3;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
