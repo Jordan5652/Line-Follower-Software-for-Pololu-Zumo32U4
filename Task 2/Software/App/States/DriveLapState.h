@@ -20,11 +20,11 @@
 /* TYPES ******************************************************************************************/
 
 /* PROTOTYPES *************************************************************************************/
-/** @fn DriveLapState_enterStartTimer2AndPlayBeep(void)
+/** @fn DriveLapState_enterRestartTimer2AndPlayBeep(void)
  * @brief starts timer2 measuring the lap-time plays a beep as an accustic signal
  * @return void
 */
-void DriveLapState_enterStartTimer2AndPlayBeep(void);
+void DriveLapState_enterRestartTimer2AndPlayBeep(void);
 
 /** @fn DriveLapState_processDriveOnTrackLine(void)
  * @brief follows the TrackLine

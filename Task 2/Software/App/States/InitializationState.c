@@ -29,11 +29,11 @@
 const StateFunctions initializationStateFunctions;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
-/** @fn InitializationState_enterDisplayNameAndStartTimer1(void)
+/** @fn InitializationState_enterDisplayNameAndRestartTimer1(void)
  * @brief displays the teamname and starts the timer1 to display the teamname for 2s 
  * @return void
 */
-void InitializationState_enterDisplayNameAndStartTimer1(void)
+void InitializationState_enterDisplayNameAndRestartTimer1(void)
 {
 
 
@@ -43,7 +43,7 @@ void InitializationState_enterDisplayNameAndStartTimer1(void)
  * @brief resets the timer1 
  * @return void
 */
-void InitializationState_leaveStopAndResetTimer1(void)
+void InitializationState_leaveStopTimer1(void)
 {
 
 

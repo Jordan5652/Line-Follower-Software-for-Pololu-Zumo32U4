@@ -20,11 +20,11 @@
 /* TYPES ******************************************************************************************/
 
 /* PROTOTYPES *************************************************************************************/
-/** @fn SearchTrackState_enterStartTimer1(void)
+/** @fn SearchTrackState_enterRestartTimer1(void)
  * @brief starts timer1 to measure the Time in SearchTrackState
  * @return void
 */
-void SearchTrackState_enterStartTimer1(void);
+void SearchTrackState_enterRestartTimer1(void);
 
 /** @fn SearchTrackState_processFindTrackLine(void)
  * @brief Allgorithm to search the TrackLine, after it has been lost 
@@ -32,11 +32,11 @@ void SearchTrackState_enterStartTimer1(void);
 */
 void SearchTrackState_processFindTrackLine(void);
 
-/** @fn SearchTrackState_leaveResetTimer1(void)
- * @brief stops and resets timer1
+/** @fn SearchTrackState_leaveStopTimer1(void)
+ * @brief stops timer1
  * @return void
 */
-void SearchTrackState_leaveStopAndResetTimer1(void);
+void SearchTrackState_leaveStopTimer1(void);
 
 /** @fn States SearchTrackState_getTransitions(void)
  * @brief checks if one transition to another State and returns the next State as enum

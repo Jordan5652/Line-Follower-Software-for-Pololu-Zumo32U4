@@ -4,7 +4,7 @@
 /**
  * @file       ErrorState.c
  *
- * Contains the functions and variables for the ErrosState.
+ * Contains the functions and variables for the ErrorState.
  */
 /**************************************************************************************************/
 

@@ -26,12 +26,6 @@
 */
 void LapFinishedState_enterStopTimer2AndDisplayTimeAndStopDriveAndPlayBeep(void);
 
-/** @fn LapFinishedState_leaveResetTimer2(void)
- * @brief resets timer2
- * @return void
-*/
-void LapFinishedState_leaveResetTimer2(void);
-
 /** @fn const StateFunctions LapFinishedState_getTransitions(void)
  * @brief checks if one transition to another State and returns the next State as enum
  * @return States: next State to be active or current state when no transition is true

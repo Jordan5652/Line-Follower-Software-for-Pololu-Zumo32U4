@@ -43,7 +43,7 @@ typedef struct
     void (*pointerEntry) (void);
     void (*pointerProcess) (void);
     void (*pointerExit) (void);
-    (States*) (*pointerGetNextState) (void); 
+    (States*) (*pointerGetTransition) (void); 
   
 }StateFunctions;
 

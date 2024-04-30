@@ -20,17 +20,17 @@
 /* TYPES ******************************************************************************************/
 
 /* PROTOTYPES *************************************************************************************/
-/** @fn SearchingStartLineState_enterStartTimer1andStartDriving(void)
+/** @fn SearchingStartLineState_enterRestartTimer1AndWait3sAndStartDriving(void)
  * @brief Restarts timer1 to measure the time until the startLine is found and starts the DualMotorDriveSystem to drive to the StartLine
  * @return void
 */
-void SearchingStartLineState_enterRestartTimer1andStartDriving(void);
+void SearchingStartLineState_enterRestartTimer1AndWait3sAndStartDriving(void)
 
-/** @fn SearchingStartLineState_exitStopAndResetTimer1(void)
+/** @fn SearchingStartLineState_exitStopTimer1(void)
  * @brief stops and resets timer1
  * @return void
 */
-void SearchingStartLineState_exitStopAndResetTimer1(void);
+void SearchingStartLineState_exitStopTimer1(void);
 
 /** @fn States SearchingStartLineState_getTransitions(void)
  * @brief checks if one transition to another State and returns the next State as enum

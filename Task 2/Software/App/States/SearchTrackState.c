@@ -30,11 +30,11 @@
 const StateFunctions searchTrackStateFunctions;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
-/** @fn SearchTrackState_enterStartTimer1(void)
+/** @fn SearchTrackState_enterReStartTimer1(void)
  * @brief starts timer1 to measure the Time in SearchTrackState
  * @return void
 */
-void SearchTrackState_enterStartTimer1(void)
+void SearchTrackState_enterRestartTimer1(void)
 {
 
 
@@ -50,11 +50,11 @@ void SearchTrackState_processFindTrackLine(void)
 
 }
 
-/** @fn SearchTrackState_leaveResetTimer1(void)
- * @brief stops and resets timer1
+/** @fn SearchTrackState_leaveStopTimer1(void)
+ * @brief stops timer1
  * @return void
 */
-void SearchTrackState_leaveStopAndResetTimer1(void)
+void SearchTrackState_leaveStopTimer1(void)
 {
 
 
