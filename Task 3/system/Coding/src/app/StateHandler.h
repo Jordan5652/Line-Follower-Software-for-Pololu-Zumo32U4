@@ -32,7 +32,7 @@
 
 typedef enum
 {
-    initializationState,
+    InitializationState,
     ReadyState,
     CalibrationState,
     ParameterSetState,
