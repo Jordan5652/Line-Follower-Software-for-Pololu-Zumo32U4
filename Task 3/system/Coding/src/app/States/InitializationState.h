@@ -12,7 +12,8 @@
 
 /* INCLUDES ***************************************************************************************/
 #include "StateDataTypes.h"
-
+#include "SoftTimer.h"
+#include "Display.h"
 /* CONSTANTS **************************************************************************************/
 
 /* MACROS *****************************************************************************************/
@@ -20,28 +21,26 @@
 /* TYPES ******************************************************************************************/
 
 /* PROTOTYPES *************************************************************************************/
-/** @fn InitializationState_enterDisplayNameAndRestartTimer1(void)
+/** 
  * @brief displays the teamname and starts the timer1 to display the teamname for 2s 
- * @return void
 */
-void InitializationState_enterDisplayNameAndRestartTimer1(void);
+extern void InitializationState_enterDisplayNameAndRestartTimer1(void);
 
-/** @fn InitializationState_leaveStopTimer1(void)
+/** 
  * @brief resets the timer1 
- * @return void
 */
-void InitializationState_leaveStopTimer1(void);
+extern void InitializationState_leaveStopTimer1(void);
 
-/** @fn States InitializationState_getTransitions(void)
+/** 
  * @brief checks if one transition to another State and returns the next State as enum
  * @return States: next State to be active or current state when no transition is true
 */
-States InitializationState_getTransitions(void);
+extern States InitializationState_getTransitions(void);
 
-/** @fn States InitializationState_getStateFunctions(void)
+/**
  * @brief returns the pointer to the StateFunctions struct, which contains the entry, process and exit function of the state 
  * @return StateFunctions*: entry, process and exit functions of the state
 */
-StateFunctions* InitializationState_getStateFunctions(void);
+extern StateFunctions* InitializationState_getStateFunctions(void);
 
 #endif /* INITIALIZATION_STATE_H */
