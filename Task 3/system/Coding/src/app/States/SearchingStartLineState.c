@@ -20,32 +20,28 @@
 /* PROTOTYPES *************************************************************************************/
 
 /* VARIABLES **************************************************************************************/
-/** 
- * @brief variable to hold the functionspointers of the state
-*/
-const StateFunctions searchingStartLineStateFunctions;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
-extern void SearchingStartLineState_enterRestartTimer1AndWait3sAndStartDriving(void)
+extern void SearchingStartLineState_enterStartTimer1AndStartDriving(void)
 {
 
 
 }
 
-extern void SearchingStartLineState_exitStopTimer1(void)
+extern void SearchingStartLineState_exitStartTimer2AndPlayBeepIfStartlineFound(void)
 {
 
 
 }
 
-extern States SearchningStartLineState_getTransitions(void)
+extern Bool SearchningStartLineState_checkTransitionTriggerStartlineFound(void)
 {
 
 
 }
 
-extern StateFunctions* SearchingStartLineState_getStateFunctions(void)
+extern Bool SearchningStartLineState_checkTransitionTriggerTimer1Exceeds8s(void)
 {
 
 

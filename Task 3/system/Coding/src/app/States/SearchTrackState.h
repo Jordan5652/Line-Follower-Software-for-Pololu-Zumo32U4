@@ -11,6 +11,8 @@
 #define SEARCH_TRACK_STATE_H
 
 /* INCLUDES ***************************************************************************************/
+#include "Types.h"
+
 #include "StateDataTypes.h"
 #include "SoftTimer.h"
 #include "DriveControl.h"
@@ -26,7 +28,7 @@
 /** 
  * @brief starts timer1 to measure the Time in SearchTrackState
 */
-extern void SearchTrackState_enterRestartTimer1(void);
+extern void SearchTrackState_enterStartTimer1(void);
 
 /** 
  * @brief Allgorithm to search the TrackLine, after it has been lost 
@@ -36,18 +38,18 @@ extern void SearchTrackState_processFindTrackLine(void);
 /**
  * @brief stops timer1
 */
-extern void SearchTrackState_leaveStopTimer1(void);
+extern void SearchTrackState_exitStopTimer1(void);
 
 /** 
- * @brief checks if one transition to another State and returns the next State as enum
- * @return States: next State to be active or current state when no transition is true
+ * @brief checks if timer1 exceeded 5s
+ * @return Bool: returns true if timer1 exceeded 5s
 */
-extern States SearchTrackState_getTransitions(void);
+extern Bool SearchTrackState_checkTransitionTriggerTimer1Exceeds5s(void);
 
 /** 
- * @brief returns the pointer to the StateFunctions struct, which contains the entry, process and exit function of the state 
- * @return StateFunctions*: entry, process and exit functions of the state
+ * @brief checks if line sensor detect the track again
+ * @return Bool: returns true if line sensor detect the track again
 */
-extern StateFunctions* SearchTrackState_getStateFunctions(void);
+extern Bool SearchTrackState_checkTransitionTriggerTrackFound(void);
 
 #endif /* SEARCH_TRACK_STATE_H */

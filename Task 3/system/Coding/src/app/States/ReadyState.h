@@ -11,6 +11,8 @@
 #define READY_STATE_H
 
 /* INCLUDES ***************************************************************************************/
+#include "Types.h"
+
 #include "StateDataTypes.h"
 #include "Button.h"
 
@@ -27,15 +29,21 @@
 extern void ReadyState_processPollingButtons(void);
 
 /** 
- * @brief checks if one transition to another State and returns the next State as enum
- * @return States: next State to be active or current state when no transition is true
+ * @brief checks if button A was pressed by a user
+ * @return Bool: returns true if button A was pressed
 */
-extern States ReadyState_getTransitions(void);
+extern Bool ReadyState_checkTransitionTriggerButtonAPressed(void);
 
 /** 
- * @brief returns the pointer to the StateFunctions struct, which contains the entry, process and exit function of the state 
- * @return StateFunctions*: entry, process and exit functions of the state
+ * @brief checks if button B was pressed by a user
+ * @return Bool: returns true if button B was pressed
 */
-extern StateFunctions* ReadyState_getStateFunctions(void);
+extern Bool ReadyState_checkTransitionTriggerButtonBPressed(void);
+
+/** 
+ * @brief checks if button C was pressed by a user
+ * @return Bool: returns true if button C was pressed
+*/
+extern Bool ReadyState_checkTransitionTriggerButtonCPressed(void);
 
 #endif /* READY_STATE_H */

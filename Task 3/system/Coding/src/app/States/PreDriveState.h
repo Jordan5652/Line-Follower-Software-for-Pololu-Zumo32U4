@@ -2,16 +2,17 @@
   (c) NewTec GmbH 2024   -   www.newtec.de
 ***************************************************************************************************/
 /**
- * @file       SearchTrackState.h
+ * @file       PreDriveState.h
  *
- * Header of SearchTrackState.c.
+ * Header of PreDriveState.c.
  */
 /**************************************************************************************************/
 #ifndef PRE_DRIVE_STATE_H
 #define PRE_DRIVE_STATE_H
 
 /* INCLUDES ***************************************************************************************/
-#include "StateDataTypes.h"
+#include "Types.h"
+
 #include "SoftTimer.h"
 
 /* CONSTANTS **************************************************************************************/
@@ -22,30 +23,19 @@
 
 /* PROTOTYPES *************************************************************************************/
 /** 
- * @brief starts timer1 to measure the Time in SearchTrackState
+ * @brief starts timer1 to measure delay before starting to drive
 */
-extern void SearchTrackState_enterRestartTimer1(void);
+extern void PreDriveState_enterStartTimer1AndWaitFor3s(void);
 
 /** 
- * @brief Allgorithm to search the TrackLine, after it has been lost 
+ * @brief stops timer 1
 */
-extern void SearchTrackState_processFindTrackLine(void);
-
-/**
- * @brief stops timer1
-*/
-extern void SearchTrackState_leaveStopTimer1(void);
+extern void PreDriveState_exitStopTimer1(void);
 
 /** 
- * @brief checks if one transition to another State and returns the next State as enum
- * @return States: next State to be active or current state when no transition is true
+ * @brief checks if timer1 exceeded 3s
+ * @return Bool: returns true if timer1 exceeded 3s
 */
-extern States SearchTrackState_getTransitions(void);
-
-/** 
- * @brief returns the pointer to the StateFunctions struct, which contains the entry, process and exit function of the state 
- * @return StateFunctions*: entry, process and exit functions of the state
-*/
-extern StateFunctions* SearchTrackState_getStateFunctions(void);
+extern Bool PreDriveState_checkTransitionTriggerTimer1Exceeds3s(void);
 
 #endif /* PRE_DRIVE_STATE_H */

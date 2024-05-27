@@ -20,10 +20,6 @@
 /* PROTOTYPES *************************************************************************************/
 
 /* VARIABLES **************************************************************************************/
-/** 
- * @brief variable to hold the functionspointers of the state
-*/
-const StateFunctions parameterSetStateFunctions;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
@@ -39,13 +35,13 @@ extern void ParameterSetState_processSetParameterSet(void)
 
 }
 
-extern States ParameterSetState_getTransitions(void)
+extern void ParameterSetState_exitDisplaySelectedParameterSetFor3s(void)
 {
 
 
 }
 
-extern StateFunctions* ParameterSetState_getStateFunctions(void)
+extern Bool ParameterSetState_checkTransitionTriggerConfigDone(void)
 {
 
 

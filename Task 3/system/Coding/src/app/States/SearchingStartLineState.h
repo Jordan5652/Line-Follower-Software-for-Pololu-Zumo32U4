@@ -11,6 +11,8 @@
 #define SEARCHING_START_LINE_STATE_H
 
 /* INCLUDES ***************************************************************************************/
+#include "Types.h"
+
 #include "StateDataTypes.h"
 #include "SoftTimer.h"
 #include "DriveControl.h"
@@ -26,23 +28,23 @@
 /**
  * @brief Restarts timer1 to measure the time until the startLine is found and starts the DualMotorDriveSystem to drive to the StartLine
 */
-extern void SearchingStartLineState_enterRestartTimer1AndWait3sAndStartDriving(void)
+extern void SearchingStartLineState_enterStartTimer1AndStartDriving(void)
 
 /** 
- * @brief stops and resets timer1
+ * @brief starts timer2 and plays beep if startline found
 */
-extern void SearchingStartLineState_exitStopTimer1(void);
+extern void SearchingStartLineState_exitStartTimer2AndPlayBeepIfStartlineFound(void);
 
 /**
- * @brief checks if one transition to another State and returns the next State as enum
- * @return States: next State to be active or current state when no transition is true
+ * @brief checks if the lines sensors detect the startline
+ * @return Bool: returns true if startline is found
 */
-extern States SearchningStartLineState_getTransitions(void);
+extern Bool SearchningStartLineState_checkTransitionTriggerStartlineFound(void);
 
 /**
- * @brief returns the pointer to the StateFunctions struct, which contains the entry, process and exit function of the state 
- * @return StateFunctions*: entry, process and exit functions of the state
+ * @brief checks if timer1 exceeded 8s
+ * @return Bool: returns true if timer exceeded 8s
 */
-extern StateFunctions* SearchingStartLineState_getStateFunctions(void);
+extern Bool SearchningStartLineState_checkTransitionTriggerTimer1Exceeds8s(void);
 
 #endif /* SEARCHING_START_LINE_STATE_H */

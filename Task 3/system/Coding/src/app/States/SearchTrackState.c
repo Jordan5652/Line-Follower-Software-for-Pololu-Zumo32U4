@@ -20,14 +20,10 @@
 /* PROTOTYPES *************************************************************************************/
 
 /* VARIABLES **************************************************************************************/
-/** 
- * @brief variable to hold the functionspointers of the state
-*/
-const StateFunctions searchTrackStateFunctions;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
-extern void SearchTrackState_enterRestartTimer1(void)
+extern void SearchTrackState_enterStartTimer1(void)
 {
 
 
@@ -39,22 +35,22 @@ extern void SearchTrackState_processFindTrackLine(void)
 
 }
 
-extern void SearchTrackState_leaveStopTimer1(void)
+extern void SearchTrackState_exitStopTimer1(void)
 {
 
 
 }
 
-extern States SearchTrackState_getTransitions(void)
+extern Bool SearchTrackState_checkTransitionTriggerTimer1Exceeds5s(void)
 {
 
 
 }
 
-extern StateFunctions* SearchTrackState_getStateFunctions(void)
+extern Bool SearchTrackState_checkTransitionTriggerTrackFound(void)
 {
 
-
+  
 }
 
 /* INTERNAL FUNCTIONS *****************************************************************************/

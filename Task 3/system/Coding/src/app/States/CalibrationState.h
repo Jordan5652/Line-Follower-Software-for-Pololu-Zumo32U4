@@ -11,6 +11,8 @@
 #define CALIBRATION_STATE_H
 
 /* INCLUDES ***************************************************************************************/
+#include "Types.h"
+
 #include "DriveControl.h"
 #include "LineSensor.h"
 
@@ -24,17 +26,12 @@
 /** 
  * @brief starts calibrating the Line-Sensors
 */
-extern void CalibrationState_enterCalibrate(void);
+extern void CalibrationState_processCalibrate(void);
 
 /** 
- * @brief checks if one transition to another State and returns the next State as enum
- * @return States: next State to be active or current state when no transition is true
+ * @brief checks if calibration is done
+ * @return Bool: returns true if calibration is done
 */
-extern States CalibrationState_getTransitions(void);
+extern Bool CalibrationState_checkTransitionTriggerCalibrationDone(void);
 
-/** 
- * @brief returns the pointer to the StateFunctions struct, which contains the entry, process and exit function of the state 
- * @return StateFunctions*: entry, process and exit functions of the state
-*/
-extern StateFunctions* CalibrationState_getStateFunctions(void);
 #endif /* CALIBRATION_STATE_H */

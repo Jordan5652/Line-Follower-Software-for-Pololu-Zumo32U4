@@ -20,10 +20,6 @@
 /* PROTOTYPES *************************************************************************************/
 
 /* VARIABLES **************************************************************************************/
-/** 
- * @brief variable to hold the functionspointers of the state
-*/
-const StateFunctions initializationStateFunctions;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
@@ -39,15 +35,10 @@ extern void InitializationState_leaveStopTimer1(void)
 
 }
 
-extern States InitializationState_getTransitions(void)
+extern Bool InitializationState_checkTransitionTriggerTimer1Exceeds2s(void)
 {
 
 
 }
 
-extern StateFunctions* InitializationState_getStateFunctions(void)
-{
-
-
-}
 /* INTERNAL FUNCTIONS *****************************************************************************/

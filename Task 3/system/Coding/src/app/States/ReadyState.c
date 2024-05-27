@@ -20,10 +20,6 @@
 /* PROTOTYPES *************************************************************************************/
 
 /* VARIABLES **************************************************************************************/
-/** 
- * @brief variable to hold the functionspointers of the state
-*/
-const StateFunctions readyStateFunctions;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
@@ -33,13 +29,19 @@ extern void ReadyState_processPollingButtons(void)
 
 }
 
-extern States ReadyState_getTransitions(void)
+extern Bool ReadyState_checkTransitionTriggerButtonAPressed(void)
 {
 
 
 }
 
-extern StateFunctions* ReadyState_getStateFunctions(void)
+extern Bool ReadyState_checkTransitionTriggerButtonBPressed(void)
+{
+
+
+}
+
+extern Bool ReadyState_checkTransitionTriggerButtonCPressed(void)
 {
 
 

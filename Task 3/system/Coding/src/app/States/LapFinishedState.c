@@ -20,10 +20,6 @@
 /* PROTOTYPES *************************************************************************************/
 
 /* VARIABLES **************************************************************************************/
-/**
- * @brief variable to hold the functionspointers of the state
-*/
-const StateFunctions lapFinishedStateFunctions;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
@@ -33,16 +29,16 @@ extern void LapFinishedState_enterStopTimer2AndDisplayTimeAndStopDriveAndPlayBee
 
 }
 
-extern States LapFinishedState_getTransitions(void)
+extern void LapFinishedState_processPollingButtonA(void)
 {
 
 
 }
 
-extern StateFunctions* LapFinishedState_getStateFunctions(void)
+extern Bool LapFinishedState_checkTransitionTriggerButtonAPressed(void)
 {
 
-
+  
 }
 
 /* INTERNAL FUNCTIONS *****************************************************************************/

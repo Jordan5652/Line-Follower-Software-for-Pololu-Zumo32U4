@@ -20,19 +20,14 @@
 /* PROTOTYPES *************************************************************************************/
 
 /* VARIABLES **************************************************************************************/
-/**
- * @brief variable to hold the functionspointers of the state
-*/
-const StateFunctions errorStateFunctions;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
-extern void ErrorState_enterStopDriveAndPlayAlarmAndDisplayErrorAndStopAndResetAllTimers(void)
+extern void ErrorState_enterStopDriveAndPlayAlarmAndDisplayError(void)
 {
 
 
 }
-
 
 extern void ErrorState_processPollingButtonA(void)
 {
@@ -40,14 +35,7 @@ extern void ErrorState_processPollingButtonA(void)
 
 }
 
-
-extern States ErrorState_getTransitions(void)
-{
-
-
-}
-
-extern StateFunctions* ErrorState_getStateFunctions(void)
+extern Bool ErrorState_checkTransitionTriggerButtonAPressed(void)
 {
 
 

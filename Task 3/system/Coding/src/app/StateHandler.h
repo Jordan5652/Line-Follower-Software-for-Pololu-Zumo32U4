@@ -11,7 +11,20 @@
 #define STATE_HANDLER_H
 
 /* INCLUDES ***************************************************************************************/
+#include "Types.h"
+
 #include "StateDataTypes.h"
+
+#include "CalibrationState.h"
+#include "DriveLapState.h"
+#include "ErrorState.h"
+#include "InitializationState.h"
+#include "LapFinishedState.h"
+#include "ParameterSetState.h"
+#include "PreDriveState.h"
+#include "ReadyState.h"
+#include "SearchingStartlineState.h"
+#include "SearchTrackState.h"
 
 /* CONSTANTS **************************************************************************************/
 
@@ -19,17 +32,25 @@
 
 /* TYPES ******************************************************************************************/
 
+typedef enum
+{
+    initializationState,
+    ReadyState,
+    CalibrationState,
+    ParameterSetState,
+    SearchingStartLineState,
+    DriveLapState,
+    LapFinishedState,
+    SearchTrackState,
+    ErrorState,
+    PreDriveState,
+}States;
+
 /* PROTOTYPES *************************************************************************************/
 /** @fn StateHandler_stateHandler(void)
  * @brief runs the statemachine
  * @return void
 */
-void StateHandler_stateHandler(void);
-
-/** @fn StateHandler_initStatesBuffer(void)
- * @brief fills the internal Buffer, in which the Function Pointers of the states are stored
- * @return void
-*/
-void StateHandler_initStatesBuffer(void);
+extern void StateHandler_stateHandler(void);
 
 #endif /* STATE_HANDLER_H */

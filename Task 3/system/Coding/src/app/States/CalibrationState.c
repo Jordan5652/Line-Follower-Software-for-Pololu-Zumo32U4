@@ -21,33 +21,20 @@
 /* PROTOTYPES *************************************************************************************/
 
 /* VARIABLES **************************************************************************************/
-/**
- * @brief variable to hold the functionspointers of the state
-*/
-const StateFunctions calibrationStateFunctions;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
-void CalibrationState_enterCalibrate(void)
+void CalibrationState_processCalibrate(void)
 {
 
 
 }
 
 
-extern States CalibrationState_getTransitions(void)
+extern Bool CalibrationState_checkTransitionTriggerCalibrationDone(void);
 {
 
 
 }
-
-
-extern StateFunctions* CalibrationState_getStateFunctions(void)
-{
-
-
-}
-
-
 
 /* INTERNAL FUNCTIONS *****************************************************************************/

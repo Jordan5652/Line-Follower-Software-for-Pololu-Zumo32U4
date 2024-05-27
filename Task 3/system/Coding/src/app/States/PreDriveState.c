@@ -2,9 +2,9 @@
   (c) NewTec GmbH 2024   -   www.newtec.de
 ***************************************************************************************************/
 /**
- * @file       SearchTrackState.c
+ * @file       PreDriveState.c
  *
- * Contains the functions and variables for the SearchTrackState.
+ * Contains the functions and variables for the PreDriveState.
  */
 /**************************************************************************************************/
 
@@ -20,38 +20,22 @@
 /* PROTOTYPES *************************************************************************************/
 
 /* VARIABLES **************************************************************************************/
-/** 
- * @brief variable to hold the functionspointers of the state
-*/
-const StateFunctions searchTrackStateFunctions;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
-extern void SearchTrackState_enterRestartTimer1(void)
+extern void PreDriveState_enterStartTimer1AndWaitFor3s(void)
 {
 
 
 }
 
-extern void SearchTrackState_processFindTrackLine(void)
+extern void PreDriveState_exitStopTimer1(void)
 {
 
 
 }
 
-extern void SearchTrackState_leaveStopTimer1(void)
-{
-
-
-}
-
-extern States SearchTrackState_getTransitions(void)
-{
-
-
-}
-
-extern StateFunctions* SearchTrackState_getStateFunctions(void)
+extern Bool PreDriveState_checkTransitionTriggerTimer1Exceeds3s(void)
 {
 
 

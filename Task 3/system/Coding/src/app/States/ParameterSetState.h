@@ -11,6 +11,8 @@
 #define PARAMETER_SET_STATE_H
 
 /* INCLUDES ***************************************************************************************/
+#include "Types.h"
+
 #include "StateDataTypes.h"
 #include "Button.h"
 #include "Parameters.h"
@@ -32,15 +34,14 @@ extern void ParameterSetState_enterDisplayParameterSets(void);
 extern void ParameterSetState_processSetParameterSet(void);
 
 /** 
- * @brief checks if one transition to another State and returns the next State as enum
- * @return States: next State to be active or current state when no transition is true
+ * @brief displays the selected parameter set on the OLED
 */
-extern States ParameterSetState_getTransitions(void);
+extern void ParameterSetState_exitDisplaySelectedParameterSetFor3s(void);
 
 /** 
- * @brief returns the pointer to the StateFunctions struct, which contains the entry, process and exit function of the state 
- * @return StateFunctions*: entry, process and exit functions of the state
+ * @brief checks if configuration of parameters is done 
+ * @return Bool: return true if configuration is done
 */
-extern StateFunctions* ParameterSetState_getStateFunctions(void);
+extern Bool ParameterSetState_checkTransitionTriggerConfigDone(void);
 
 #endif /* PARAMETER_SET_STATE_H */

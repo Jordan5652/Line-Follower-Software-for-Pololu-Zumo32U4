@@ -11,6 +11,8 @@
 #define DRIVE_LAP_STATE_H
 
 /* INCLUDES ***************************************************************************************/
+#include "Types.h"
+
 #include "StateDataTypes.h"
 #include "Parameters.h"
 #include "Buzzer.h"
@@ -36,15 +38,21 @@ extern void DriveLapState_enterRestartTimer2AndPlayBeep(void);
 extern void DriveLapState_processDriveOnTrackLine(void);
 
 /** 
- * @brief checks if one transition to another State and returns the next State as enum
- * @return States: next State to be active or current state when no transition is true
+ * @brief checks if timer2 exeeded 20s
+ * @return Bool: returns true if timer2 exceeded 20s
 */
-extern States DriveLapState_getTransitions(void);
+extern Bool DriveLapState_checkTranstionTriggerTimer2Exceeds20s(void);
 
 /** 
- * @brief returns the pointer to the StateFunctions struct, which contains the entry, process and exit function of the state 
- * @return StateFunctions*: entry, process and exit functions of the state
+ * @brief checks if track cannot be found
+ * @return Bool: returns true track cannot be found
 */
-extern StateFunctions* DriveLapState_getStateFunctions(void);
+extern Bool DriveLapState_checkTranstionTriggerTrackNotFound(void);
+
+/** 
+ * @brief checks if startline is found
+ * @return Bool: returns true if startline is found
+*/
+extern Bool DriveLapState_checkTranstionTriggerStartlineFound(void);
 
 #endif /* DRIVE_LAP_STATE_H */

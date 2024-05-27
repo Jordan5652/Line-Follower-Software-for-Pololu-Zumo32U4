@@ -11,6 +11,8 @@
 #define LAP_FINISHED_STATE_H
 
 /* INCLUDES ***************************************************************************************/
+#include "Types.h"
+
 #include "StateDataTypes.h"
 #include "Button.h"
 #include "Buzzer.h"
@@ -31,15 +33,14 @@
 extern void LapFinishedState_enterStopTimer2AndDisplayTimeAndStopDriveAndPlayBeep(void);
 
 /** 
- * @brief checks if one transition to another State and returns the next State as enum
- * @return States: next State to be active or current state when no transition is true
+ * @brief checks if ButtonA is pressed by polling (ErrorState is left when ButtonA is pressed)
 */
-extern States LapFinishedState_getTransitions(void);
+extern void LapFinishedState_processPollingButtonA(void);
 
 /** 
- * @brief returns the pointer to the StateFunctions struct, which contains the entry, process and exit function of the state 
- * @return StateFunctions*: entry, process and exit functions of the state
+ * @brief checks if button A was pressed by a user
+ * @return States: next State to be active or current state when no transition is true
 */
-extern StateFunctions* LapFinishedState_getStateFunctions(void);
+extern Bool LapFinishedState_checkTransitionTriggerButtonAPressed(void);
 
 #endif /* LAP_FINISHED_STATE_H */

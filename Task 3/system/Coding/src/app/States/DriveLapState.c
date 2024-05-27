@@ -20,10 +20,6 @@
 /* PROTOTYPES *************************************************************************************/
 
 /* VARIABLES **************************************************************************************/
-/** 
- * @brief variable to hold the functionspointers of the state
-*/
-const StateFunctions driveLapStateFunctions;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
@@ -41,14 +37,19 @@ extern void DriveLapState_processDriveOnTrackLine(void)
 }
 
 
-extern States DriveLapState_getTransitions(void)
+extern Bool DriveLapState_checkTranstionTriggerTimer2Exceeds20s(void)
 {
 
 
 }
 
+extern Bool DriveLapState_checkTranstionTriggerTrackNotFound(void)
+{
 
-extern StateFunctions* DriveLapState_getStateFunctions(void)
+
+}
+
+extern Bool DriveLapState_checkTranstionTriggerStartlineFound(void)
 {
 
 
