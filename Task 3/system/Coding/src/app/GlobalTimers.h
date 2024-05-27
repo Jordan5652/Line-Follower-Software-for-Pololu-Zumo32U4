@@ -27,8 +27,8 @@ extern SoftTimer timer1;
 extern SoftTimer timer2;
 extern SoftTimer timer3;
 
-extern pTimer1;
-extern pTimer2;
-extern pTimer3;
+extern SoftTimer* pTimer1;
+extern SoftTimer* pTimer2;
+extern SoftTimer* pTimer3;
 
 #endif /* GLOBALTIMERS_H */
