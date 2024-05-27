@@ -23,6 +23,7 @@ For a detailed description see the detailed description in @ref MainTask.h.
 #include "os/Scheduler.h"
 #include "service/Button.h"
 
+#include "GlobalTimers.h"
 /* CONSTANTS **************************************************************************************/
 
 /* MACROS *****************************************************************************************/
@@ -37,6 +38,7 @@ For a detailed description see the detailed description in @ref MainTask.h.
 static void mainTaskWork (void * data);
 
 /* VARIABLES **************************************************************************************/
+Bool test = false;
 
 /** MainTask task structure. */
 static Task gMainTask;
@@ -76,5 +78,19 @@ static void mainTaskWork(void * data)
     (void)data;
 
     /* TODO: Add your application here. */
+
+    if(test == false)
+    {
+        InitializationState_enterDisplayNameAndStartTimer1();
+        test = true;
+    }
+    if(true == InitializationState_checkTransitionTriggerTimer1Exceeds2s())
+    {
+        Display_clear();
+        InitializationState_exitStopTimer1();
+    }
+
+    //Display_write((char*)SoftTimer_get(pTimer1), sizeof(SoftTimer_get(pTimer1)));
+
 }
 

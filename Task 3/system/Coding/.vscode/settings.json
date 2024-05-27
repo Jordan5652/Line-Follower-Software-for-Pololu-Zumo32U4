@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "initializationstate.h": "c",
+        "globaltimers.h": "c",
+        "button.h": "c"
+    }
+}

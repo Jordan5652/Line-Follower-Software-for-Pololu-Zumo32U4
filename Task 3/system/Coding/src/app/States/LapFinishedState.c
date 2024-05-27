@@ -38,7 +38,7 @@ extern void LapFinishedState_processPollingButtonA(void)
 extern Bool LapFinishedState_checkTransitionTriggerButtonAPressed(void)
 {
 
-  
+  return true;
 }
 
 /* INTERNAL FUNCTIONS *****************************************************************************/

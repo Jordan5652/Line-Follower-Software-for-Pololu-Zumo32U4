@@ -10,7 +10,6 @@
 
 /* INCLUDES ***************************************************************************************/
 #include "StateHandler.h"
-#include "StateDataTypes.h"
 #include "SearchTrackState.h"
 #include "SearchingStartLineState.h"
 #include "CalibrationState.h"
@@ -34,15 +33,14 @@
 /**
  * @brief store the current state ID
 */
-static States gCurrentState;
+static States gCurrentState = InitializationState;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
 void StateHandler_stateHandler(void)
 {
-   
+
+
 }
 
 /* INTERNAL FUNCTIONS *****************************************************************************/
-
-

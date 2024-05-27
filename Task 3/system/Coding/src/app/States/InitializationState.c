@@ -28,18 +28,22 @@
 
 extern void InitializationState_enterDisplayNameAndStartTimer1(void)
 {
-    UInt8 buffer[] = TEAM_NAME;
+    Int8 buffer[] = TEAM_NAME;
     Display_clear();
     Display_write(buffer, sizeof(buffer));
+    SoftTimerHandler_register(pTimer1);
+    SoftTimerHandler_register(pTimer2);
+    SoftTimerHandler_register(pTimer3);
     SoftTimer_start(pTimer1, 2000u);
 }
 
 extern void InitializationState_exitStopTimer1(void)
 {
-    SoftTimer_Stop(&)
+    Display_clear();
+    SoftTimer_Stop(pTimer1);
 }
 
-extern Bool InitializationState_checkTransitionTriggerTimer1Exceeds2s(void)
+extern bool InitializationState_checkTransitionTriggerTimer1Exceeds2s(void)
 {
     if (SOFTTIMER_IS_EXPIRED(pTimer1))
     {
