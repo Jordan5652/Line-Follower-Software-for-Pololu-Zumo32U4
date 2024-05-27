@@ -22,6 +22,9 @@ Main function for pololu Line follower.
 #include "os/ErrorHandler.h"
 #include "app/MainTask.h"
 
+#include "CalibrationState.h"
+#include "Display.h"
+
 int main(void)
 {
     /* Init everything. */

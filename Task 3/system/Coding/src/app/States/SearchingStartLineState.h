@@ -13,7 +13,6 @@
 /* INCLUDES ***************************************************************************************/
 #include "Types.h"
 
-#include "StateDataTypes.h"
 #include "SoftTimer.h"
 #include "DriveControl.h"
 #include "LineSensor.h"
@@ -28,7 +27,7 @@
 /**
  * @brief Restarts timer1 to measure the time until the startLine is found and starts the DualMotorDriveSystem to drive to the StartLine
 */
-extern void SearchingStartLineState_enterStartTimer1AndStartDriving(void)
+extern void SearchingStartLineState_enterStartTimer1AndStartDriving(void);
 
 /** 
  * @brief starts timer2 and plays beep if startline found

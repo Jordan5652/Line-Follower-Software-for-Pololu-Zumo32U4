@@ -10,7 +10,6 @@
 
 /* INCLUDES ***************************************************************************************/
 #include "StateHandler.h"
-#include "StateDataTypes.h"
 #include "SearchTrackState.h"
 #include "SearchingStartLineState.h"
 #include "CalibrationState.h"

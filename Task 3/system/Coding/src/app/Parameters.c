@@ -13,7 +13,7 @@
 #include "Display.h"
 
 /* CONSTANTS **************************************************************************************/
-
+#define MAX_NUMBER_OF_PARAMETER_SETS 3u
 /* MACROS *****************************************************************************************/
 
 /* TYPES ******************************************************************************************/
@@ -22,11 +22,11 @@
 
 /* VARIABLES **************************************************************************************/
 
-const uint8 MAX_NUMBER_OF_PARAMETER_SETS = 3;
+//const uint8 MAX_NUMBER_OF_PARAMETER_SETS = 3;
 
 static ParameterSet gParameterSets[MAX_NUMBER_OF_PARAMETER_SETS];
 
-static uint8 gSelectedParameterSetIndex;
+static UInt8 gSelectedParameterSetIndex;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 

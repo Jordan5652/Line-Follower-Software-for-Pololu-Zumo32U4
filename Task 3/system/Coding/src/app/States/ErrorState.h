@@ -13,7 +13,6 @@
 /* INCLUDES ***************************************************************************************/
 #include "Types.h"
 
-#include "StateDataTypes.h"
 #include "Buzzer.h"
 #include "Display.h"
 #include "Button.h"

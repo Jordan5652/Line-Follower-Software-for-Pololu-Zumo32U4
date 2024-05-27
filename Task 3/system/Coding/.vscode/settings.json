@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "calibrationstate.h": "c",
+        "statehandler.h": "c"
+    }
+}
