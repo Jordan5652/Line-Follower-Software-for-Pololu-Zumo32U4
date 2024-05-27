@@ -13,8 +13,6 @@
 /* INCLUDES ***************************************************************************************/
 #include "Types.h"
 
-#include "StateDataTypes.h"
-
 #include "CalibrationState.h"
 #include "DriveLapState.h"
 #include "ErrorState.h"
