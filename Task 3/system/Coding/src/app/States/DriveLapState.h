@@ -13,7 +13,6 @@
 /* INCLUDES ***************************************************************************************/
 #include "Types.h"
 
-#include "StateDataTypes.h"
 #include "Parameters.h"
 #include "Buzzer.h"
 #include "DriveControl.h"

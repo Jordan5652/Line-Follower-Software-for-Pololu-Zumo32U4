@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "parametersetstate.h": "c",
+        "initializationstate.h": "c",
+        "statehandler.h": "c",
+        "searchingstartlinestate.h": "c"
+    }
+}
