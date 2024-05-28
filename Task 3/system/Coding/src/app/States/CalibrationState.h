@@ -16,31 +16,25 @@
 #include "LineSensor.h"
 #include "GlobalTimers.h"
 #include "Display.h"
-//#include "SoftTimer.h"
 
 /* CONSTANTS **************************************************************************************/
-#define WHITE_BACKGROUND_VALUE_TRESHHOLD 150u
-#define BLACK_LINE_VALUE_TRESHHOLD 550u
 
 /* MACROS *****************************************************************************************/
-#define CALIB_NO_LINE(sensorValue) \
-    ((WHITE_BACKGROUND_VALUE_TRESHHOLD) > (sensorValue))
-#define CALIB_OVER_LINE(sensorValue) \
-    ((BLACK_LINE_VALUE_TRESHHOLD) < (sensorValue))
-    //((sensorValue > 700u) ? ((true) : (false)))
-
-//#define SOFTTIMER_IS_EXPIRED(pSoftTimer) \
-    ((0 == (pSoftTimer)->counter) && (SOFT_TIMER_RUNNING == (pSoftTimer)->state))
 
 
 /* TYPES ******************************************************************************************/
+/** 
+ * @brief each element represents a state of the internal statemachine of the calibration
+*/
+
 typedef enum
 {
     CALIBRATION_STATE_INIT,
     CALIBRATION_STATE_TURN_RIGHT_UNTIL_LEFT_SENSOR,
     CALIBRATION_STATE_TURN_LEFT_UNTIL_RIGHT_SENSOR,
     CALIBRATION_STATE_CENTER_ON_LINE,
-    CALIBRATION_STATE_TIMEOUT,
+    CALIBRATION_STATE_TIMEOUT_CALIBRATION,
+    CALIBRATION_STATE_TIMEOUT_CENTER_LINE,
     CALIBRATION_STATE_FINISHED
 
 }CalibrationState;

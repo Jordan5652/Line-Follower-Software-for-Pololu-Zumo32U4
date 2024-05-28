@@ -16,7 +16,15 @@
 #define CALIB_SPEED 33u       /**< Motor speed while calibrating */
 #define CALIB_SPEED_SLOW 25u  /**< Motor speed while centering on line  */
 
+#define WHITE_BACKGROUND_VALUE_TRESHHOLD 200u /**< Thresshhold of value of linesensor: when value is below, white background is beeing detected */
+#define BLACK_LINE_VALUE_TRESHHOLD 650u /**< Thresshhold of value of linesensor: when value is below, white background is beeing detected */
+
+
 /* MACROS *****************************************************************************************/
+#define CALIB_NO_LINE(sensorValue) \ 
+    ((WHITE_BACKGROUND_VALUE_TRESHHOLD) > (sensorValue))
+#define CALIB_OVER_LINE(sensorValue) \
+    ((BLACK_LINE_VALUE_TRESHHOLD) < (sensorValue))
 
 /* TYPES ******************************************************************************************/
 
@@ -27,13 +35,16 @@
 /** Calibration state of local state machine */
 static CalibrationState gState = CALIBRATION_STATE_INIT;
 
-/** Timer used by calibration steps. */
-//static SoftTimer gTimer;
-
 /** Variable used for checking whether calibration was finished*/
-static Bool gCalibrationFinished = false; 
+static Bool gCalibrationFinished = false;
+
+/** buffer containing the text displayed when timeout occured during center line*/
+static const UInt8 gCalibrationTimeOutMessage[] = "CALIBRATION TIMEOUT!";
+
+/** buffer containing the text displayed when timeout occured during center line*/
+static const UInt8 gCenterLineTimeOutMessage[] = "CENTER-LINE TIMEOUT!";
+
 /* EXTERNAL FUNCTIONS *****************************************************************************/
-char textTimeout[] = "TIMEOUT: CALIBRATION FAILED!"; 
 
 void CalibrationState_processCalibrate(void)
 {
@@ -42,37 +53,25 @@ void CalibrationState_processCalibrate(void)
     switch (gState)
     {
         case CALIBRATION_STATE_INIT:
-            //if (SOFTTIMER_IS_EXPIRED(&gTimer))
-            //if (SOFTTIMER_IS_EXPIRED(pTimer1))
-            //{
+            
                 gState = CALIBRATION_STATE_TURN_RIGHT_UNTIL_LEFT_SENSOR;
-                //SoftTimer_start(&gTimer, 5000u);
                 SoftTimer_start(pTimer1, 5000u);
                 LineSensor_startCalibration();
-            //}
-            //REMOVE LATER!
-            //else 
-            //{
-            //    Display_clear();
-            //    Display_write(WTF1, sizeof(WTF1));
-            //}
-            //REMOVE LATER END!
+            
             break;
 
         case CALIBRATION_STATE_TURN_RIGHT_UNTIL_LEFT_SENSOR:
             DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, CALIB_SPEED, DRIVE_CONTROL_FORWARD);
             DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, CALIB_SPEED, DRIVE_CONTROL_BACKWARD);
 
-            //if (SOFTTIMER_IS_EXPIRED(&gTimer))
             if (SOFTTIMER_IS_EXPIRED(pTimer1))
             {
-                gState = CALIBRATION_STATE_TIMEOUT;
+                gState = CALIBRATION_STATE_TIMEOUT_CALIBRATION;
             }
 
             LineSensor_read(&values);
             if (true == (values.calibrated[LINESENSOR_LEFT] && CALIB_OVER_LINE(values.value[LINESENSOR_LEFT])))
             {
-                //SoftTimer_restart(&gTimer);
                 SoftTimer_restart(pTimer1);
                 gState = CALIBRATION_STATE_TURN_LEFT_UNTIL_RIGHT_SENSOR;
             }
@@ -82,10 +81,9 @@ void CalibrationState_processCalibrate(void)
             DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, CALIB_SPEED, DRIVE_CONTROL_BACKWARD);
             DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, CALIB_SPEED, DRIVE_CONTROL_FORWARD);
 
-            //if (SOFTTIMER_IS_EXPIRED(&gTimer))
             if (SOFTTIMER_IS_EXPIRED(pTimer1))
             {
-                gState = CALIBRATION_STATE_TIMEOUT;
+                gState = CALIBRATION_STATE_TIMEOUT_CALIBRATION;
             }
 
             LineSensor_read(&values);
@@ -98,7 +96,6 @@ void CalibrationState_processCalibrate(void)
                 }
                 else 
                 {
-                    //SoftTimer_restart(&gTimer);
                     SoftTimer_restart(pTimer1);
                     gState = CALIBRATION_STATE_CENTER_ON_LINE;
                 }
@@ -109,10 +106,9 @@ void CalibrationState_processCalibrate(void)
             DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, CALIB_SPEED_SLOW, DRIVE_CONTROL_FORWARD);
             DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, CALIB_SPEED_SLOW, DRIVE_CONTROL_BACKWARD);
 
-            //if (SOFTTIMER_IS_EXPIRED(&gTimer))
             if (SOFTTIMER_IS_EXPIRED(pTimer1))
             {
-                gState = CALIBRATION_STATE_TIMEOUT;
+                gState = CALIBRATION_STATE_TIMEOUT_CENTER_LINE;
             }
 
             LineSensor_read(&values);
@@ -128,41 +124,36 @@ void CalibrationState_processCalibrate(void)
                 DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, 0u, DRIVE_CONTROL_FORWARD);
                 DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, 0u, DRIVE_CONTROL_BACKWARD);
 
-                //SoftTimer_Stop(&gTimer);
                 SoftTimer_Stop(pTimer1);
 
-                //if (SOFTTIMER_RET_SUCCESS != SoftTimerHandler_unRegister(&gTimer))
-                //{
-                    //errorState_enter(pState, ERRORHANDLER_CALIBRATE_TIMER_UNINIT_FAIL);
-                    //gState = CALIBRATION_STATE_TIMEOUT;
-                //}
-                //else
-                //{
-                //    gState = CALIBRATION_STATE_FINISHED;
-
-                //}
                 gState = CALIBRATION_STATE_FINISHED;
                 
-                //gState = CALIBRATION_STATE_FINISHED;
             }
             break;
 
-        case CALIBRATION_STATE_TIMEOUT:
+        case CALIBRATION_STATE_TIMEOUT_CALIBRATION:
 
             DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, 0u, DRIVE_CONTROL_FORWARD);
             DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, 0u, DRIVE_CONTROL_BACKWARD);
             LineSensor_stopCalibration();
             Display_clear();
-            Display_write(textTimeout, sizeof(textTimeout));
+            Display_write(gCalibrationTimeOutMessage, sizeof(gCalibrationTimeOutMessage));
             gState = CALIBRATION_STATE_FINISHED;
-            //ErrorState_enter(pState, ERRORHANDLER_CALIBRATE_TIMEOUT);
+            
+            break;
+        case CALIBRATION_STATE_TIMEOUT_CENTER_LINE:
+            DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, 0u, DRIVE_CONTROL_FORWARD);
+            DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, 0u, DRIVE_CONTROL_BACKWARD);
+            LineSensor_stopCalibration();
+            Display_clear();
+            Display_write(gCenterLineTimeOutMessage, sizeof(gCenterLineTimeOutMessage));
+            gState = CALIBRATION_STATE_FINISHED;
+            
             break;
 
         case CALIBRATION_STATE_FINISHED:
             LineSensor_stopCalibration();
-            //SoftTimerHandler_unRegister(&gTimer);
             SoftTimer_Stop(pTimer1);
-            //ReadyState_enter(pState);
             gCalibrationFinished = true;
             break;
     }
@@ -175,7 +166,7 @@ extern Bool CalibrationState_checkTransitionTriggerCalibrationDone(void)
     if (gCalibrationFinished)
     {
         gCalibrationFinished = false; //resetting variable in case calibration is done again later
-        gState = CALIBRATION_STATE_INIT;
+        gState = CALIBRATION_STATE_INIT; //resetting statemachine
         return true;
 
     }

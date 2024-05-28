@@ -166,7 +166,7 @@ static void mainTaskWork(void * data)
                 sumOfWeightedValues += values.value[LINESENSOR_MIDDLE_RIGHT] * 1095;
                 sumOfWeightedValues += values.value[LINESENSOR_RIGHT] * 1445;
 
-                Pos = (UInt16)(sumOfWeightedValues / 5000) - 1000; 
+                Pos = (UInt16)(sumOfWeightedValues / 5000); 
 
                 snprintf(position, sizeof(position), "%lu", (UInt16)Pos);
 
