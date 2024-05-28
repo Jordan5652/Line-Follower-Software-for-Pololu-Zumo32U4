@@ -24,187 +24,214 @@
 /**
  * @brief store the current state ID
 */
-static Bool processedEntryFunction = FALSE;
-
-/**
- * @brief store the current state ID
-*/
 static States gCurrentState;
 
-/* EXTERNAL FUNCTIONS *****************************************************************************/
+/**
+ * @brief store the status of transitions
+*/
+static Bool gTransitionStatus[3u] = FALSE;
 
+/* EXTERNAL FUNCTIONS *****************************************************************************/
 void StateHandler_stateHandler(void)
 {
     switch(gCurrentState)
     {
         case DriveLapState:
-            DriveLapState_processDriveOnTrackLine();
 
-            if(DriveLapState_checkTranstionTriggerStartlineFound())
+            gTransitionStatus[0] = DriveLapState_checkTranstionTriggerStartlineFound();
+            gTransitionStatus[1] = DriveLapState_checkTranstionTriggerTrackNotFound();
+            gTransitionStatus[2] = DriveLapState_checkTranstionTriggerTimer2Exceeds20s();
+            while(FALSE == gTransitionStatus[0] && FALSE == gTransitionStatus[1] && FALSE == gTransitionStatus[2])
+            {
+                DriveLapState_processDriveOnTrackLine();
+                gTransitionStatus[0] = DriveLapState_checkTranstionTriggerStartlineFound();
+                gTransitionStatus[1] = DriveLapState_checkTranstionTriggerTrackNotFound();
+                gTransitionStatus[2] = DriveLapState_checkTranstionTriggerTimer2Exceeds20s();
+            }
+
+            if(gTransitionStatus[0])
             {
                 gCurrentState = LapFinishedState;
             }
-            else if(DriveLapState_checkTranstionTriggerTrackNotFound())
+            else if(gTransitionStatus[1])
             {
                 gCurrentState = SearchTrackState;
             }
-            else if(DriveLapState_checkTranstionTriggerTimer2Exceeds20s())
+            else if(gTransitionStatus[2])
             {
                 gCurrentState = ErrorState;
             }
+
             break;
 
         case ErrorState:
-            if(!processedEntryFunction)
-            {
-                ErrorState_enterStopDriveAndPlayAlarmAndDisplayError();
-                processedEntryFunction = TRUE;
-            }
 
-            ErrorState_processPollingButtonA();
-
-            if(ErrorState_checkTransitionTriggerButtonAPressed())
+            ErrorState_enterStopDriveAndPlayAlarmAndDisplayError();
+            gTransitionStatus[0] = ErrorState_checkTransitionTriggerButtonAPressed();
+            while(FALSE == gTransitionStatus[0])
             {
-                gCurrentState = ReadyState;
-                processedEntryFunction = FALSE;
+                ErrorState_processPollingButtonA();
+                gTransitionStatus[0] = ErrorState_checkTransitionTriggerButtonAPressed();
             }
+            gCurrentState = ReadyState;
+
             break;
 
         case LapFinishedState:
-            if(!processedEntryFunction)
+    
+            LapFinishedState_enterStopTimer2AndDisplayTimeAndStopDriveAndPlayBeep();
+            gTransitionStatus[0] = LapFinishedState_checkTransitionTriggerButtonAPressed();
+            while(FALSE == gTransitionStatus[0])
             {
-                LapFinishedState_enterStopTimer2AndDisplayTimeAndStopDriveAndPlayBeep();
-                processedEntryFunction = TRUE;
+                LapFinishedState_processPollingButtonA();
+                gTransitionStatus[0] = LapFinishedState_checkTransitionTriggerButtonAPressed();
             }
-
-            LapFinishedState_processPollingButtonA();
-
-            if(LapFinishedState_checkTransitionTriggerButtonAPressed())
+            if(gTransitionStatus[0])
             {
                 gCurrentState = ReadyState;
-                processedEntryFunction = FALSE;
             }
+
             break;
 
         case SearchTrackState:
-            if(!processedEntryFunction)
+
+            SearchTrackState_enterStartTimer1();
+            gTransitionStatus[0] = SearchTrackState_checkTransitionTriggerTrackFound();
+            gTransitionStatus[1] = SearchTrackState_checkTransitionTriggerTimer1Exceeds5s();
+            while(FALSE == gTransitionStatus[0] && FALSE == gTransitionStatus[1])
             {
-                SearchTrackState_enterStartTimer1();
-                processedEntryFunction = TRUE;
+                SearchTrackState_processFindTrackLine();
+                gTransitionStatus[0] = SearchTrackState_checkTransitionTriggerTrackFound();
+                gTransitionStatus[1] = SearchTrackState_checkTransitionTriggerTimer1Exceeds5s();
             }
-
-            SearchTrackState_processFindTrackLine();
-
-            if(SearchTrackState_checkTransitionTriggerTrackFound())
+            if(gTransitionStatus[0])
             {
                 SearchTrackState_exitStopTimer1();
                 gCurrentState = DriveLapState;
-                processedEntryFunction = FALSE;
             }
-            else if(SearchTrackState_checkTransitionTriggerTimer1Exceeds5s())
+            else if(gTransitionStatus[1])
             {
                 SearchTrackState_exitStopTimer1();
                 gCurrentState = ErrorState;
-                processedEntryFunction = FALSE;
             }
+
             break;
 
         case SearchingStartLineState:
-            if(!processedEntryFunction)
+
+            SearchingStartLineState_enterStartTimer1AndStartDriving();
+            gTransitionStatus[0] = SearchningStartLineState_checkTransitionTriggerStartlineFound();
+            gTransitionStatus[1] = SearchningStartLineState_checkTransitionTriggerTimer1Exceeds8s();
+            while(FALSE == gTransitionStatus[0] && FALSE == gTransitionStatus[1])
             {
-                SearchingStartLineState_enterStartTimer1AndStartDriving();
-                processedEntryFunction = TRUE;
+                SearchingStartLineState_exitStartTimer2AndPlayBeepIfStartlineFound();
+                gTransitionStatus[0] = SearchningStartLineState_checkTransitionTriggerStartlineFound();
+                gTransitionStatus[1] = SearchningStartLineState_checkTransitionTriggerTimer1Exceeds8s();
             }
-
-            SearchingStartLineState_exitStartTimer2AndPlayBeepIfStartlineFound();
-
-            if(SearchningStartLineState_checkTransitionTriggerStartlineFound())
+            if(gTransitionStatus[0])
             {
                 SearchingStartLineState_exitStartTimer2AndPlayBeepIfStartlineFound();
                 gCurrentState = DriveLapState;
-                processedEntryFunction = FALSE;
             }
-            else if(SearchningStartLineState_checkTransitionTriggerTimer1Exceeds8s())
+            else if(gTransitionStatus[1])
             {
                 SearchingStartLineState_exitStartTimer2AndPlayBeepIfStartlineFound();
                 gCurrentState = ErrorState;
-                processedEntryFunction = FALSE;
             }
+
             break;
 
         case InitializationState:
-            if(!processedEntryFunction)
+
+            gTransitionStatus[0] = InitializationState_checkTransitionTriggerTimer1Exceeds2s();
+            while(FALSE == gTransitionStatus[0])
             {
                 InitializationState_enterDisplayNameAndStartTimer1();
-                processedEntryFunction = TRUE;
+                gTransitionStatus[0] = InitializationState_checkTransitionTriggerTimer1Exceeds2s();
             }
-
-            if(InitializationState_checkTransitionTriggerTimer1Exceeds2s())
+            if(gTransitionStatus[0])
             {
                 InitializationState_exitStopTimer1();
                 gCurrentState = CalibrationState;
-                processedEntryFunction = FALSE;
             }
+
             break;
 
         case CalibrationState:
-            CalibrationState_processCalibrate();
 
-            if(CalibrationState_checkTransitionTriggerCalibrationDone())
+            gTransitionStatus[0] = CalibrationState_checkTransitionTriggerCalibrationDone();
+            while(FALSE == gTransitionStatus[0])
+            {
+                CalibrationState_processCalibrate();
+                gTransitionStatus[0] = CalibrationState_checkTransitionTriggerCalibrationDone();
+            }
+            if(gTransitionStatus[0])
             {
                 gCurrentState = ReadyState;
             }
+
             break;
 
         case ReadyState:
-            ReadyState_processPollingButtons();
 
-            if(ReadyState_checkTransitionTriggerButtonAPressed())
+            gTransitionStatus[0] = ReadyState_checkTransitionTriggerButtonAPressed();
+            gTransitionStatus[1] = ReadyState_checkTransitionTriggerButtonBPressed();
+            gTransitionStatus[2] = ReadyState_checkTransitionTriggerButtonCPressed();
+            while(FALSE == gTransitionStatus[0] && FALSE == gTransitionStatus[1] && FALSE == gTransitionStatus[2])
+            {
+                ReadyState_processPollingButtons();
+                gTransitionStatus[0] = ReadyState_checkTransitionTriggerButtonAPressed();
+                gTransitionStatus[1] = ReadyState_checkTransitionTriggerButtonBPressed();
+                gTransitionStatus[2] = ReadyState_checkTransitionTriggerButtonCPressed();
+            }
+            if(gTransitionStatus[0])
             {
                 gCurrentState = PreDriveState;
             }
-            else if(ReadyState_checkTransitionTriggerButtonBPressed())
+            else if(gTransitionStatus[1])
             {
                 gCurrentState = ParameterSetState;
             }
-            else if(ReadyState_checkTransitionTriggerButtonCPressed())
+            else if(gTransitionStatus[2])
             {
                 gCurrentState = CalibrationState;
             }
+
             break;
 
         case ParameterSetState:
-            if(!processedEntryFunction)
+
+            ParameterSetState_enterDisplayParameterSets();
+            gTransitionStatus[0] = ParameterSetState_checkTransitionTriggerConfigDone();
+            while(FALSE == gTransitionStatus[0])
             {
-                ParameterSetState_enterDisplayParameterSets();
-                processedEntryFunction = TRUE;
+                ParameterSetState_processSetParameterSet();
+                gTransitionStatus[0] = ParameterSetState_checkTransitionTriggerConfigDone();
             }
-
-            ParameterSetState_processSetParameterSet();
-
-            if(ParameterSetState_checkTransitionTriggerConfigDone())
+            if(gTransitionStatus[0])
             {
                 ParameterSetState_exitDisplaySelectedParameterSetFor3s();
                 gCurrentState = ReadyState;
-                processedEntryFunction = FALSE;
             }
+
             break;
 
         case PreDriveState:
-            if(!processedEntryFunction)
-            {
-                PreDriveState_enterStartTimer1AndWaitFor3s();
-                processedEntryFunction = TRUE;
-            }
 
-            if(PreDriveState_checkTransitionTriggerTimer1Exceeds3s())
+            PreDriveState_enterStartTimer1AndWaitFor3s();
+            gTransitionStatus[0] = PreDriveState_checkTransitionTriggerTimer1Exceeds3s();
+            while(FALSE == gTransitionStatus[0])
+            {
+                // do nothing
+                gTransitionStatus[0] = PreDriveState_checkTransitionTriggerTimer1Exceeds3s();
+            }
+            if(gTransitionStatus[0])
             {
                 PreDriveState_exitStopTimer1();
                 gCurrentState = SearchingStartLineState;
-                processedEntryFunction = FALSE;
             }
-            break;
 
+            break;
     } 
 }
 
