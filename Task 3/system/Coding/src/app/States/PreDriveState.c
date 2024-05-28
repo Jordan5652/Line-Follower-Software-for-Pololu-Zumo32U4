@@ -25,21 +25,20 @@
 
 extern void PreDriveState_enterStartTimer1AndWaitFor3s(void)
 {
-    SoftTimer_start(pTimer1, 3000U);
+
+
 }
 
 extern void PreDriveState_exitStopTimer1(void)
 {
-    SoftTimer_Stop(pTimer1);
+
+
 }
 
 extern Bool PreDriveState_checkTransitionTriggerTimer1Exceeds3s(void)
 {
-    if (SOFTTIMER_IS_EXPIRED(pTimer1))
-    {
-        return TRUE;
-    }
-    return FALSE;
+
+
 }
 
 /* INTERNAL FUNCTIONS *****************************************************************************/
