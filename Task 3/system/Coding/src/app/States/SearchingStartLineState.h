@@ -17,6 +17,7 @@
 #include "GlobalTimers.h"
 #include "DriveControl.h"
 #include "LineSensor.h"
+#include "Buzzer.h"
 
 /* CONSTANTS **************************************************************************************/
 
@@ -29,6 +30,11 @@
  * @brief Restarts timer1 to measure the time until the startLine is found and starts the DualMotorDriveSystem to drive to the StartLine
 */
 extern void SearchingStartLineState_enterStartTimer1AndStartDriving(void);
+
+/**
+ * @brief Searches for the startline with the line sensors
+*/
+extern void SearchingStartLineState_processSearchForStartline(void);
 
 /** 
  * @brief starts timer2 and plays beep if startline found
