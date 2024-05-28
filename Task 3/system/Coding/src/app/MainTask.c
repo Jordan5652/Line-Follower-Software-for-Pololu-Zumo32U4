@@ -107,11 +107,13 @@ static UInt16 lastValue3 = 0u;
 static UInt16 lastValue4 = 0u; 
 
 static char text[] = "POSITION: ";
-static char position[5];
+static char position[8];
 
 static LineSensorValues values;
-static uint32_t Pos = 0u; 
-static char test[] = "ENTERED IDLE";
+uint32_t sumOfActualValues;
+uint32_t sumOfWeightedValues;
+UInt16 Pos = 0u; 
+//static char test[] = "ENTERED IDLE";
 static States eStates = INIT;
 static void mainTaskWork(void * data)
 {
@@ -150,14 +152,23 @@ static void mainTaskWork(void * data)
             {
                 //LineSensor_enableEmitter();
                 LineSensor_read(&values);
+                sumOfActualValues = 0u;
+                sumOfActualValues += values.value[LINESENSOR_LEFT];
+                sumOfActualValues += values.value[LINESENSOR_MIDDLE_LEFT];
+                sumOfActualValues += values.value[LINESENSOR_MIDDLE];
+                sumOfActualValues += values.value[LINESENSOR_MIDDLE_RIGHT];
+                sumOfActualValues += values.value[LINESENSOR_RIGHT];
 
-                Pos = values.value[LINESENSOR_LEFT] * 0u;
-                Pos += values.value[LINESENSOR_MIDDLE_LEFT] * 1000u;
-                Pos += values.value[LINESENSOR_MIDDLE] * 2000u;
-                Pos += values.value[LINESENSOR_MIDDLE_RIGHT]* 3000u;
-                Pos += values.value[LINESENSOR_RIGHT]* 4000u;
+                sumOfWeightedValues = 0u;
+                sumOfWeightedValues += values.value[LINESENSOR_LEFT] * 555;
+                sumOfWeightedValues += values.value[LINESENSOR_MIDDLE_LEFT] * 905;
+                sumOfWeightedValues += values.value[LINESENSOR_MIDDLE] * 1000;
+                sumOfWeightedValues += values.value[LINESENSOR_MIDDLE_RIGHT] * 1095;
+                sumOfWeightedValues += values.value[LINESENSOR_RIGHT] * 1445;
 
-                snprintf(position, sizeof(position), "%lu", Pos);
+                Pos = (UInt16)(sumOfWeightedValues / ) - 1000; 
+
+                snprintf(position, sizeof(position), "%lu", (UInt16)Pos);
 
                 Display_clear();
                 Display_gotoxy(0, 6);
