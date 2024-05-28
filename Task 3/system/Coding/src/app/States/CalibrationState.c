@@ -175,6 +175,7 @@ extern Bool CalibrationState_checkTransitionTriggerCalibrationDone(void)
     if (gCalibrationFinished)
     {
         gCalibrationFinished = false; //resetting variable in case calibration is done again later
+        gState = CALIBRATION_STATE_INIT;
         return true;
 
     }
