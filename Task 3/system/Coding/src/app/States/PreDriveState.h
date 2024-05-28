@@ -14,7 +14,6 @@
 #include "Types.h"
 
 #include "SoftTimer.h"
-#include "GlobalTimers.h"
 
 /* CONSTANTS **************************************************************************************/
 
