@@ -12,8 +12,8 @@
 #include "SearchingStartLineState.h"
 
 /* CONSTANTS **************************************************************************************/
-#define STARTING_SPEED 33u
-#define AVERAGE_THRESHHOLD 300u
+#define STARTING_SPEED 25u
+#define AVERAGE_THRESHHOLD 280u
 
 /* MACROS *****************************************************************************************/
 
@@ -67,7 +67,12 @@ extern void SearchingStartLineState_exitStartTimer2AndPlayBeepIfStartlineFound(v
 
 extern Bool SearchningStartLineState_checkTransitionTriggerStartlineFound(void)
 {
-    return gStartlineDetected;
+    if(gStartlineDetected)
+    {
+        gStartlineDetected = FALSE;
+        return TRUE;
+    }
+    return FALSE;
 }
 
 extern Bool SearchningStartLineState_checkTransitionTriggerTimer1Exceeds8s(void)
