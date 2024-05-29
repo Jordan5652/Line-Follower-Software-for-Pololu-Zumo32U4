@@ -28,43 +28,49 @@ static Bool ButtonCPressed = FALSE;
 
 extern void ReadyState_processPollingButtons(void)
 { 
-    if(BUTTON_STATE_PRESSED == Button_getState(BUTTON_ID_A))
+    if(BUTTON_STATE_TRIGGERED == Button_getState(BUTTON_ID_A))
     {
         ButtonAPressed = TRUE;
     }
 
-    if(BUTTON_STATE_RELEASED == Button_getState(BUTTON_ID_B))
+    if(BUTTON_STATE_TRIGGERED == Button_getState(BUTTON_ID_B))
     {
-        ButtonAPressed = TRUE;
+        ButtonBReleased = TRUE;
     }
 
-    if(BUTTON_STATE_PRESSED == Button_getState(BUTTON_ID_C))
+    if(BUTTON_STATE_TRIGGERED == Button_getState(BUTTON_ID_C))
     {
-        ButtonAPressed = TRUE;
+        ButtonCPressed = TRUE;
     }
 }
 
 extern Bool ReadyState_checkTransitionTriggerButtonAPressed(void)
 {
-    if(ButtonAPressed)
+    if(TRUE == ButtonAPressed)
     {
-      return TRUE;
+        ButtonAPressed = FALSE;
+        return TRUE;
     }
+    return FALSE;
 }
 
 extern Bool ReadyState_checkTransitionTriggerButtonBPressed(void)
 {
-    if(ButtonBReleased)
+    if(TRUE == ButtonBReleased)
     {
-      return TRUE;
+        ButtonBReleased = FALSE;
+        return TRUE;
     }
+    return FALSE;
 }
 
 extern Bool ReadyState_checkTransitionTriggerButtonCPressed(void)
 {
-    if(ButtonCPressed)
+    if(TRUE == ButtonCPressed)
     {
-      return TRUE;
+        ButtonCPressed = FALSE;
+        return TRUE;
     }
+    return FALSE;
 }
 /* INTERNAL FUNCTIONS *****************************************************************************/
