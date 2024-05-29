@@ -37,24 +37,24 @@ void StateHandler_stateHandler(void)
 {
     switch(gCurrentState)
     {
-        case DriveLapState:
+        case DRIVE_LAP_STATE:
             DriveLapState_processDriveOnTrackLine();
 
             if(DriveLapState_checkTranstionTriggerStartlineFound())
             {
-                gCurrentState = LapFinishedState;
+                gCurrentState = LAP_FINISHED_STATE;
             }
             else if(DriveLapState_checkTranstionTriggerTrackNotFound())
             {
-                gCurrentState = SearchTrackState;
+                gCurrentState = SEARCH_TRACK_STATE;
             }
             else if(DriveLapState_checkTranstionTriggerTimer2Exceeds20s())
             {
-                gCurrentState = ErrorState;
+                gCurrentState = ERROR_STATE;
             }
             break;
 
-        case ErrorState:
+        case ERROR_STATE:
             if(!processedEntryFunction)
             {
                 ErrorState_enterStopDriveAndPlayAlarmAndDisplayError();
@@ -65,12 +65,12 @@ void StateHandler_stateHandler(void)
 
             if(ErrorState_checkTransitionTriggerButtonAPressed())
             {
-                gCurrentState = ReadyState;
+                gCurrentState = READY_STATE;
                 processedEntryFunction = FALSE;
             }
             break;
 
-        case LapFinishedState:
+        case LAP_FINISHED_STATE:
             if(!processedEntryFunction)
             {
                 LapFinishedState_enterStopTimer2AndDisplayTimeAndStopDriveAndPlayBeep();
@@ -81,12 +81,12 @@ void StateHandler_stateHandler(void)
 
             if(LapFinishedState_checkTransitionTriggerButtonAPressed())
             {
-                gCurrentState = ReadyState;
+                gCurrentState = READY_STATE;
                 processedEntryFunction = FALSE;
             }
             break;
 
-        case SearchTrackState:
+        case SEARCH_TRACK_STATE:
             if(!processedEntryFunction)
             {
                 SearchTrackState_enterStartTimer1();
@@ -98,18 +98,18 @@ void StateHandler_stateHandler(void)
             if(SearchTrackState_checkTransitionTriggerTrackFound())
             {
                 SearchTrackState_exitStopTimer1();
-                gCurrentState = DriveLapState;
+                gCurrentState = DRIVE_LAP_STATE;
                 processedEntryFunction = FALSE;
             }
             else if(SearchTrackState_checkTransitionTriggerTimer1Exceeds5s())
             {
                 SearchTrackState_exitStopTimer1();
-                gCurrentState = ErrorState;
+                gCurrentState = ERROR_STATE;
                 processedEntryFunction = FALSE;
             }
             break;
 
-        case SearchingStartLineState:
+        case SEARCHING_STARTLINE_STATE:
             if(!processedEntryFunction)
             {
                 SearchingStartLineState_enterStartTimer1AndStartDriving();
@@ -121,18 +121,18 @@ void StateHandler_stateHandler(void)
             if(SearchningStartLineState_checkTransitionTriggerStartlineFound())
             {
                 SearchingStartLineState_exitStartTimer2AndPlayBeepIfStartlineFound();
-                gCurrentState = DriveLapState;
+                gCurrentState = DRIVE_LAP_STATE;
                 processedEntryFunction = FALSE;
             }
             else if(SearchningStartLineState_checkTransitionTriggerTimer1Exceeds8s())
             {
                 SearchingStartLineState_exitStartTimer2AndPlayBeepIfStartlineFound();
-                gCurrentState = ErrorState;
+                gCurrentState = ERROR_STATE;
                 processedEntryFunction = FALSE;
             }
             break;
 
-        case InitializationState:
+        case INITIALIZATION_STATE:
             if(!processedEntryFunction)
             {
                 InitializationState_enterDisplayNameAndStartTimer1();
@@ -142,38 +142,38 @@ void StateHandler_stateHandler(void)
             if(InitializationState_checkTransitionTriggerTimer1Exceeds2s())
             {
                 InitializationState_exitStopTimer1();
-                gCurrentState = CalibrationState;
+                gCurrentState = CALIBRATION_STATE;
                 processedEntryFunction = FALSE;
             }
             break;
 
-        case CalibrationState:
+        case CALIBRATION_STATE:
             CalibrationState_processCalibrate();
 
             if(CalibrationState_checkTransitionTriggerCalibrationDone())
             {
-                gCurrentState = ReadyState;
+                gCurrentState = READY_STATE;
             }
             break;
 
-        case ReadyState:
+        case READY_STATE:
             ReadyState_processPollingButtons();
 
             if(ReadyState_checkTransitionTriggerButtonAPressed())
             {
-                gCurrentState = PreDriveState;
+                gCurrentState = PRE_DRIVE_STATE;
             }
             else if(ReadyState_checkTransitionTriggerButtonBPressed())
             {
-                gCurrentState = ParameterSetState;
+                gCurrentState = PARAMETER_SET_STATE;
             }
             else if(ReadyState_checkTransitionTriggerButtonCPressed())
             {
-                gCurrentState = CalibrationState;
+                gCurrentState = CALIBRATION_STATE;
             }
             break;
 
-        case ParameterSetState:
+        case PARAMETER_SET_STATE:
             if(!processedEntryFunction)
             {
                 ParameterSetState_enterDisplayParameterSets();
@@ -185,12 +185,12 @@ void StateHandler_stateHandler(void)
             if(ParameterSetState_checkTransitionTriggerConfigDone())
             {
                 ParameterSetState_exitDisplaySelectedParameterSetFor3s();
-                gCurrentState = ReadyState;
+                gCurrentState = READY_STATE;
                 processedEntryFunction = FALSE;
             }
             break;
 
-        case PreDriveState:
+        case PRE_DRIVE_STATE:
             if(!processedEntryFunction)
             {
                 PreDriveState_enterStartTimer1AndWaitFor3s();
@@ -200,7 +200,7 @@ void StateHandler_stateHandler(void)
             if(PreDriveState_checkTransitionTriggerTimer1Exceeds3s())
             {
                 PreDriveState_exitStopTimer1();
-                gCurrentState = SearchingStartLineState;
+                gCurrentState = SEARCHING_STARTLINE_STATE;
                 processedEntryFunction = FALSE;
             }
             break;
