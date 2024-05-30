@@ -122,7 +122,7 @@ static char value4[5];
 //static UInt16 lastValue2 = 0u; 
 //static UInt16 lastValue3 = 0u; 
 //static UInt16 lastValue4 = 0u; 
-#define MOTORSPEED 17u;
+#define MOTORSPEED 65u
 
 static char text[] = "POSITION: ";
 static char position[8];
@@ -133,6 +133,7 @@ static LineSensorValues values;
 uint32_t sumOfActualValues;
 Int16 sumOfWeightedValues;
 Int16 sumOfWeightedValuesBefore = 0u;
+Int16 sumOfWeightedValuesIntegrated = 0u;
 Int16 Pos = 0; 
 //static char test[] = "ENTERED IDLE";
 static States eStates = INIT;
@@ -195,6 +196,10 @@ static void mainTaskWork(void * data)
                 sumOfWeightedValues += values.value[LINESENSOR_MIDDLE_RIGHT]; // * 95;
                 //sumOfWeightedValues += values.value[LINESENSOR_RIGHT] * 1445;
 
+                if (sumOfWeightedValues < 0)
+                {
+            
+                } 
                 Pos = sumOfWeightedValues; 
 
                 snprintf(position, sizeof(position), "%d", Pos);
@@ -264,16 +269,34 @@ static void mainTaskWork(void * data)
             //sumOfWeightedValues += values.value[LINESENSOR_LEFT] * 555;
             sumOfWeightedValues += values.value[LINESENSOR_MIDDLE_LEFT] * -1;// * -95;
             sumOfWeightedValues += values.value[LINESENSOR_MIDDLE] * 0;
-            sumOfWeightedValues += values.value[LINESENSOR_MIDDLE_RIGHT];
+            sumOfWeightedValues += values.value[LINESENSOR_MIDDLE_RIGHT] * 1;
             sumOfWeightedValues += values.value[LINESENSOR_LEFT] * -5;
             //sumOfWeightedValues += values.value[LINESENSOR_MIDDLE_LEFT] * -7;
             sumOfWeightedValues += values.value[LINESENSOR_RIGHT] * 5;
             //sumOfWeightedValues += values.value[LINESENSOR_MIDDLE_RIGHT] * 7;
 
-            Float32 kp = 0.009;
-            Float32 kd = 0.0003;
+            //if (sumOfWeightedValues < 0)
+            //{
+            //    sumOfWeightedValues = sumOfWeightedValues * sumOfWeightedValues * -1;
+            //}
+            //else
+            //{
+            //    sumOfWeightedValues = sumOfWeightedValues * sumOfWeightedValues;
+            //}
 
-            Int32 speedDifference = kp*sumOfWeightedValues;// + kd*(sumOfWeightedValues-sumOfWeightedValuesBefore); 
+           // Float32 kp = 0.01287;
+           // Float32 kd = 0.003;
+           // Float32 ki = 0.00000002;
+            //Float32 kp = 0.01287;
+            //Float32 kd = 0.004;
+            //Float32 ki = 0.00002;
+            Float32 kp = 0.04;
+            Float32 kd = 0.0;
+            Float32 ki = 0.0;
+
+
+
+            Int32 speedDifference = kp*sumOfWeightedValues + kd*(sumOfWeightedValues-sumOfWeightedValuesBefore) + ki * (sumOfWeightedValuesIntegrated); 
 
             Int32 left = speedDifference + MOTORSPEED;
             Int32 right = -speedDifference + MOTORSPEED;
@@ -287,15 +310,20 @@ static void mainTaskWork(void * data)
                 right = 0;
             }
 
-            if(left > 50)
+            //if(left > (2*MOTORSPEED))
+            if (left > 100)
             {
-                left = 50;
+                //left = 2*MOTORSPEED;
+                left = 100;
             }
 
-            if(right > 50)
+            //if(right > 2*MOTORSPEED)
+            if (right > 100)
             {
-                right = 50;
+                //right = 2*MOTORSPEED;
+                right = 100;
             }
+            /*
             Display_clear();
             snprintf(speedLeft, sizeof(speedLeft), "%d", left);
             snprintf(speedRight, sizeof(speedRight), "%d", right);
@@ -309,10 +337,11 @@ static void mainTaskWork(void * data)
             Display_write("speedLeft: ", sizeof("speedLeft: "));
             Display_gotoxy(2, 12);
             Display_write(speedLeft, sizeof(speedLeft));
-
+            */
             DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, left, DRIVE_CONTROL_FORWARD);
             DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, right, DRIVE_CONTROL_FORWARD);
             sumOfWeightedValuesBefore = sumOfWeightedValues;
+            sumOfWeightedValuesIntegrated += sumOfWeightedValues;
             
 
         case IDLE:
