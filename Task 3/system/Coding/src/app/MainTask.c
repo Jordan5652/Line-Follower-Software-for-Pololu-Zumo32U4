@@ -77,6 +77,7 @@ typedef enum
     POS,
     IDLE,
     START_TIMER,
+    CONTROLL
     
 }States;
 
@@ -87,6 +88,22 @@ typedef enum
 #include "LineSensor.h"
 #include <stdio.h> 
 #include <stdlib.h>
+
+static delay(uint16_t delay)
+{
+    static SoftTimer timer;
+    SoftTimer_init(&timer);
+    SoftTimerHandler_register(&timer);
+    SoftTimer_start(&timer, delay);
+
+    while(SOFTTIMER_IS_EXPIRED(&timer) == false)
+    {
+        
+    } 
+    SoftTimer_Stop(&timer); 
+    SoftTimerHandler_unRegister(&timer);
+
+}
 
 static char text0[] = "SENSOR0: ";
 static char text1[] = "SENSOR1: ";
@@ -100,19 +117,23 @@ static char value2[5];
 static char value3[5];
 static char value4[5];
 
-static UInt16 lastValue0 = 0u; 
-static UInt16 lastValue1 = 0u; 
-static UInt16 lastValue2 = 0u; 
-static UInt16 lastValue3 = 0u; 
-static UInt16 lastValue4 = 0u; 
+//static UInt16 lastValue0 = 0u; 
+//static UInt16 lastValue1 = 0u; 
+//static UInt16 lastValue2 = 0u; 
+//static UInt16 lastValue3 = 0u; 
+//static UInt16 lastValue4 = 0u; 
+#define MOTORSPEED 17u;
 
 static char text[] = "POSITION: ";
 static char position[8];
+static char speedLeft[8];
+static char speedRight[8];
 
 static LineSensorValues values;
 uint32_t sumOfActualValues;
-uint32_t sumOfWeightedValues;
-UInt16 Pos = 0u; 
+Int16 sumOfWeightedValues;
+Int16 sumOfWeightedValuesBefore = 0u;
+Int16 Pos = 0; 
 //static char test[] = "ENTERED IDLE";
 static States eStates = INIT;
 static void mainTaskWork(void * data)
@@ -137,14 +158,22 @@ static void mainTaskWork(void * data)
                 LineSensor_enableEmitter();
                 //LineSensor_read(&values);
                 //LineSensor_disableEmitter();
+                SoftTimer_start(pTimer1, 5000u);
                 eStates = START_TIMER;
 
             }
             break;
 
         case START_TIMER:
-            SoftTimer_start(pTimer1, 3000u);
-            eStates = POS;
+            //SoftTimer_start(pTimer1, 5000u);
+            if SOFTTIMER_IS_EXPIRED(pTimer1)
+            {
+                eStates = CONTROLL;
+                SoftTimer_Stop(pTimer1);
+                SoftTimer_start(pTimer1, 5000u);
+
+            }
+            //eStates = CONTROLL;
 
             break; 
         case POS:
@@ -152,27 +181,27 @@ static void mainTaskWork(void * data)
             {
                 //LineSensor_enableEmitter();
                 LineSensor_read(&values);
-                sumOfActualValues = 0u;
-                sumOfActualValues += values.value[LINESENSOR_LEFT];
-                sumOfActualValues += values.value[LINESENSOR_MIDDLE_LEFT];
-                sumOfActualValues += values.value[LINESENSOR_MIDDLE];
-                sumOfActualValues += values.value[LINESENSOR_MIDDLE_RIGHT];
-                sumOfActualValues += values.value[LINESENSOR_RIGHT];
+                //sumOfActualValues = 0u;
+                //sumOfActualValues += values.value[LINESENSOR_LEFT];
+                //sumOfActualValues += values.value[LINESENSOR_MIDDLE_LEFT];
+                //sumOfActualValues += values.value[LINESENSOR_MIDDLE];
+                //sumOfActualValues += values.value[LINESENSOR_MIDDLE_RIGHT];
+                //sumOfActualValues += values.value[LINESENSOR_RIGHT];
 
-                sumOfWeightedValues = 0u;
-                sumOfWeightedValues += values.value[LINESENSOR_LEFT] * 555;
-                sumOfWeightedValues += values.value[LINESENSOR_MIDDLE_LEFT] * 905;
-                sumOfWeightedValues += values.value[LINESENSOR_MIDDLE] * 1000;
-                sumOfWeightedValues += values.value[LINESENSOR_MIDDLE_RIGHT] * 1095;
-                sumOfWeightedValues += values.value[LINESENSOR_RIGHT] * 1445;
+                sumOfWeightedValues = 0;
+                //sumOfWeightedValues += values.value[LINESENSOR_LEFT] * 555;
+                sumOfWeightedValues += values.value[LINESENSOR_MIDDLE_LEFT] * -1;// * -95;
+                sumOfWeightedValues += values.value[LINESENSOR_MIDDLE] * 0;
+                sumOfWeightedValues += values.value[LINESENSOR_MIDDLE_RIGHT]; // * 95;
+                //sumOfWeightedValues += values.value[LINESENSOR_RIGHT] * 1445;
 
-                Pos = (UInt16)(sumOfWeightedValues / 5000); 
+                Pos = sumOfWeightedValues; 
 
-                snprintf(position, sizeof(position), "%lu", (UInt16)Pos);
+                snprintf(position, sizeof(position), "%d", Pos);
 
                 Display_clear();
-                Display_gotoxy(0, 6);
-                Display_write(text, sizeof(text));
+                //Display_gotoxy(0, 6);
+                //Display_write(text, sizeof(text));
                 Display_gotoxy(10, 6);
                 Display_write(position, sizeof(position));
 
@@ -181,19 +210,19 @@ static void mainTaskWork(void * data)
             
             //char text[] = "CALIBRATION \n DONE";
             //Display_clear();
-            Display_gotoxy(0, 0);
-            Display_write(text0, sizeof(text0));
-            Display_gotoxy(0, 1);
-            Display_write(text1, sizeof(text1));
-            Display_gotoxy(0, 2);
-            Display_write(text2, sizeof(text2));
-            Display_gotoxy(0, 3);
-            Display_write(text3, sizeof(text3));
-            Display_gotoxy(0, 4);
-            Display_write(text4, sizeof(text4));
-            LineSensor_enableEmitter();
-            LineSensor_read(&values);
-            LineSensor_disableEmitter();
+            //Display_gotoxy(0, 0);
+            //Display_write(text0, sizeof(text0));
+            //Display_gotoxy(0, 1);
+            //Display_write(text1, sizeof(text1));
+            //Display_gotoxy(0, 2);
+            //Display_write(text2, sizeof(text2));
+            //Display_gotoxy(0, 3);
+            //Display_write(text3, sizeof(text3));
+            //Display_gotoxy(0, 4);
+            //Display_write(text4, sizeof(text4));
+            //LineSensor_enableEmitter();
+            //LineSensor_read(&values);
+            //LineSensor_disableEmitter();
             
             //values.value[LINESENSOR_LEFT]
             snprintf(value0, sizeof(value0), "%d", values.value[LINESENSOR_LEFT]);
@@ -202,11 +231,11 @@ static void mainTaskWork(void * data)
             snprintf(value3, sizeof(value3), "%d", values.value[LINESENSOR_MIDDLE_RIGHT]);
             snprintf(value4, sizeof(value4), "%d", values.value[LINESENSOR_RIGHT]);
 
-            lastValue0 = values.value[LINESENSOR_LEFT];
-            lastValue1 = values.value[LINESENSOR_MIDDLE_LEFT];
-            lastValue2 = values.value[LINESENSOR_MIDDLE];
-            lastValue3 = values.value[LINESENSOR_MIDDLE_RIGHT];
-            lastValue4 = values.value[LINESENSOR_RIGHT];
+            //lastValue0 = values.value[LINESENSOR_LEFT];
+            //lastValue1 = values.value[LINESENSOR_MIDDLE_LEFT];
+            //lastValue2 = values.value[LINESENSOR_MIDDLE];
+            //lastValue3 = values.value[LINESENSOR_MIDDLE_RIGHT];
+            //lastValue4 = values.value[LINESENSOR_RIGHT];
 
             Display_gotoxy(10, 0);
             Display_write(value0, sizeof(value0));
@@ -224,9 +253,71 @@ static void mainTaskWork(void * data)
             }
 
             break;
+        case CONTROLL:
+            if SOFTTIMER_IS_EXPIRED(pTimer1)
+            {
+                //eStates = IDLE;
+            }
+            LineSensor_read(&values);
+
+            sumOfWeightedValues = 0;
+            //sumOfWeightedValues += values.value[LINESENSOR_LEFT] * 555;
+            sumOfWeightedValues += values.value[LINESENSOR_MIDDLE_LEFT] * -1;// * -95;
+            sumOfWeightedValues += values.value[LINESENSOR_MIDDLE] * 0;
+            sumOfWeightedValues += values.value[LINESENSOR_MIDDLE_RIGHT];
+            sumOfWeightedValues += values.value[LINESENSOR_LEFT] * -5;
+            //sumOfWeightedValues += values.value[LINESENSOR_MIDDLE_LEFT] * -7;
+            sumOfWeightedValues += values.value[LINESENSOR_RIGHT] * 5;
+            //sumOfWeightedValues += values.value[LINESENSOR_MIDDLE_RIGHT] * 7;
+
+            Float32 kp = 0.009;
+            Float32 kd = 0.0003;
+
+            Int32 speedDifference = kp*sumOfWeightedValues;// + kd*(sumOfWeightedValues-sumOfWeightedValuesBefore); 
+
+            Int32 left = speedDifference + MOTORSPEED;
+            Int32 right = -speedDifference + MOTORSPEED;
+
+            if (left < 0)
+            {
+                left = 0;
+            }
+            if (right < 0)
+            {
+                right = 0;
+            }
+
+            if(left > 50)
+            {
+                left = 50;
+            }
+
+            if(right > 50)
+            {
+                right = 50;
+            }
+            Display_clear();
+            snprintf(speedLeft, sizeof(speedLeft), "%d", left);
+            snprintf(speedRight, sizeof(speedRight), "%d", right);
+
+            Display_gotoxy(0, 0);
+            Display_write("speedRight: ", sizeof("speedRight: "));
+            Display_gotoxy(0, 12);
+            Display_write(speedRight, sizeof(speedRight));
+
+            Display_gotoxy(2, 3);
+            Display_write("speedLeft: ", sizeof("speedLeft: "));
+            Display_gotoxy(2, 12);
+            Display_write(speedLeft, sizeof(speedLeft));
+
+            DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, left, DRIVE_CONTROL_FORWARD);
+            DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, right, DRIVE_CONTROL_FORWARD);
+            sumOfWeightedValuesBefore = sumOfWeightedValues;
+            
+
         case IDLE:
-            
-            
+
+
             break;
         
     }

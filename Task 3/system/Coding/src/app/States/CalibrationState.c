@@ -13,12 +13,12 @@
 
 
 /* CONSTANTS **************************************************************************************/
-#define CALIB_SPEED 33u       /**< Motor speed while calibrating */
+#define CALIB_SPEED 30u       /**< Motor speed while calibrating */
 #define CALIB_SPEED_SLOW 25u  /**< Motor speed while centering on line  */
 
 #define WHITE_BACKGROUND_VALUE_TRESHHOLD 200u /**< Thresshhold of value of linesensor: when value is below, white background is beeing detected */
-#define BLACK_LINE_VALUE_TRESHHOLD 650u /**< Thresshhold of value of linesensor: when value is below, white background is beeing detected */
-
+//#define BLACK_LINE_VALUE_TRESHHOLD 650u /**< Thresshhold of value of linesensor: when value is below, white background is beeing detected */
+#define BLACK_LINE_VALUE_TRESHHOLD 750u
 
 /* MACROS *****************************************************************************************/
 #define CALIB_NO_LINE(sensorValue) \ 
@@ -103,8 +103,8 @@ void CalibrationState_processCalibrate(void)
             break;
 
         case CALIBRATION_STATE_CENTER_ON_LINE:
-            DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, CALIB_SPEED_SLOW, DRIVE_CONTROL_FORWARD);
-            DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, CALIB_SPEED_SLOW, DRIVE_CONTROL_BACKWARD);
+            DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, CALIB_SPEED_SLOW, DRIVE_CONTROL_BACKWARD);
+            DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, CALIB_SPEED_SLOW, DRIVE_CONTROL_FORWARD);
 
             if (SOFTTIMER_IS_EXPIRED(pTimer1))
             {

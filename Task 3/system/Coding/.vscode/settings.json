@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "calibrationstate.h": "c",
-        "statehandler.h": "c"
+        "statehandler.h": "c",
+        "linesensor.h": "c"
     }
 }
