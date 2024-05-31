@@ -10,12 +10,7 @@
 
 /* INCLUDES ***************************************************************************************/
 #include "ErrorState.h"
-#include "StateDataTypes.h"
-#include "Buzzer.h"
-#include "Display.h"
-#include "Button.h"
-#include "DriveControl.h"
-#include "ErrorHandler.h"
+
 
 /* CONSTANTS **************************************************************************************/
 
@@ -26,48 +21,61 @@
 /* PROTOTYPES *************************************************************************************/
 
 /* VARIABLES **************************************************************************************/
-/** @var state errorStateFunctions
- * @brief variable to hold the functionspointers of the state
-*/
-const StateFunctions errorStateFunctions;
-
+const UInt8 *ErrorNames[] = {
+    "ERRORHANDLER_MAIN_SCHEDULER_EXIT",           // 1
+    "ERRORHANDLER_MAINTASK_INIT_FAIL",            // 100
+    "ERRORHANDLER_STARTUP_INIT_FAIL",             // 110
+    "ERRORHANDLER_STARTUP_UNINIT_FAIL",           // 111
+    "ERRORHANDLER_CALIBRATE_TIMER_INIT_FAIL",     // 200
+    "ERRORHANDLER_CALIBRATE_ALOGRITMIC_FAIL",     // 201
+    "ERRORHANDLER_CALIBRATE_TIMEOUT",             // 202
+    "ERRORHANDLER_CALIBRATE_TIMER_UNINIT_FAIL",   // 203
+    "ERRORHANDLER_RELEASETRACK_TIMER_INIT_FAIL",  // 250
+    "ERRORHANDLER_RELEASETRACK_TIMER_UNINIT_FAIL",// 251
+    "ERRORHANDLER_RELEASETRACK_TIMER_START_FAIL", // 252
+    "ERRORHANDLER_DRIVING_TIMER_INIT_FAIL",       // 300
+    "ERRORHANDLER_DRIVING_TIMER_UNINIT_FAIL",     // 301
+    "ERRORHANDLER_DRIVING_TIMER_START_FAIL",      // 302
+    "ERRORHANDLER_DRIVING_TIMEOUT",               // 303
+    "ERRORHANDLER_LINELOST_TIMEOUT",              // 304
+    "ERRORHANDLER_FINISH_TIMER_INIT_FAIL",        // 400
+    "ERRORHANDLER_FINISH_TIMER_UNINIT_FAIL"       // 401
+};
 /* EXTERNAL FUNCTIONS *****************************************************************************/
-/** @fn ErrorState_enterStopDriveAndPlayAlarmAndDisplayErrorAndResetTimer1AndTimer2(void)
- * @brief stops the motors when error occurs, emits an accustic alarm and displays the error message on the display and resets all timers
- * @return void
-*/
-void ErrorState_enterStopDriveAndPlayAlarmAndDisplayErrorAndStopAndResetAllTimers(void)
+
+extern void ErrorState_enterStopDriveAndPlayAlarmAndDisplayError(UInt8* errorName, UInt8 sizeofErrorName, UInt8 errorCode)
 {
+    // TODO  ErrorHandlerErrorCode errorcode rausfinden den richtignen   
+    
+
+    
+
+    Display_gotoxy(3,3);
+
+    Display_write(errorName, sizeofErrorName);
+    ErrorHandler_show(errorCode);
+    DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, 0, DRIVE_CONTROL_FORWARD);
+    DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, 0, DRIVE_CONTROL_BACKWARD);
+        Buzzer_beep(BUZZER_ALARM);
+
 
 
 }
 
-/** @fn ErrorState_processPollingButtonA(void)
- * @brief checks if ButtonA is pressed by polling (ErrorState is left when ButtonA is pressed)
- * @return void
-*/
-void ErrorState_processPollingButtonA(void)
+extern void ErrorState_processPollingButtonA(void)
 {
-
-
+    if(true == Button_getState(BUTTON_ID_A))
+    {
+      //TODO
+    }
 }
 
-/** @fn States ErrorState_getTransitions(void)
- * @brief checks if one transition to another State and returns the next State as enum
- * @return States: next State to be active or current state when no transition is true
-*/
-States ErrorState_getTransitions(void)
+extern Bool ErrorState_checkTransitionTriggerButtonAPressed(void)
 {
+      // TODO  ErrorHandlerErrorCode errorcode rausfinden den richtignen   
 
-
-}
-
-/** @fn States ErrorState_getStateFunctions(void)
- * @brief returns the pointer to the StateFunctions struct, which contains the entry, process and exit function of the state 
- * @return StateFunctions*: entry, process and exit functions of the state
-*/
-StateFunctions* ErrorState_getStateFunctions(void)
-{
+        Buzzer_beep(BUZZER_ALARM);
+        handleError(100 , true);
 
 
 }
