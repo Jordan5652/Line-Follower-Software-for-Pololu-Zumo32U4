@@ -12,8 +12,8 @@
 #include "SearchingStartLineState.h"
 
 /* CONSTANTS **************************************************************************************/
-#define STARTING_SPEED 25u
-#define AVERAGE_THRESHHOLD 280u
+#define STARTING_SPEED 80u
+#define AVERAGE_THRESHHOLD 281u
 
 /* MACROS *****************************************************************************************/
 
@@ -29,8 +29,11 @@ static Bool gStartlineDetected = FALSE;
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
 extern void SearchingStartLineState_enterStartTimer1AndStartDriving(void)
-{
-    SoftTimer_start(pTimer1, 8000U);
+{   
+    Int8 buffer[] = "SearchingStartlineState";
+    Display_clear();
+    Display_write(buffer, sizeof(buffer));
+    SoftTimer_start(pTimer1, 8000000U);
 
     DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, STARTING_SPEED, DRIVE_CONTROL_FORWARD);
     DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, STARTING_SPEED, DRIVE_CONTROL_FORWARD);
@@ -42,27 +45,41 @@ extern void SearchingStartLineState_processSearchForStartline(void)
 {
     LineSensor_read(&gLineSensorValues);
 
-    static UInt16 gLineSenorAverage = 0;
+    static UInt16 gLineSensorAverage = 0;
     static UInt8 gCounter;
     for(gCounter = 0; gCounter < LINESENSOR_COUNT; gCounter++)
     {
-        gLineSenorAverage += gLineSensorValues.value[gCounter];
+        if(gCounter == 0 || gCounter == 2  || gCounter == 4)
+        {
+            gLineSensorAverage += gLineSensorValues.value[gCounter]*4;
+        }
+        else 
+        {
+            gLineSensorAverage += gLineSensorValues.value[gCounter];
+        }
     }
+    gLineSensorAverage /= 14;
 
-    if(AVERAGE_THRESHHOLD < gLineSenorAverage)
+    if(AVERAGE_THRESHHOLD < gLineSensorAverage)
     {
         gStartlineDetected = TRUE;
     }
+
+    /*For Testing*/
+    char av[5];
+    snprintf(av, sizeof(av), "%d", gLineSensorAverage);
+    
+    Display_clear();
+    Display_gotoxy(0, 1);
+    Display_write(av, sizeof(av));
+    /*For Testing End*/
 }
 
 extern void SearchingStartLineState_exitStartTimer2AndPlayBeepIfStartlineFound(void)
 {
-    if(gStartlineDetected)
-    {
-        /*Start timer for measuring track time*/
-        SoftTimer_start(pTimer2, 20000u);
-        Buzzer_beep(BUZZER_NOTIFY);
-    }
+    /*Start timer for measuring track time*/
+    SoftTimer_start(pTimer2, 20000u);
+    Buzzer_beep(BUZZER_NOTIFY);
 }
 
 extern Bool SearchningStartLineState_checkTransitionTriggerStartlineFound(void)
@@ -78,9 +95,10 @@ extern Bool SearchningStartLineState_checkTransitionTriggerStartlineFound(void)
 extern Bool SearchningStartLineState_checkTransitionTriggerTimer1Exceeds8s(void)
 {
     if (SOFTTIMER_IS_EXPIRED(pTimer1))
-            {
-                return TRUE;
-            }
+    {
+        gStartlineDetected = FALSE;
+        //return TRUE;
+    }
     return FALSE;
 }
 

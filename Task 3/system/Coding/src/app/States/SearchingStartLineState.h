@@ -18,6 +18,7 @@
 #include "DriveControl.h"
 #include "LineSensor.h"
 #include "Buzzer.h"
+#include "Display.h"
 
 /* CONSTANTS **************************************************************************************/
 
