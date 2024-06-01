@@ -11,6 +11,7 @@
 #define LAP_FINISHED_STATE_H
 
 /* INCLUDES ***************************************************************************************/
+#include "stdio.h"
 #include "Types.h"
 
 #include "Button.h"
@@ -18,6 +19,7 @@
 #include "DriveControl.h"
 #include "SoftTimer.h"
 #include "Display.h"
+#include "GlobalTimers.h"
 
 /* CONSTANTS **************************************************************************************/
 
