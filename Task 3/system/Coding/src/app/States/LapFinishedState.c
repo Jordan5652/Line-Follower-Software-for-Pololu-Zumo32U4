@@ -40,7 +40,7 @@ extern void LapFinishedState_enterStopTimer2AndDisplayTimeAndStopDriveAndPlayBee
     Buzzer_beep(BUZZER_NOTIFY);
 
     gLapTimeSec = gLapTimeCounter / 1000000;
-    gLapTimeMilliSec = gLapTimeCounter % 1000;
+    gLapTimeMilliSec = gLapTimeCounter % 1000000;
 
     static char gTimeStringSec[4];
     snprintf(gTimeStringSec, sizeof(gTimeStringSec), "%d", gLapTimeSec);
