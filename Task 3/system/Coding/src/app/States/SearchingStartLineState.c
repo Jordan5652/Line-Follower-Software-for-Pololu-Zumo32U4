@@ -25,6 +25,7 @@
 
 static LineSensorValues gLineSensorValues;
 static Bool gStartlineDetected = FALSE;
+static ParameterSet gStartingParameters;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
@@ -35,14 +36,21 @@ extern void SearchingStartLineState_enterStartTimer1AndStartDriving(void)
     Display_write(buffer, sizeof(buffer));
     SoftTimer_start(pTimer1, 8000000U);
 
-    DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, STARTING_SPEED, DRIVE_CONTROL_FORWARD);
-    DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, STARTING_SPEED, DRIVE_CONTROL_FORWARD);
+    //DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, STARTING_SPEED, DRIVE_CONTROL_FORWARD);
+    //DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, STARTING_SPEED, DRIVE_CONTROL_FORWARD);
+
+    gStartingParameters.kp = 0.4;
+    gStartingParameters.ki = 0;
+    gStartingParameters.kd = 0;
+    gStartingParameters.motorspeed = 50;
 
     LineSensor_enableEmitter();
 }
 
 extern void SearchingStartLineState_processSearchForStartline(void)
 {
+    PositionControl_DriveOnTrack(gStartingParameters);
+
     LineSensor_read(&gLineSensorValues);
 
     static UInt16 gLineSensorAverage = 0;
