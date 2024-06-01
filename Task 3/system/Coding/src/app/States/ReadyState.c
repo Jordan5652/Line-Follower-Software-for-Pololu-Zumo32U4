@@ -20,9 +20,9 @@
 /* PROTOTYPES *************************************************************************************/
 
 /* VARIABLES **************************************************************************************/
-static Bool ButtonAPressed = FALSE;
-static Bool ButtonBReleased = FALSE;
-static Bool ButtonCPressed = FALSE;
+static Bool gButtonATriggered = FALSE;
+static Bool gButtonBTriggered = FALSE;
+static Bool gButtonCTriggered = FALSE;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
@@ -30,25 +30,25 @@ extern void ReadyState_processPollingButtons(void)
 { 
     if(BUTTON_STATE_TRIGGERED == Button_getState(BUTTON_ID_A))
     {
-        ButtonAPressed = TRUE;
+        gButtonATriggered = TRUE;
     }
 
     if(BUTTON_STATE_TRIGGERED == Button_getState(BUTTON_ID_B))
     {
-        ButtonBReleased = TRUE;
+        gButtonBTriggered = TRUE;
     }
 
     if(BUTTON_STATE_TRIGGERED == Button_getState(BUTTON_ID_C))
     {
-        ButtonCPressed = TRUE;
+        gButtonCTriggered = TRUE;
     }
 }
 
 extern Bool ReadyState_checkTransitionTriggerButtonAPressed(void)
 {
-    if(TRUE == ButtonAPressed)
+    if(TRUE == gButtonATriggered)
     {
-        ButtonAPressed = FALSE;
+        gButtonATriggered = FALSE;
         return TRUE;
     }
     return FALSE;
@@ -56,9 +56,9 @@ extern Bool ReadyState_checkTransitionTriggerButtonAPressed(void)
 
 extern Bool ReadyState_checkTransitionTriggerButtonBPressed(void)
 {
-    if(TRUE == ButtonBReleased)
+    if(TRUE == gButtonBTriggered)
     {
-        ButtonBReleased = FALSE;
+        gButtonBTriggered = FALSE;
         return TRUE;
     }
     return FALSE;
@@ -66,9 +66,9 @@ extern Bool ReadyState_checkTransitionTriggerButtonBPressed(void)
 
 extern Bool ReadyState_checkTransitionTriggerButtonCPressed(void)
 {
-    if(TRUE == ButtonCPressed)
+    if(TRUE == gButtonCTriggered)
     {
-        ButtonCPressed = FALSE;
+        gButtonCTriggered = FALSE;
         return TRUE;
     }
     return FALSE;
