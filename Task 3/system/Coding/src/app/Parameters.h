@@ -22,7 +22,7 @@
 */
 typedef struct
 {
-
+    //TBD
 }ParameterSet;
 
 /* PROTOTYPES *************************************************************************************/
@@ -30,7 +30,7 @@ typedef struct
  * @brief sets the selected ParameterSet
  * 
 */
-void Parameters_setParameterSet(void);
+void Parameters_setParameterSet(UInt8 index);
 
 /** 
  * @brief gets the current ParameterSet

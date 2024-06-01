@@ -28,21 +28,14 @@ static UInt8 gSelectedParameterSetIndex;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
-void Parameters_setParameterSet(void)
+void Parameters_setParameterSet(UInt8 index)
 {
-
-
+    gSelectedParameterSetIndex = index;
 }
 
 ParameterSet Parameters_getParameterSet(void)
 {
-
-
+    return gParameterSets[gSelectedParameterSetIndex];
 }
 
-void Parameters_displayParameterSets(void)
-{
-
-  
-}
 /* INTERNAL FUNCTIONS *****************************************************************************/
