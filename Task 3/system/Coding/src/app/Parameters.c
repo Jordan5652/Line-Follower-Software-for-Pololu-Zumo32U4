@@ -28,14 +28,22 @@ static UInt8 gSelectedParameterSetIndex;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
-void Parameters_setParameterSet(UInt8 index)
+extern void Parameters_setParameterSet(UInt8 index)
 {
     gSelectedParameterSetIndex = index;
 }
 
-ParameterSet Parameters_getParameterSet(void)
+extern ParameterSet Parameters_getParameterSet(void)
 {
     return gParameterSets[gSelectedParameterSetIndex];
+}
+
+extern void Parameters_initParameterSets(void)
+{
+    gParameterSets[0].kp = 0.03;
+    gParameterSets[0].ki = 0;
+    gParameterSets[0].kd = 0;
+    gParameterSets[0].motorspeed = 50;
 }
 
 /* INTERNAL FUNCTIONS *****************************************************************************/
