@@ -30,7 +30,7 @@ Int16 sumOfWeightedValuesIntegrated = 0u;
 Int16 Pos = 0;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
-extern void PositionControl_DriveOnTrack(void)
+extern void PositionControl_DriveOnTrack(ParameterSet parameters)
 {
     LineSensor_read(&values);
 
@@ -44,11 +44,11 @@ extern void PositionControl_DriveOnTrack(void)
     Float32 kp = 0.04;
     Float32 kd = 0.0;
     Float32 ki = 0.0;
+    
+    Int32 speedDifference = parameters.kp*sumOfWeightedValues + parameters.kd*(sumOfWeightedValues-sumOfWeightedValuesBefore) + parameters.ki * (sumOfWeightedValuesIntegrated); 
 
-    Int32 speedDifference = kp*sumOfWeightedValues + kd*(sumOfWeightedValues-sumOfWeightedValuesBefore) + ki * (sumOfWeightedValuesIntegrated); 
-
-    Int32 left = speedDifference + MOTORSPEED;
-    Int32 right = -speedDifference + MOTORSPEED;
+    Int32 left = speedDifference + parameters.motorspeed;
+    Int32 right = -speedDifference + parameters.motorspeed;
 
     if (left < 0)
     {

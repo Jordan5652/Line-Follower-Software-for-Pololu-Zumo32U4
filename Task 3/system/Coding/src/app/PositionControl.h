@@ -15,6 +15,7 @@
 
 #include "LineSensor.h"
 #include "DriveControl.h"
+#include "Parameters.h"
 
 /* CONSTANTS **************************************************************************************/
 
@@ -24,6 +25,6 @@
 
 /* PROTOTYPES *************************************************************************************/
 
-extern void PositionControl_DriveOnTrack(void);
+extern void PositionControl_DriveOnTrack(ParameterSet parameters);
 
 #endif /* POSITION_COTROL_H */
