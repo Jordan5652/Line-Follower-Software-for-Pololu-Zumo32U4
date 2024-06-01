@@ -122,18 +122,19 @@ static char value4[5];
 //static UInt16 lastValue2 = 0u; 
 //static UInt16 lastValue3 = 0u; 
 //static UInt16 lastValue4 = 0u; 
-#define MOTORSPEED 65u
+#define MOTORSPEED 50u
 
 static char text[] = "POSITION: ";
 static char position[8];
-static char speedLeft[8];
-static char speedRight[8];
+//static char speedLeft[8];
+//static char speedRight[8];
 
 static LineSensorValues values;
 uint32_t sumOfActualValues;
 Int16 sumOfWeightedValues;
 Int16 sumOfWeightedValuesBefore = 0u;
 Int16 sumOfWeightedValuesIntegrated = 0u;
+static Bool idleEnetered = TRUE;
 Int16 Pos = 0; 
 //static char test[] = "ENTERED IDLE";
 static States eStates = INIT;
@@ -273,24 +274,8 @@ static void mainTaskWork(void * data)
             sumOfWeightedValues += values.value[LINESENSOR_LEFT] * -5;
             //sumOfWeightedValues += values.value[LINESENSOR_MIDDLE_LEFT] * -7;
             sumOfWeightedValues += values.value[LINESENSOR_RIGHT] * 5;
-            //sumOfWeightedValues += values.value[LINESENSOR_MIDDLE_RIGHT] * 7;
-
-            //if (sumOfWeightedValues < 0)
-            //{
-            //    sumOfWeightedValues = sumOfWeightedValues * sumOfWeightedValues * -1;
-            //}
-            //else
-            //{
-            //    sumOfWeightedValues = sumOfWeightedValues * sumOfWeightedValues;
-            //}
-
-           // Float32 kp = 0.01287;
-           // Float32 kd = 0.003;
-           // Float32 ki = 0.00000002;
-            //Float32 kp = 0.01287;
-            //Float32 kd = 0.004;
-            //Float32 ki = 0.00002;
-            Float32 kp = 0.04;
+            
+            Float32 kp = 0.03;
             Float32 kd = 0.0;
             Float32 ki = 0.0;
 
@@ -323,32 +308,43 @@ static void mainTaskWork(void * data)
                 //right = 2*MOTORSPEED;
                 right = 100;
             }
-            /*
-            Display_clear();
-            snprintf(speedLeft, sizeof(speedLeft), "%d", left);
-            snprintf(speedRight, sizeof(speedRight), "%d", right);
-
-            Display_gotoxy(0, 0);
-            Display_write("speedRight: ", sizeof("speedRight: "));
-            Display_gotoxy(0, 12);
-            Display_write(speedRight, sizeof(speedRight));
-
-            Display_gotoxy(2, 3);
-            Display_write("speedLeft: ", sizeof("speedLeft: "));
-            Display_gotoxy(2, 12);
-            Display_write(speedLeft, sizeof(speedLeft));
-            */
+            
             DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, left, DRIVE_CONTROL_FORWARD);
             DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, right, DRIVE_CONTROL_FORWARD);
             sumOfWeightedValuesBefore = sumOfWeightedValues;
             sumOfWeightedValuesIntegrated += sumOfWeightedValues;
             
+            // checking line lost
+            sumOfWeightedValues = 0;
+            sumOfWeightedValues += values.value[LINESENSOR_MIDDLE_LEFT];// * -95;
+            sumOfWeightedValues += values.value[LINESENSOR_MIDDLE];
+            sumOfWeightedValues += values.value[LINESENSOR_MIDDLE_RIGHT];
+            sumOfWeightedValues += values.value[LINESENSOR_LEFT];
+            //sumOfWeightedValues += values.value[LINESENSOR_MIDDLE_LEFT] * -7;
+            sumOfWeightedValues += values.value[LINESENSOR_RIGHT];
+            if(sumOfWeightedValues < 300)
+            {
+                eStates = IDLE;
+                idleEnetered = TRUE;
+            }
 
         case IDLE:
+            if(idleEnetered)
+            {
+                DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, 0, DRIVE_CONTROL_FORWARD);
+                DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, 0, DRIVE_CONTROL_FORWARD);
+                idleEnetered = FALSE;
+                Display_clear();
+                Display_write("LINE LOST! (Press A to continue)", sizeof("LINE LOST! (Press A to continue)"));
 
+            }
+
+            if(Button_getState(BUTTON_ID_A) == BUTTON_STATE_PRESSED)
+            {
+                eStates = CONTROLL;
+            }
 
             break;
-        
     }
 
 }
