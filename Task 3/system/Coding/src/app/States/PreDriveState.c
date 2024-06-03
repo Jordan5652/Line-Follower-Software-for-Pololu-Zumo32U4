@@ -37,8 +37,7 @@ extern void PreDriveState_exitStopTimer1(void)
 
 extern Bool PreDriveState_checkTransitionTriggerTimer1Exceeds3s(void)
 {
-
-
+   return true;
 }
 
 /* INTERNAL FUNCTIONS *****************************************************************************/

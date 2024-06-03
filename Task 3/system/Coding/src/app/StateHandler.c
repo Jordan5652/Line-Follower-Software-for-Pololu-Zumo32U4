@@ -11,6 +11,7 @@
 /* INCLUDES ***************************************************************************************/
 #include "StateHandler.h"
 
+
 /* CONSTANTS **************************************************************************************/
 
 /* MACROS *****************************************************************************************/
@@ -24,12 +25,9 @@
 /**
  * @brief store the current state ID
 */
-static Bool gProcessedEntryFunction = FALSE;
+static States gCurrentState = InitializationState;
 
-/**
- * @brief store the current state ID
-*/
-static States gCurrentState;
+static Bool gProcessedEntryFunction = FALSE;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
@@ -208,6 +206,8 @@ void StateHandler_stateHandler(void)
     } 
 }
 
+
+
+}
+
 /* INTERNAL FUNCTIONS *****************************************************************************/
-
-
