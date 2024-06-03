@@ -38,6 +38,8 @@ extern void InitializationState_enterDisplayNameAndStartTimer1(void)
 
     /** Start timer to transition into next state */
     SoftTimer_start(pTimer1, 2000u);
+
+    Parameters_initParameterSets();
 }
 
 extern void InitializationState_exitStopTimer1(void)
