@@ -10,22 +10,21 @@ package App
     class StateHandler
     {
         -gCurrentState: States
-        -gProcessedEntryFunction: Bool
         +stateHandler(void): void
     }
 
     enum States
     {
-        INITIALIZATION_STATE,
-        READY_STATE,
-        CALIBRATION_STATE,
-        PARAMETER_SET_STATE,
-        SEARCHING_STARTLINE_STATE,
-        DRIVE_LAP_STATE,
-        LAP_FINISHED_STATE,
-        SEARCH_TRACK_STATE,
-        ERROR_STATE,
-        PRE_DRIVE_STATE,
+        InitializationState
+        ReadyState
+        CalibrationState
+        ParameterSetState
+        SearchingStartLineState
+        DriveLapState
+        LapFinishedState
+        SearchTrackState
+        ErrorState
+        PreDriveState
     }
 
     class Parameters
@@ -46,10 +45,7 @@ package App
     package StatesPackage
     {
         class ReadyState
-        {   
-            -gButtonAPressed: bool
-            -gButtonBReleased: bool
-            -gButtonCPressed: bool
+        {
             +processPollingButtons(void): void
             +checkTransitionTriggerButtonAPressed(void): bool
             +checkTransitionTriggerButtonBPressed(void): bool
