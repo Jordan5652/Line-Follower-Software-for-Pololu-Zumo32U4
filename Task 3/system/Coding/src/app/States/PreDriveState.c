@@ -12,7 +12,6 @@
 #include "PreDriveState.h"
 
 /* CONSTANTS **************************************************************************************/
-#define THREE_SECONDS (3000U)
 
 /* MACROS *****************************************************************************************/
 
@@ -26,21 +25,19 @@
 
 extern void PreDriveState_enterStartTimer1AndWaitFor3s(void)
 {
-    SoftTimer_start(pTimer1, THREE_SECONDS);
+
+
 }
 
 extern void PreDriveState_exitStopTimer1(void)
 {
-    SoftTimer_Stop(pTimer1);
+
+
 }
 
 extern Bool PreDriveState_checkTransitionTriggerTimer1Exceeds3s(void)
 {
-    if (SOFTTIMER_IS_EXPIRED(pTimer1))
-    {
-        return TRUE;
-    }
-    return FALSE;
+   return true;
 }
 
 /* INTERNAL FUNCTIONS *****************************************************************************/
