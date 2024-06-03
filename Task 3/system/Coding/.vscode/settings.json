@@ -4,5 +4,9 @@
         "statehandler.h": "c",
         "linesensor.h": "c",
         "drivecontrol.h": "c"
+        "parametersetstate.h": "c",
+        "initializationstate.h": "c",
+        "statehandler.h": "c",
+        "searchingstartlinestate.h": "c"
     }
 }
