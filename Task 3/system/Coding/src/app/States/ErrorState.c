@@ -67,16 +67,16 @@ extern void ErrorState_processPollingButtonA(void)
 {
     if(true == Button_getState(BUTTON_ID_A))
     {
-      //TODO
+      Display_clear();
     }
 }
 
 extern Bool ErrorState_checkTransitionTriggerButtonAPressed(void)
 {
-      // TODO  ErrorHandlerErrorCode errorcode rausfinden den richtignen   
-
-        Buzzer_beep(BUZZER_ALARM);
-        handleError(100 , true);
+      if(true == Button_getState(BUTTON_ID_A))
+    {
+      return true;
+    }
 
 
 }
