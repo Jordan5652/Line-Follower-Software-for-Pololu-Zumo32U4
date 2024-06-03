@@ -2,6 +2,7 @@
     "files.associations": {
         "calibrationstate.h": "c",
         "statehandler.h": "c",
-        "linesensor.h": "c"
+        "linesensor.h": "c",
+        "drivecontrol.h": "c"
     }
 }
