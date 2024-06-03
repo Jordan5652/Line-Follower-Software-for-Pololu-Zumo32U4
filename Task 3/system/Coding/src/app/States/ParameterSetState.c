@@ -26,44 +26,38 @@ static Bool gButtonTriggered = FALSE;
 
 extern void ParameterSetState_enterDisplayParameterSets(void)
 {
-    Display_gotoxy(0, 0);
-    Display_write("A: NAME SET 1", sizeof("A: NAME SET 1"));
-    Display_gotoxy(0, 1);
-    Display_write("B: NAME SET 2", sizeof("B: NAME SET 2"));
-    Display_gotoxy(0, 2);
-    Display_write("C: NAME SET 3", sizeof("C: NAME SET 3"));
+    Parameters_displayParameterSets();
 }
 
 extern void ParameterSetState_processSetParameterSet(void)
 {
-    if(BUTTON_STATE_TRIGGERED == Button_getState(BUTTON_ID_A))
+    if (BUTTON_STATE_TRIGGERED == Button_getState(BUTTON_ID_A))
     {
-        setParameterSet(0u);
+        Parameters_setParameterSet(INDEX_SET1);
         gButtonTriggered = TRUE;
     }
 
-    if(BUTTON_STATE_TRIGGERED == Button_getState(BUTTON_ID_B))
+    if (BUTTON_STATE_TRIGGERED == Button_getState(BUTTON_ID_B))
     {
-        setParameterSet(1u);
+        Parameters_setParameterSet(INDEX_SET2);
         gButtonTriggered = TRUE;
     }
 
-    if(BUTTON_STATE_TRIGGERED == Button_getState(BUTTON_ID_C))
+    if (BUTTON_STATE_TRIGGERED == Button_getState(BUTTON_ID_C))
     {
-        setParameterSet(2u);
+        Parameters_setParameterSet(INDEX_SET3);
         gButtonTriggered = TRUE;
     }
 }
 
 extern void ParameterSetState_exitDisplaySelectedParameterSetFor3s(void)
 {
-
-
+    //TBD
 }
 
 extern Bool ParameterSetState_checkTransitionTriggerConfigDone(void)
 {
-    if(TRUE == gButtonTriggered)
+    if (TRUE == gButtonTriggered)
     {
         gButtonTriggered = FALSE;
         return TRUE;
