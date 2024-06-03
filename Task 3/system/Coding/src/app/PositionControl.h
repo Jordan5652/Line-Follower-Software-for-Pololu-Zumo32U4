@@ -25,6 +25,6 @@
 
 /* PROTOTYPES *************************************************************************************/
 
-extern void PositionControl_DriveOnTrack(ParameterSet parameters);
+extern void PositionControl_DriveOnTrack(void);
 
 #endif /* POSITION_COTROL_H */

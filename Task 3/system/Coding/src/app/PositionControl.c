@@ -1,5 +1,5 @@
 /***************************************************************************************************
-  (c) NewTec GmbH 2024   -   www.newtec.de
+(c) NewTec GmbH 2024   -   www.newtec.de
 ***************************************************************************************************/
 /**
  * @file       PositionControl.c
@@ -20,7 +20,6 @@
 /* PROTOTYPES *************************************************************************************/
 
 /* VARIABLES **************************************************************************************/
-#define MOTORSPEED 65u
 
 static LineSensorValues values;
 UInt32 sumOfActualValues;
@@ -30,7 +29,7 @@ Int16 sumOfWeightedValuesIntegrated = 0u;
 Int16 Pos = 0;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
-extern void PositionControl_DriveOnTrack(ParameterSet parameters)
+extern void PositionControl_DriveOnTrack(void)
 {
     LineSensor_read(&values);
 
@@ -41,14 +40,10 @@ extern void PositionControl_DriveOnTrack(ParameterSet parameters)
     sumOfWeightedValues += values.value[LINESENSOR_LEFT] * -5;
     sumOfWeightedValues += values.value[LINESENSOR_RIGHT] * 5;
     
-    Float32 kp = 0.04;
-    Float32 kd = 0.0;
-    Float32 ki = 0.0;
-    
-    Int32 speedDifference = parameters.kp*sumOfWeightedValues + parameters.kd*(sumOfWeightedValues-sumOfWeightedValuesBefore) + parameters.ki * (sumOfWeightedValuesIntegrated); 
+    Int32 speedDifference = pParameters->kp*sumOfWeightedValues + pParameters->kd*(sumOfWeightedValues-sumOfWeightedValuesBefore) + pParameters->ki * (sumOfWeightedValuesIntegrated);
 
-    Int32 left = speedDifference + parameters.motorspeed;
-    Int32 right = -speedDifference + parameters.motorspeed;
+    Int32 left = speedDifference + pParameters->motorspeed;
+    Int32 right = -speedDifference + pParameters->motorspeed;
 
     if (left < 0)
     {
