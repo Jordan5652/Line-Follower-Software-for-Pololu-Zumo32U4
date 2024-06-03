@@ -24,7 +24,7 @@
 /**
  * @brief store the current state ID
 */
-static Bool processedEntryFunction = FALSE;
+static Bool gProcessedEntryFunction = FALSE;
 
 /**
  * @brief store the current state ID
@@ -55,10 +55,10 @@ void StateHandler_stateHandler(void)
             break;
 
         case ERROR_STATE:
-            if(!processedEntryFunction)
+            if(!gProcessedEntryFunction)
             {
                 ErrorState_enterStopDriveAndPlayAlarmAndDisplayError();
-                processedEntryFunction = TRUE;
+                gProcessedEntryFunction = TRUE;
             }
 
             ErrorState_processPollingButtonA();
@@ -66,15 +66,15 @@ void StateHandler_stateHandler(void)
             if(ErrorState_checkTransitionTriggerButtonAPressed())
             {
                 gCurrentState = READY_STATE;
-                processedEntryFunction = FALSE;
+                gProcessedEntryFunction = FALSE;
             }
             break;
 
         case LAP_FINISHED_STATE:
-            if(!processedEntryFunction)
+            if(!gProcessedEntryFunction)
             {
                 LapFinishedState_enterStopTimer2AndDisplayTimeAndStopDriveAndPlayBeep();
-                processedEntryFunction = TRUE;
+                gProcessedEntryFunction = TRUE;
             }
 
             LapFinishedState_processPollingButtonA();
@@ -82,15 +82,15 @@ void StateHandler_stateHandler(void)
             if(LapFinishedState_checkTransitionTriggerButtonAPressed())
             {
                 gCurrentState = READY_STATE;
-                processedEntryFunction = FALSE;
+                gProcessedEntryFunction = FALSE;
             }
             break;
 
         case SEARCH_TRACK_STATE:
-            if(!processedEntryFunction)
+            if(!gProcessedEntryFunction)
             {
                 SearchTrackState_enterStartTimer1();
-                processedEntryFunction = TRUE;
+                gProcessedEntryFunction = TRUE;
             }
 
             SearchTrackState_processFindTrackLine();
@@ -99,51 +99,51 @@ void StateHandler_stateHandler(void)
             {
                 SearchTrackState_exitStopTimer1();
                 gCurrentState = DRIVE_LAP_STATE;
-                processedEntryFunction = FALSE;
+                gProcessedEntryFunction = FALSE;
             }
             else if(SearchTrackState_checkTransitionTriggerTimer1Exceeds5s())
             {
                 SearchTrackState_exitStopTimer1();
                 gCurrentState = ERROR_STATE;
-                processedEntryFunction = FALSE;
+                gProcessedEntryFunction = FALSE;
             }
             break;
 
         case SEARCHING_STARTLINE_STATE:
-            if(!processedEntryFunction)
+            if(!gProcessedEntryFunction)
             {
                 SearchingStartLineState_enterStartTimer1AndStartDriving();
-                processedEntryFunction = TRUE;
+                gProcessedEntryFunction = TRUE;
             }
 
-            SearchingStartLineState_exitStartTimer2AndPlayBeepIfStartlineFound();
+            SearchingStartLineState_processSearchForStartline();
 
             if(SearchningStartLineState_checkTransitionTriggerStartlineFound())
             {
                 SearchingStartLineState_exitStartTimer2AndPlayBeepIfStartlineFound();
                 gCurrentState = DRIVE_LAP_STATE;
-                processedEntryFunction = FALSE;
+                gProcessedEntryFunction = FALSE;
             }
             else if(SearchningStartLineState_checkTransitionTriggerTimer1Exceeds8s())
             {
                 SearchingStartLineState_exitStartTimer2AndPlayBeepIfStartlineFound();
                 gCurrentState = ERROR_STATE;
-                processedEntryFunction = FALSE;
+                gProcessedEntryFunction = FALSE;
             }
             break;
 
         case INITIALIZATION_STATE:
-            if(!processedEntryFunction)
+            if(!gProcessedEntryFunction)
             {
                 InitializationState_enterDisplayNameAndStartTimer1();
-                processedEntryFunction = TRUE;
+                gProcessedEntryFunction = TRUE;
             }
 
             if(InitializationState_checkTransitionTriggerTimer1Exceeds2s())
             {
                 InitializationState_exitStopTimer1();
                 gCurrentState = CALIBRATION_STATE;
-                processedEntryFunction = FALSE;
+                gProcessedEntryFunction = FALSE;
             }
             break;
 
@@ -174,10 +174,10 @@ void StateHandler_stateHandler(void)
             break;
 
         case PARAMETER_SET_STATE:
-            if(!processedEntryFunction)
+            if(!gProcessedEntryFunction)
             {
                 ParameterSetState_enterDisplayParameterSets();
-                processedEntryFunction = TRUE;
+                gProcessedEntryFunction = TRUE;
             }
 
             ParameterSetState_processSetParameterSet();
@@ -186,22 +186,22 @@ void StateHandler_stateHandler(void)
             {
                 ParameterSetState_exitDisplaySelectedParameterSetFor3s();
                 gCurrentState = READY_STATE;
-                processedEntryFunction = FALSE;
+                gProcessedEntryFunction = FALSE;
             }
             break;
 
         case PRE_DRIVE_STATE:
-            if(!processedEntryFunction)
+            if(!gProcessedEntryFunction)
             {
                 PreDriveState_enterStartTimer1AndWaitFor3s();
-                processedEntryFunction = TRUE;
+                gProcessedEntryFunction = TRUE;
             }
 
             if(PreDriveState_checkTransitionTriggerTimer1Exceeds3s())
             {
                 PreDriveState_exitStopTimer1();
                 gCurrentState = SEARCHING_STARTLINE_STATE;
-                processedEntryFunction = FALSE;
+                gProcessedEntryFunction = FALSE;
             }
             break;
 

@@ -30,6 +30,7 @@
 
 /* TYPES ******************************************************************************************/
 
+/** The different states for the statemachine*/
 typedef enum
 {
     INITIALIZATION_STATE,
