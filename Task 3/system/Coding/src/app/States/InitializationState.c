@@ -31,12 +31,12 @@ extern void InitializationState_enterDisplayNameAndStartTimer1(void)
     Display_clear();
     Display_write(buffer, sizeof(buffer));
 
-    /** Register all timers for future usage*/
+    /** Register all timers for future usage */
     SoftTimerHandler_register(pTimer1);
     SoftTimerHandler_register(pTimer2);
     SoftTimerHandler_register(pTimer3);
 
-    /** Start timer to transition into next state*/
+    /** Start timer to transition into next state */
     SoftTimer_start(pTimer1, 2000u);
 }
 
@@ -46,13 +46,13 @@ extern void InitializationState_exitStopTimer1(void)
     SoftTimer_Stop(pTimer1);
 }
 
-extern bool InitializationState_checkTransitionTriggerTimer1Exceeds2s(void)
+extern Bool InitializationState_checkTransitionTriggerTimer1Exceeds2s(void)
 {
     if (SOFTTIMER_IS_EXPIRED(pTimer1))
     {
-        return true;
+        return TRUE;
     }
-    return false;
+    return FALSE;
 }
 
 /* INTERNAL FUNCTIONS *****************************************************************************/

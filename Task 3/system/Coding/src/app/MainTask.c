@@ -79,16 +79,6 @@ static void mainTaskWork(void * data)
 
     /* TODO: Add your application here. */
 
-    if(test == false)
-    {
-        InitializationState_enterDisplayNameAndStartTimer1();
-        test = true;
-    }
-    if(true == InitializationState_checkTransitionTriggerTimer1Exceeds2s())
-    {
-        Display_clear();
-        InitializationState_exitStopTimer1();
-    }
 
     //Display_write((char*)SoftTimer_get(pTimer1), sizeof(SoftTimer_get(pTimer1)));
 
