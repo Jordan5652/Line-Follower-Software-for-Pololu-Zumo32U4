@@ -40,10 +40,10 @@ extern void PositionControl_DriveOnTrack(void)
     sumOfWeightedValues += values.value[LINESENSOR_LEFT] * -5;
     sumOfWeightedValues += values.value[LINESENSOR_RIGHT] * 5;
     
-    Int32 speedDifference; //= pParameters->kp*sumOfWeightedValues + pParameters->kd*(sumOfWeightedValues-sumOfWeightedValuesBefore) + pParameters->ki * (sumOfWeightedValuesIntegrated);
+    Int32 speedDifference = pParameters->kp*sumOfWeightedValues + pParameters->kd*(sumOfWeightedValues-sumOfWeightedValuesBefore) + pParameters->ki * (sumOfWeightedValuesIntegrated);
 
-    Int32 left ;//= speedDifference + pParameters->motorspeed;
-    Int32 right ;//= -speedDifference + pParameters->motorspeed;
+    Int32 left = speedDifference + pParameters->motorspeed;
+    Int32 right = -speedDifference + pParameters->motorspeed;
 
     if (left < 0)
     {

@@ -23,6 +23,7 @@ For a detailed description see the detailed description in @ref MainTask.h.
 #include "os/Scheduler.h"
 #include "service/Button.h"
 
+#include "GlobalTimers.h"
 /* CONSTANTS **************************************************************************************/
 
 /* MACROS *****************************************************************************************/
@@ -37,6 +38,7 @@ For a detailed description see the detailed description in @ref MainTask.h.
 static void mainTaskWork (void * data);
 
 /* VARIABLES **************************************************************************************/
+Bool test = false;
 
 /** MainTask task structure. */
 static Task gMainTask;
@@ -76,7 +78,6 @@ static void mainTaskWork(void * data)
     (void)data;
 
     /* TODO: Add your application here. */
-    StateHandler_stateHandler();
 
 
     //Display_write((char*)SoftTimer_get(pTimer1), sizeof(SoftTimer_get(pTimer1)));

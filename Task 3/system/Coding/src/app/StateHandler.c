@@ -25,7 +25,7 @@
 /**
  * @brief store the current state ID
 */
-static States gCurrentState = INITIALIZATION_STATE;
+static States gCurrentState = InitializationState;
 
 static Bool gProcessedEntryFunction = FALSE;
 
@@ -204,6 +204,10 @@ void StateHandler_stateHandler(void)
             break;
 
     } 
+}
+
+
+
 }
 
 /* INTERNAL FUNCTIONS *****************************************************************************/
