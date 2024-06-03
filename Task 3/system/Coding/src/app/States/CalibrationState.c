@@ -31,7 +31,7 @@ void CalibrationState_processCalibrate(void)
 }
 
 
-extern Bool CalibrationState_checkTransitionTriggerCalibrationDone(void)
+extern Bool CalibrationState_checkTransitionTriggerCalibrationDone(void);
 {
 
 
