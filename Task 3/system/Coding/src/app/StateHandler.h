@@ -30,18 +30,19 @@
 
 /* TYPES ******************************************************************************************/
 
+/** The different states for the statemachine*/
 typedef enum
 {
-    InitializationState,
-    ReadyState,
-    CalibrationState,
-    ParameterSetState,
-    SearchingStartLineState,
-    DriveLapState,
-    LapFinishedState,
-    SearchTrackState,
-    ErrorState,
-    PreDriveState,
+    INITIALIZATION_STATE,
+    READY_STATE,
+    CALIBRATION_STATE,
+    PARAMETER_SET_STATE,
+    SEARCHING_STARTLINE_STATE,
+    DRIVE_LAP_STATE,
+    LAP_FINISHED_STATE,
+    SEARCH_TRACK_STATE,
+    ERROR_STATE,
+    PRE_DRIVE_STATE,
 }States;
 
 /* PROTOTYPES *************************************************************************************/

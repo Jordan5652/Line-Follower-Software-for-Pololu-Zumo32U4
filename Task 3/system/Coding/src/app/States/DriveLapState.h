@@ -26,10 +26,6 @@
 /* TYPES ******************************************************************************************/
 
 /* PROTOTYPES *************************************************************************************/
-/** 
- * @brief starts timer2 measuring the lap-time plays a beep as an accustic signal
-*/
-extern void DriveLapState_enterRestartTimer2AndPlayBeep(void);
 
 /** 
  * @brief follows the TrackLine
