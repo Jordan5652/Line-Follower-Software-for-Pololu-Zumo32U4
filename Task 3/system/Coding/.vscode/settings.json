@@ -1,9 +1,5 @@
 {
     "files.associations": {
-
-        "initializationstate.h": "c",
-        "globaltimers.h": "c",
-        "button.h": "c"
         "parametersetstate.h": "c",
         "initializationstate.h": "c",
         "statehandler.h": "c",
