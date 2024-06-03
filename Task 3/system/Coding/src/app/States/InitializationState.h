@@ -28,12 +28,12 @@
 */
 extern void InitializationState_enterDisplayNameAndStartTimer1(void);
 
-/** 
- * @brief resets the timer1 
+/**
+ * @brief resets the timer1
 */
 extern void InitializationState_exitStopTimer1(void);
 
-/** 
+/**
  * @brief checks if timer1 exeeded 2s
  * @return Bool: returns true if timer1 exceeded 2s
 */

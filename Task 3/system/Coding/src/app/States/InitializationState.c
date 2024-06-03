@@ -9,8 +9,6 @@
 /**************************************************************************************************/
 
 /* INCLUDES ***************************************************************************************/
-
-
 #include "InitializationState.h"
 
 /* CONSTANTS **************************************************************************************/
@@ -28,12 +26,17 @@
 
 extern void InitializationState_enterDisplayNameAndStartTimer1(void)
 {
+    /** Display team name */
     Int8 buffer[] = TEAM_NAME;
     Display_clear();
     Display_write(buffer, sizeof(buffer));
+
+    /** Register all timers for future usage*/
     SoftTimerHandler_register(pTimer1);
     SoftTimerHandler_register(pTimer2);
     SoftTimerHandler_register(pTimer3);
+
+    /** Start timer to transition into next state*/
     SoftTimer_start(pTimer1, 2000u);
 }
 
