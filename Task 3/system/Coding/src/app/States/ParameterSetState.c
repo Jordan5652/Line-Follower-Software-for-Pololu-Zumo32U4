@@ -44,6 +44,6 @@ extern void ParameterSetState_exitDisplaySelectedParameterSetFor3s(void)
 extern Bool ParameterSetState_checkTransitionTriggerConfigDone(void)
 {
 
-    return true;
+
 }
 /* INTERNAL FUNCTIONS *****************************************************************************/
