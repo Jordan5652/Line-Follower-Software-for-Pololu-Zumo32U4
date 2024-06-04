@@ -48,7 +48,7 @@ void StateHandler_stateHandler(void)
             }
             else if (DriveLapState_checkTranstionTriggerTrackNotFound())
             {
-                gCurrentState = SEARCH_TRACK_STATE;
+                gCurrentState = ERROR_STATE;
             }
             else if (DriveLapState_checkTranstionTriggerTimer2Exceeds20s())
             {

@@ -22,7 +22,6 @@
 #include "PreDriveState.h"
 #include "ReadyState.h"
 #include "SearchingStartlineState.h"
-#include "SearchTrackState.h"
 
 /* CONSTANTS **************************************************************************************/
 
@@ -40,7 +39,6 @@ typedef enum
     SEARCHING_STARTLINE_STATE,
     DRIVE_LAP_STATE,
     LAP_FINISHED_STATE,
-    SEARCH_TRACK_STATE,
     ERROR_STATE,
     PRE_DRIVE_STATE,
 }States;
