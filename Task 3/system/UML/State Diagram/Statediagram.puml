@@ -1,0 +1,33 @@
+@startuml stateDiagram
+[*] --> State1
+
+state State1 as "InitializationState\n": /enter init() start timer 1 \n /enter displayTeamName() \n /leave stop timer 1
+state State2 as "ReadyState\n": /process watch buttons
+state State3 as "CalibrationState\n": /enter calibrate
+state State4 as "ParameterSetState\n": /enter display ParameterSet \n /process setParameterSet()
+state State5 as "SearchingStartlineState\n": /enter start Timer 1 \n /enter  start dual drive motor system \n /exit if track found  start Timer 2\n /exit if track found playBeep()
+state State6 as "DriveLapState\n": /process drive on track
+state State7 as "LapFinishedState\n": /enter stop timer 2 \n /enter  display Lap Time \n /enter  stop dual drive motor system \n /enter play Beep
+state State8 as "SearchTrackState\n": /enter start timer 1 \n /process find Trackline \n /leave stop Timer 1
+state State9 as "ErrorState\n": /enter stop timer 1 and 2 \n /enter stop dual drive motor system \n /enter  play Alarm \n /enter  display Error
+state State10 as "PreDriveState\n": /enter start Timer 1 \n /exit stop Timer 1
+
+
+State1 -down--> State3 : [timer 1 >= 2s]
+State2 -up-> State3 : ButtonC triggered 
+State2 -down-> State4 : ButtonB triggered
+State2 -right-> State10 : ButtonA triggered
+State10 -right-> State5 : [timer 1 >= 3s]
+State2 <-down- State3 : calibration done
+State2 <-left- State4 : configuration done
+
+State5 -right-> State6 : Startline found
+State6 -down-> State8 : not found track
+State8 -up-> State6 : found track
+State6 -down-> State7 : Startline found
+State6 -up-> State9 : [timer 2 >= 20s]
+State7 -down-> State2 : ButtonA triggered 
+State8 -up-> State9 : [timer 1 >= 5s]
+State5 --> State9 : [timer 1 >=3s]
+State9 -down-> State2 : ButtonA triggered 
+@enduml
