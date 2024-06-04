@@ -17,7 +17,7 @@
 #define FIVE_SECONDS (5000u)
 #define TWENTY_SECONDS (20000u)
 #define ONE_SECOND (1000U)
-#define TWO_SECOND (2000u)
+#define TWO_SECONDS (2000u)
 
 /* MACROS *****************************************************************************************/
 

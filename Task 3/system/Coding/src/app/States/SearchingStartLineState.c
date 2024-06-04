@@ -22,14 +22,9 @@
 
 /* VARIABLES **************************************************************************************/
 
-/** Measured line sensor values*/
-static LineSensorValues gLineSensorValues;
-
 /** State of startline detection*/
 static Bool gStartlineDetected = FALSE;
 
-/** Weighted average of all line sensor values */
-static UInt16 gLineSensorAverage = 0;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
