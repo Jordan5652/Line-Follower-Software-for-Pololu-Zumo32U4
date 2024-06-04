@@ -12,7 +12,6 @@
 #include "DriveLapState.h"
 
 /* CONSTANTS **************************************************************************************/
-#define SENSOR_WEIGHT_SCALE (1000u)
 
 /* MACROS *****************************************************************************************/
 
@@ -22,32 +21,51 @@
 
 /* VARIABLES **************************************************************************************/
 
+
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
+extern void DriveLapState_enterStartTimer3(void)
+{
+    SoftTimer_Stop(pTimer3);
+    SoftTimer_start(pTimer3, 2000u);
+}
 
 extern void DriveLapState_processDriveOnTrackLine(void)
 {
-    Int8 buffer[] = "DrivingLapState";
-    Display_clear();
-    Display_write(buffer, sizeof(buffer));
+    PositionControl_UpdateSensorValues();
+    PositionControl_DriveOnTrack();
 }
 
 
 extern Bool DriveLapState_checkTranstionTriggerTimer2Exceeds20s(void)
 {
-
+    if SOFTTIMER_IS_EXPIRED(pTimer2)
+    {
+        return TRUE;
+    }
+    else
+    {
+        return FALSE;
+    }
 
 }
 
 extern Bool DriveLapState_checkTranstionTriggerTrackNotFound(void)
 {
-
+    return FALSE;
 
 }
 
 extern Bool DriveLapState_checkTranstionTriggerStartlineFound(void)
 {
-
+  if(SOFTTIMER_IS_EXPIRED(pTimer3))
+  {
+      return PosionControl_checkForStartLine();
+  }
+  else
+  {
+      return FALSE;
+  }
 
 }
 /* INTERNAL FUNCTIONS *****************************************************************************/

@@ -25,6 +25,9 @@
 
 /* PROTOTYPES *************************************************************************************/
 
+extern void PositionControl_UpdateSensorValues(void);
 extern void PositionControl_DriveOnTrack(void);
+extern Bool PosionControl_checkForStartLine(void);
+extern Bool PosionControl_checkForLineLost(void);
 
 #endif /* POSITION_COTROL_H */

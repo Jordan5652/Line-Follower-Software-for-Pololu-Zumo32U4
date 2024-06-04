@@ -19,6 +19,7 @@
 #include "LineSensor.h"
 #include "Buzzer.h"
 #include "Display.h"
+#include "PositionControl.h"
 
 /* CONSTANTS **************************************************************************************/
 

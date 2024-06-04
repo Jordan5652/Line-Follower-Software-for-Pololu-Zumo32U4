@@ -13,10 +13,10 @@
 
 /* CONSTANTS **************************************************************************************/
 #define STARTING_SPEED 20u
-#define AVERAGE_THRESHHOLD 480u
+//#define AVERAGE_THRESHHOLD 480u
 
 /* MACROS *****************************************************************************************/
-#define TWO_SECONDS (5000u)
+#define FIVE_SECONDS (5000u)
 
 /* TYPES ******************************************************************************************/
 
@@ -43,7 +43,7 @@ extern void SearchingStartLineState_enterStartTimer1AndStartDriving(void)
     Display_write(buffer, sizeof(buffer));
     
 
-    SoftTimer_start(pTimer1, TWO_SECONDS);
+    SoftTimer_start(pTimer1, FIVE_SECONDS);
 
     DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, STARTING_SPEED, DRIVE_CONTROL_FORWARD);
     DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, STARTING_SPEED, DRIVE_CONTROL_FORWARD);
@@ -53,6 +53,7 @@ extern void SearchingStartLineState_enterStartTimer1AndStartDriving(void)
 
 extern void SearchingStartLineState_processSearchForStartline(void)
 {
+    /*
     LineSensor_read(&gLineSensorValues);
     gLineSensorAverage = 0;
     for (UInt8 gCounter = 0; gCounter < LINESENSOR_COUNT; gCounter++)
@@ -69,6 +70,12 @@ extern void SearchingStartLineState_processSearchForStartline(void)
     gLineSensorAverage /= 14;
 
     if (AVERAGE_THRESHHOLD < gLineSensorAverage)
+    {
+        gStartlineDetected = TRUE;
+    }
+    */
+    PositionControl_UpdateSensorValues();
+    if(TRUE == PosionControl_checkForStartLine())
     {
         gStartlineDetected = TRUE;
     }
