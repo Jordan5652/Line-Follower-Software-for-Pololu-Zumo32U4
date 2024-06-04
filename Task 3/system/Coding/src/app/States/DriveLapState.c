@@ -27,7 +27,7 @@
 extern void DriveLapState_enterStartTimer3(void)
 {
     SoftTimer_Stop(pTimer3);
-    SoftTimer_start(pTimer3, 6000u);
+    SoftTimer_start(pTimer3, 2000u);
 }
 
 extern void DriveLapState_processDriveOnTrackLine(void)
@@ -35,7 +35,6 @@ extern void DriveLapState_processDriveOnTrackLine(void)
     PositionControl_UpdateSensorValues();
     PositionControl_DriveOnTrack();
 }
-
 
 extern Bool DriveLapState_checkTranstionTriggerTimer2Exceeds20s(void)
 {
@@ -58,14 +57,14 @@ extern Bool DriveLapState_checkTranstionTriggerTrackNotFound(void)
 
 extern Bool DriveLapState_checkTranstionTriggerStartlineFound(void)
 {
-  if(SOFTTIMER_IS_EXPIRED(pTimer3))
-  {
-      return PosionControl_checkForStartLine();
-  }
-  else
-  {
-      return FALSE;
-  }
+    if(SOFTTIMER_IS_EXPIRED(pTimer3))
+    {
+        return PosionControl_checkForStartLine();
+    }
+    else
+    {
+        return FALSE;
+    }
 
 }
 /* INTERNAL FUNCTIONS *****************************************************************************/
