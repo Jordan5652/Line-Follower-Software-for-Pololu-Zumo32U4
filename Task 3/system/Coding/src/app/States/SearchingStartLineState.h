@@ -52,6 +52,6 @@ extern Bool SearchningStartLineState_checkTransitionTriggerStartlineFound(void);
  * @brief checks if timer1 exceeded 2s
  * @return Bool: returns true if timer exceeded 2s
 */
-extern Bool SearchningStartLineState_checkTransitionTriggerTimer1Exceeds2s(void);
+extern Bool SearchningStartLineState_checkTransitionTriggerTimer1Exceeds5s(void);
 
 #endif /* SEARCHING_START_LINE_STATE_H */

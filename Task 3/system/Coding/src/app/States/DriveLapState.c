@@ -12,6 +12,7 @@
 #include "DriveLapState.h"
 
 /* CONSTANTS **************************************************************************************/
+#define SENSOR_WEIGHT_SCALE (1000u)
 
 /* MACROS *****************************************************************************************/
 
@@ -23,17 +24,12 @@
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
-extern void DriveLapState_enterRestartTimer2AndPlayBeep(void)
-{
-
-
-}
-
 
 extern void DriveLapState_processDriveOnTrackLine(void)
 {
-
-
+    Int8 buffer[] = "DrivingLapState";
+    Display_clear();
+    Display_write(buffer, sizeof(buffer));
 }
 
 

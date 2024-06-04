@@ -16,7 +16,7 @@
 #define AVERAGE_THRESHHOLD 480u
 
 /* MACROS *****************************************************************************************/
-#define TWO_SECONDS (2000u)
+#define TWO_SECONDS (5000u)
 
 /* TYPES ******************************************************************************************/
 
@@ -92,7 +92,7 @@ extern Bool SearchningStartLineState_checkTransitionTriggerStartlineFound(void)
     return FALSE;
 }
 
-extern Bool SearchningStartLineState_checkTransitionTriggerTimer1Exceeds2s(void)
+extern Bool SearchningStartLineState_checkTransitionTriggerTimer1Exceeds5s(void)
 {
     if (SOFTTIMER_IS_EXPIRED(pTimer1))
     {

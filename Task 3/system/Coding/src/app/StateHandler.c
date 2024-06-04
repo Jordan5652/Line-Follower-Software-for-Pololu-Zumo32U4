@@ -128,7 +128,7 @@ void StateHandler_stateHandler(void)
                 gCurrentState = DRIVE_LAP_STATE;
                 processedEntryFunction = FALSE;
             }
-            else if(SearchningStartLineState_checkTransitionTriggerTimer1Exceeds2s())
+            else if(SearchningStartLineState_checkTransitionTriggerTimer1Exceeds5s())
             {
                 SearchingStartLineState_exitStartTimer2AndPlayBeepIfStartlineFound();
                 gCurrentState = ERROR_STATE;
