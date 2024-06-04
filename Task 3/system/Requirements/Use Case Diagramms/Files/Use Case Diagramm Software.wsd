@@ -1,0 +1,54 @@
+@startuml USECASE
+left to right direction
+
+actor "LightSensorArray" as aLSA
+actor "ButtonA" as aBA
+actor "ButtonB" as aBB
+actor "ButtonC" as aBC
+actor "PowerSwitch" as aPS
+actor "Buzzer" as aB
+actor "DualMotorDriveSystem" as aDMDS
+actor "OLEDDisplay" as aOLED
+
+
+rectangle "System Software\n\n\n\n\n\n\n\n" {
+  
+
+    'MAIN USE CASES'
+    usecase "Detect start" as uDs
+    usecase "Detect end" as uDe
+    usecase "Handle error" as uHe
+    usecase "Set parameter sets" as uSps
+    usecase "Calibrate sensors" as uCs
+    usecase "Display team name" as uDtm
+    usecase "Drive lap" as uDl
+
+    'ACTOR TO USE CASE CONNECTIONS'
+    aLSA -- uDs : first StartLine detection
+    aLSA -- uDe : second StartLine detection
+    aLSA -- uHe : Error detected
+    aBA -- uDl : pressed
+    aBB -- uSps : pressed
+    aBC -- uCs : pressed
+    aPS -- uDtm : turned on
+
+    'INCLUDE ASSOCIATIONS'
+    uDl ..> uDs : <<includes>>
+    uDl ..> uDe : <<includes>>
+
+    'USE CASE TO ACTOR CONNECTIONS'
+    uDs -d- aB : emit Beep
+    uDe -d- aB : emit Beep
+    uHe -d- aB : emit Alarm
+    uSps -d- aOLED : "display ParameterInterface" 
+    uDtm -d- aOLED : "display TeamName"
+    uDe -d- aOLED : display lap time 
+    uHe -d- aOLED : display Error code
+    uHe -d- aDMDS : stopps
+    uDe -d- aDMDS : stopps
+
+    uCs -u- aLSA : calibrates
+    
+}
+
+@enduml
