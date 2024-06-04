@@ -43,7 +43,7 @@ extern Bool DriveLapState_checkTranstionTriggerTimer2Exceeds20s(void);
 
 /** 
  * @brief checks if track cannot be found
- * @return Bool: returns true track cannot be found
+ * @return Bool: returns true if track cannot be found
 */
 extern Bool DriveLapState_checkTranstionTriggerTrackNotFound(void);
 

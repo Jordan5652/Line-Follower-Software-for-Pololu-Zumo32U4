@@ -20,20 +20,51 @@
 /* PROTOTYPES *************************************************************************************/
 
 /* VARIABLES **************************************************************************************/
-
+static Bool gTrackLeft = FALSE;
+static Bool gOffTrack = FALSE;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
 extern void DriveLapState_enterStartTimer3(void)
 {
+    gTrackLeft = FALSE;
+    gOffTrack = FALSE;
+
     SoftTimer_Stop(pTimer3);
     SoftTimer_start(pTimer3, 2000u);
+
 }
 
 extern void DriveLapState_processDriveOnTrackLine(void)
-{
+{ 
+    // checking if line was left or line was refound 
     PositionControl_UpdateSensorValues();
-    PositionControl_DriveOnTrack();
+    if((TRUE == PositionControl_checkForLineLost()) && (FALSE == gOffTrack))
+    {
+        SoftTimer_Stop(pTimer1);
+        SoftTimer_start(pTimer1, 5000u);
+        gOffTrack = TRUE;
+    }
+
+    else
+    {
+        if((FALSE == PositionControl_checkForLineLost()) && (TRUE == gOffTrack))
+        {
+            SoftTimer_Stop(pTimer1);
+            gOffTrack = FALSE;
+        }
+    } 
+     
+    if(gOffTrack)
+    {
+        DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, pParameters->motorspeed, DRIVE_CONTROL_FORWARD);
+        DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, pParameters->motorspeed, DRIVE_CONTROL_FORWARD);
+    }
+    else
+    {
+        PositionControl_DriveOnTrack();
+    }
+    
 }
 
 extern Bool DriveLapState_checkTranstionTriggerTimer2Exceeds20s(void)
@@ -49,22 +80,30 @@ extern Bool DriveLapState_checkTranstionTriggerTimer2Exceeds20s(void)
 
 }
 
-extern Bool DriveLapState_checkTranstionTriggerTrackNotFound(void)
-{
-    return FALSE;
-
-}
 
 extern Bool DriveLapState_checkTranstionTriggerStartlineFound(void)
 {
+    //Wait some time to prevent immediatly finding startline after starting to drive
     if(SOFTTIMER_IS_EXPIRED(pTimer3))
     {
-        return PosionControl_checkForStartLine();
+        return PositionControl_checkForStartLine();
     }
     else
     {
         return FALSE;
     }
 
+}
+
+extern Bool DriveLapState_checkTranstionTriggerTrackNotFound(void)
+{
+    if SOFTTIMER_IS_EXPIRED(pTimer1)
+    {
+        SoftTimer_Stop(pTimer1);
+        gOffTrack = FALSE;
+        return TRUE;
+    }
+    
+    return FALSE;
 }
 /* INTERNAL FUNCTIONS *****************************************************************************/
