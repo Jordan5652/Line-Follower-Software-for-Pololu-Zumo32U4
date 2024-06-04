@@ -12,7 +12,8 @@
 #include "Parameters.h"
 
 /* CONSTANTS **************************************************************************************/
-#define MAX_NUMBER_OF_PARAMETER_SETS 3
+
+#define MAX_NUMBER_OF_PARAMETER_SETS 3u
 #define TEXT_SET1 ("A: NAME SET 1")
 #define TEXT_SET2 ("B: NAME SET 2")
 #define TEXT_SET3 ("C: NAME SET 3")
@@ -23,7 +24,6 @@
 /* PROTOTYPES *************************************************************************************/
 
 /* VARIABLES **************************************************************************************/
-
 /** array of the choosable parameter sets */
 static ParameterSet gParameterSets[MAX_NUMBER_OF_PARAMETER_SETS];
 

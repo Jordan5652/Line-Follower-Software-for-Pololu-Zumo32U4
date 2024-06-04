@@ -34,14 +34,14 @@ typedef enum
 {
     initializationState,
     ReadyState,
-    CalibrationState,
+    //CalibrationState,
     ParameterSetState,
     SearchingStartLineState,
     DriveLapState,
     LapFinishedState,
     SearchTrackState,
     ErrorState,
-    PreDriveState,
+    PreDriveState
 }States;
 
 /* PROTOTYPES *************************************************************************************/
