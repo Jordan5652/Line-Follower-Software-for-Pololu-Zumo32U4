@@ -15,7 +15,6 @@
 #define MAX_MOTOR_SPEED (100u)
 #define MIN_MOTOR_SPEED (0u)
 
-#define AVERAGE_THRESHHOLD (480u)
 #define WHITE_THRESHHOLD (180u)
 
 /* MACROS *****************************************************************************************/
@@ -89,7 +88,7 @@ extern Bool PosionControl_checkForStartLine(void)
                 return TRUE;
            } 
     }*/
-
+    
     if ((gSensorValues.value[LINESENSOR_LEFT]) > 350u || 
         (gSensorValues.value[LINESENSOR_RIGHT]) > 350u ||
         ((gSensorValues.value[LINESENSOR_LEFT]) > 200u && (gSensorValues.value[LINESENSOR_RIGHT]) > 200u))
