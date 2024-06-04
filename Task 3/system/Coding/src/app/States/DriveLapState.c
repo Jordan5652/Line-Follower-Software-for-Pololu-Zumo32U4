@@ -27,7 +27,7 @@
 extern void DriveLapState_enterStartTimer3(void)
 {
     SoftTimer_Stop(pTimer3);
-    SoftTimer_start(pTimer3, 2000u);
+    SoftTimer_start(pTimer3, 6000u);
 }
 
 extern void DriveLapState_processDriveOnTrackLine(void)
