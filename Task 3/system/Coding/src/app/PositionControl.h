@@ -2,27 +2,20 @@
   (c) NewTec GmbH 2024   -   www.newtec.de
 ***************************************************************************************************/
 /**
- * @file       StateHandler.h
+ * @file       PositionControl.h
  *
- * Header of StateHandler.c.
+ * Header of PositionControl.c.
  */
 /**************************************************************************************************/
-#ifndef STATE_HANDLER_H
-#define STATE_HANDLER_H
+#ifndef POSITION_COTROL_H
+#define POSITION_COTROL_H
 
 /* INCLUDES ***************************************************************************************/
 #include "Types.h"
 
-#include "CalibrationState.h"
-#include "DriveLapState.h"
-#include "ErrorState.h"
-#include "InitializationState.h"
-#include "LapFinishedState.h"
-#include "ParameterSetState.h"
-#include "PreDriveState.h"
-#include "ReadyState.h"
-#include "SearchingStartlineState.h"
-#include "SearchTrackState.h"
+#include "LineSensor.h"
+#include "DriveControl.h"
+#include "Parameters.h"
 
 /* CONSTANTS **************************************************************************************/
 
@@ -30,25 +23,8 @@
 
 /* TYPES ******************************************************************************************/
 
-typedef enum
-{
-    initializationState,
-    ReadyState,
-    //CalibrationState,
-    ParameterSetState,
-    SearchingStartLineState,
-    DriveLapState,
-    LapFinishedState,
-    SearchTrackState,
-    ErrorState,
-    PreDriveState
-}States;
-
 /* PROTOTYPES *************************************************************************************/
-/** @fn StateHandler_stateHandler(void)
- * @brief runs the statemachine
- * @return void
-*/
-extern void StateHandler_stateHandler(void);
 
-#endif /* STATE_HANDLER_H */
+extern void PositionControl_DriveOnTrack(void);
+
+#endif /* POSITION_COTROL_H */

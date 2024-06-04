@@ -72,15 +72,11 @@ extern MainTask_Ret MainTask_init(void)
 }
 
 /* INTERNAL FUNCTIONS *****************************************************************************/
-
+ 
 static void mainTaskWork(void * data)
 {
     (void)data;
 
     /* TODO: Add your application here. */
-
-
-    //Display_write((char*)SoftTimer_get(pTimer1), sizeof(SoftTimer_get(pTimer1)));
-
 }
 

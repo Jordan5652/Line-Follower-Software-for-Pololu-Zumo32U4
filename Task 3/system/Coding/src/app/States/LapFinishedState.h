@@ -11,6 +11,7 @@
 #define LAP_FINISHED_STATE_H
 
 /* INCLUDES ***************************************************************************************/
+#include "stdio.h"
 #include "Types.h"
 
 #include "Button.h"
@@ -18,6 +19,7 @@
 #include "DriveControl.h"
 #include "SoftTimer.h"
 #include "Display.h"
+#include "GlobalTimers.h"
 
 /* CONSTANTS **************************************************************************************/
 
@@ -26,19 +28,19 @@
 /* TYPES ******************************************************************************************/
 
 /* PROTOTYPES *************************************************************************************/
-/** 
+/**
  * @brief stops timer2 measuring the lap-time, displays the lap-time, stops the motors and plays a beep as an accustic signal
 */
 extern void LapFinishedState_enterStopTimer2AndDisplayTimeAndStopDriveAndPlayBeep(void);
 
-/** 
- * @brief checks if ButtonA is pressed by polling (ErrorState is left when ButtonA is pressed)
+/**
+ * @brief checks if ButtonA is pressed by polling
 */
 extern void LapFinishedState_processPollingButtonA(void);
 
-/** 
+/**
  * @brief checks if button A was pressed by a user
- * @return States: next State to be active or current state when no transition is true
+ * @return Bool: return true if button A was pressed
 */
 extern Bool LapFinishedState_checkTransitionTriggerButtonAPressed(void);
 
