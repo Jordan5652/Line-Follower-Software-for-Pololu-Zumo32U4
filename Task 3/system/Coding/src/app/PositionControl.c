@@ -44,8 +44,8 @@ extern void PositionControl_DriveOnTrack(void)
     sumOfWeightedValues += gSensorValues.value[LINESENSOR_MIDDLE_LEFT] * -1;
     sumOfWeightedValues += gSensorValues.value[LINESENSOR_MIDDLE] * 0;
     sumOfWeightedValues += gSensorValues.value[LINESENSOR_MIDDLE_RIGHT] * 1;
-    sumOfWeightedValues += gSensorValues.value[LINESENSOR_LEFT] * -5;
-    sumOfWeightedValues += gSensorValues.value[LINESENSOR_RIGHT] * 5;
+    //sumOfWeightedValues += gSensorValues.value[LINESENSOR_LEFT] * -5;
+    //sumOfWeightedValues += gSensorValues.value[LINESENSOR_RIGHT] * 5;
     
     Int32 speedDifference = pParameters->kp*sumOfWeightedValues + pParameters->kd*(sumOfWeightedValues-sumOfWeightedValuesBefore) + pParameters->ki * (sumOfWeightedValuesIntegrated);
 
@@ -79,14 +79,13 @@ extern void PositionControl_DriveOnTrack(void)
 
 extern Bool PosionControl_checkForStartLine(void)
 {
-    UInt16 lineSensorAverage = 0u;
 
-    if(gSensorValues.value[LINESENSOR_MIDDLE] > 400u ||
+    if(gSensorValues.value[LINESENSOR_MIDDLE] > 350u ||
        gSensorValues.value[LINESENSOR_MIDDLE_LEFT] > 400u ||
-       gSensorValues.value[LINESENSOR_MIDDLE_RIGHT] > 400u)
+       gSensorValues.value[LINESENSOR_MIDDLE_RIGHT] > 350u)
     {
-        if(gSensorValues.value[LINESENSOR_LEFT] > 250u ||
-           gSensorValues.value[LINESENSOR_RIGHT] > 250u)
+        if(((gSensorValues.value[LINESENSOR_LEFT] > 400u) && (gSensorValues.value[LINESENSOR_RIGHT] > 230u))||
+           (gSensorValues.value[LINESENSOR_RIGHT] > 400u) && (gSensorValues.value[LINESENSOR_LEFT] > 230u))
            {
                 return TRUE;
            } 
