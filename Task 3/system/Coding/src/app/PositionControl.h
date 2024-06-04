@@ -2,15 +2,20 @@
   (c) NewTec GmbH 2024   -   www.newtec.de
 ***************************************************************************************************/
 /**
- * @file       CalibrationState.c
+ * @file       PositionControl.h
  *
- * contains the functions and variables for the CalibrationState.
+ * Header of PositionControl.c.
  */
 /**************************************************************************************************/
+#ifndef POSITION_COTROL_H
+#define POSITION_COTROL_H
 
 /* INCLUDES ***************************************************************************************/
-#include "CalibrationState.h"
+#include "Types.h"
 
+#include "LineSensor.h"
+#include "DriveControl.h"
+#include "Parameters.h"
 
 /* CONSTANTS **************************************************************************************/
 
@@ -20,21 +25,6 @@
 
 /* PROTOTYPES *************************************************************************************/
 
-/* VARIABLES **************************************************************************************/
+extern void PositionControl_DriveOnTrack(void);
 
-/* EXTERNAL FUNCTIONS *****************************************************************************/
-
-void CalibrationState_processCalibrate(void)
-{
-
-
-}
-
-
-extern Bool CalibrationState_checkTransitionTriggerCalibrationDone(void)
-{
-
-
-}
-
-/* INTERNAL FUNCTIONS *****************************************************************************/
+#endif /* POSITION_COTROL_H */
