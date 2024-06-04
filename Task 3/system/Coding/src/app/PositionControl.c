@@ -15,7 +15,7 @@
 #define MAX_MOTOR_SPEED (100u)
 #define MIN_MOTOR_SPEED (0u)
 
-#define AVERAGE_THRESHHOLD (380u)
+#define AVERAGE_THRESHHOLD (480u)
 #define WHITE_THRESHHOLD (180u)
 
 /* MACROS *****************************************************************************************/
@@ -80,27 +80,20 @@ extern void PositionControl_DriveOnTrack(void)
 extern Bool PosionControl_checkForStartLine(void)
 {
     UInt16 lineSensorAverage = 0u;
-    for (UInt8 Counter = 0; Counter < LINESENSOR_COUNT; Counter++)
-    {
-        if (Counter == 0 || Counter == 2  || Counter == 4)
-        {
-            lineSensorAverage += gSensorValues.value[Counter]*4;
-        }
-        else
-        {
-            lineSensorAverage += gSensorValues.value[Counter];
-        }
-    }
-    lineSensorAverage /= 14;
 
-    if (AVERAGE_THRESHHOLD < lineSensorAverage)
+    if(gSensorValues.value[LINESENSOR_MIDDLE] > 400u ||
+       gSensorValues.value[LINESENSOR_MIDDLE_LEFT] > 400u ||
+       gSensorValues.value[LINESENSOR_MIDDLE_RIGHT] > 400u)
     {
-        return TRUE;
+        if(gSensorValues.value[LINESENSOR_LEFT] > 250u ||
+           gSensorValues.value[LINESENSOR_RIGHT] > 250u)
+           {
+                return TRUE;
+           } 
     }
-    else
-    { 
-        return FALSE;
-    } 
+    
+    return FALSE;
+
 }
 
 extern Bool PosionControl_checkForLineLost(void)
