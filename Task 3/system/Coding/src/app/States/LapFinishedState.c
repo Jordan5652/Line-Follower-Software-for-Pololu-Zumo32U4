@@ -49,7 +49,8 @@ extern void LapFinishedState_enterStopTimer2AndDisplayTimeAndStopDriveAndPlayBee
     SoftTimer_Stop(pTimer2);
 
     Buzzer_beep(BUZZER_NOTIFY);
-
+    
+    gLapTimeCounter = 20000u - gLapTimeCounter;
     gLapTimeSec = gLapTimeCounter / ONE_SECOND;
     gLapTimeMilliSec = gLapTimeCounter % ONE_SECOND;
 
