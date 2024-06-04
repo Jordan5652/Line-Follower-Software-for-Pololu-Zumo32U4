@@ -155,15 +155,6 @@ package App
             CALIBRATION_STATE_TIMEOUT_CENTER_LINE,
             CALIBRATION_STATE_FINISHED
         }
-
-        class SearchTrackState
-        {
-            +enterStartTimer1(void): void
-            +processFindTrackline(void): void
-            +exitStopTimer1(void): void
-            +checkTransitionTriggerTimer1Exceeds5s(void): bool
-            +checkTransitionTriggerTrackFound(void): bool
-        }
     }
 }
 
