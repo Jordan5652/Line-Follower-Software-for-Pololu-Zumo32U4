@@ -37,20 +37,20 @@ static ErrorHandlerErrorCode gErrorCode = ERRORHANDLER_MAIN_SCHEDULER_EXIT;
 
 void StateHandler_stateHandler(void)
 {
-    switch(gCurrentState)
+    switch (gCurrentState)
     {
         case DRIVE_LAP_STATE:
             DriveLapState_processDriveOnTrackLine();
 
-            if(DriveLapState_checkTranstionTriggerStartlineFound())
+            if (DriveLapState_checkTranstionTriggerStartlineFound())
             {
                 gCurrentState = LAP_FINISHED_STATE;
             }
-            else if(DriveLapState_checkTranstionTriggerTrackNotFound())
+            else if (DriveLapState_checkTranstionTriggerTrackNotFound())
             {
                 gCurrentState = SEARCH_TRACK_STATE;
             }
-            else if(DriveLapState_checkTranstionTriggerTimer2Exceeds20s())
+            else if (DriveLapState_checkTranstionTriggerTimer2Exceeds20s())
             {
                 gCurrentState = ERROR_STATE;
                 gErrorCode = ERRORHANDLER_DRIVING_TIMEOUT;
@@ -58,7 +58,7 @@ void StateHandler_stateHandler(void)
             break;
 
         case ERROR_STATE:
-            if(!gProcessedEntryFunction)
+            if (!gProcessedEntryFunction)
             {
                 ErrorState_enterStopDriveAndPlayAlarmAndDisplayError(gErrorCode);
                 gProcessedEntryFunction = TRUE;
@@ -66,7 +66,7 @@ void StateHandler_stateHandler(void)
 
             ErrorState_processPollingButtonA();
 
-            if(ErrorState_checkTransitionTriggerButtonAPressed())
+            if (ErrorState_checkTransitionTriggerButtonAPressed())
             {
                 gCurrentState = READY_STATE;
                 gProcessedEntryFunction = FALSE;
@@ -74,7 +74,7 @@ void StateHandler_stateHandler(void)
             break;
 
         case LAP_FINISHED_STATE:
-            if(!gProcessedEntryFunction)
+            if (!gProcessedEntryFunction)
             {
                 LapFinishedState_enterStopTimer2AndDisplayTimeAndStopDriveAndPlayBeep();
                 gProcessedEntryFunction = TRUE;
@@ -82,39 +82,15 @@ void StateHandler_stateHandler(void)
 
             LapFinishedState_processPollingButtonA();
 
-            if(LapFinishedState_checkTransitionTriggerButtonAPressed())
+            if (LapFinishedState_checkTransitionTriggerButtonAPressed())
             {
                 gCurrentState = READY_STATE;
                 gProcessedEntryFunction = FALSE;
             }
             break;
 
-        case SEARCH_TRACK_STATE:
-            if(!gProcessedEntryFunction)
-            {
-                SearchTrackState_enterStartTimer1();
-                gProcessedEntryFunction = TRUE;
-            }
-
-            SearchTrackState_processFindTrackLine();
-
-            if(SearchTrackState_checkTransitionTriggerTrackFound())
-            {
-                SearchTrackState_exitStopTimer1();
-                gCurrentState = DRIVE_LAP_STATE;
-                gProcessedEntryFunction = FALSE;
-            }
-            else if(SearchTrackState_checkTransitionTriggerTimer1Exceeds5s())
-            {
-                SearchTrackState_exitStopTimer1();
-                gCurrentState = ERROR_STATE;
-                gProcessedEntryFunction = FALSE;
-                gErrorCode = ERRORHANDLER_RELEASETRACK_TIMER_START_FAIL;
-            }
-            break;
-
         case SEARCHING_STARTLINE_STATE:
-            if(!gProcessedEntryFunction)
+            if (!gProcessedEntryFunction)
             {
                 SearchingStartLineState_enterStartTimer1AndStartDriving();
                 gProcessedEntryFunction = TRUE;
@@ -122,13 +98,13 @@ void StateHandler_stateHandler(void)
 
             SearchingStartLineState_processSearchForStartline();
 
-            if(SearchningStartLineState_checkTransitionTriggerStartlineFound())
+            if (SearchningStartLineState_checkTransitionTriggerStartlineFound())
             {
                 SearchingStartLineState_exitStartTimer2AndPlayBeepIfStartlineFound();
                 gCurrentState = DRIVE_LAP_STATE;
                 gProcessedEntryFunction = FALSE;
             }
-            else if(SearchningStartLineState_checkTransitionTriggerTimer1Exceeds5s())
+            else if (SearchningStartLineState_checkTransitionTriggerTimer1Exceeds5s())
             {
                 SearchingStartLineState_exitStartTimer2AndPlayBeepIfStartlineFound();
                 gCurrentState = ERROR_STATE;
@@ -138,13 +114,13 @@ void StateHandler_stateHandler(void)
             break;
 
         case INITIALIZATION_STATE:
-            if(!gProcessedEntryFunction)
+            if (!gProcessedEntryFunction)
             {
                 InitializationState_enterDisplayNameAndStartTimer1();
                 gProcessedEntryFunction = TRUE;
             }
 
-            if(InitializationState_checkTransitionTriggerTimer1Exceeds2s())
+            if (InitializationState_checkTransitionTriggerTimer1Exceeds2s())
             {
                 InitializationState_exitStopTimer1();
                 gCurrentState = CALIBRATION_STATE;
@@ -155,7 +131,7 @@ void StateHandler_stateHandler(void)
         case CALIBRATION_STATE:
             CalibrationState_processCalibrate();
 
-            if(CalibrationState_checkTransitionTriggerCalibrationDone())
+            if (CalibrationState_checkTransitionTriggerCalibrationDone())
             {
                 gCurrentState = READY_STATE;
             }
@@ -164,22 +140,22 @@ void StateHandler_stateHandler(void)
         case READY_STATE:
             ReadyState_processPollingButtons();
 
-            if(ReadyState_checkTransitionTriggerButtonAPressed())
+            if (ReadyState_checkTransitionTriggerButtonAPressed())
             {
                 gCurrentState = PRE_DRIVE_STATE;
             }
-            else if(ReadyState_checkTransitionTriggerButtonBPressed())
+            else if (ReadyState_checkTransitionTriggerButtonBPressed())
             {
                 gCurrentState = PARAMETER_SET_STATE;
             }
-            else if(ReadyState_checkTransitionTriggerButtonCPressed())
+            else if (ReadyState_checkTransitionTriggerButtonCPressed())
             {
                 gCurrentState = CALIBRATION_STATE;
             }
             break;
 
         case PARAMETER_SET_STATE:
-            if(!gProcessedEntryFunction)
+            if (!gProcessedEntryFunction)
             {
                 ParameterSetState_enterDisplayParameterSets();
                 gProcessedEntryFunction = TRUE;
@@ -187,7 +163,7 @@ void StateHandler_stateHandler(void)
 
             ParameterSetState_processSetParameterSet();
 
-            if(ParameterSetState_checkTransitionTriggerConfigDone())
+            if (ParameterSetState_checkTransitionTriggerConfigDone())
             {
                 ParameterSetState_exitDisplaySelectedParameterSetFor3s();
                 gCurrentState = READY_STATE;
@@ -196,13 +172,13 @@ void StateHandler_stateHandler(void)
             break;
 
         case PRE_DRIVE_STATE:
-            if(!gProcessedEntryFunction)
+            if (!gProcessedEntryFunction)
             {
                 PreDriveState_enterStartTimer1AndWaitFor3s();
                 gProcessedEntryFunction = TRUE;
             }
 
-            if(PreDriveState_checkTransitionTriggerTimer1Exceeds3s())
+            if (PreDriveState_checkTransitionTriggerTimer1Exceeds3s())
             {
                 PreDriveState_exitStopTimer1();
                 gCurrentState = SEARCHING_STARTLINE_STATE;
