@@ -71,7 +71,7 @@ extern void SearchingStartLineState_processSearchForStartline(void)
     */
     PositionControl_UpdateSensorValues();
     PositionControl_DriveOnTrack();
-    if(TRUE == PosionControl_checkForStartLine())
+    if(TRUE == PositionControl_checkForStartLine())
     {
         gStartlineDetected = TRUE;
     }
