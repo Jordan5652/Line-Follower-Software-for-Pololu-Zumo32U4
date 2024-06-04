@@ -16,13 +16,14 @@ State1 -down--> State3 : [timer 1 >= 2s]
 State2 -up-> State3 : ButtonC triggered 
 State2 -down-> State4 : ButtonB triggered
 State2 -right-> State10 : ButtonA triggered
-State10 -right-> State5 : [timer 1 >= 3s]
+State10 -right-> State5 : [timer 1 >= 3s] 
 State2 <-down- State3 : calibration done
 State2 <-left- State4 : configuration done
 
+
 State5 -right-> State6 : Startline found
 State6 -down-> State7 : Startline found
-State6 -up-> State9 : [timer 2 >= 20s]
+State6 -up-> State9 : [timer 2 >= 20s] or track not found for >5s
 State7 -down-> State2 : ButtonA triggered 
 State5 --> State9 : [timer 1 >=3s]
 State9 -down-> State2 : ButtonA triggered 

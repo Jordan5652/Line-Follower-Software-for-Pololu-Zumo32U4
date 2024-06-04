@@ -47,7 +47,7 @@ package App
         motorspeed: Int16
     }
 
-    class TrackFunctions
+    class PositionControl
     {
         -gSensorValues: LineSensorValues
         +driveOnTrack(void): void
@@ -311,14 +311,14 @@ SearchingStartLineState ..d.....> SoftTimer
 SearchingStartLineState ..d.....> GlobalTimers
 SearchingStartLineState ..d.....> Buzzer
 SearchingStartLineState ..d.....> Display
-SearchingStartLineState ..d.....> TrackFunctions
+SearchingStartLineState ..d.....> PositionControl
 
 DriveLapState ..d.....> Buzzer
 DriveLapState ......> Parameters
 DriveLapState ..d....> DriveControl
 DriveLapState ..d.....> LineSensor
 DriveLapState ..d.....> SoftTimer
-DriveLapState ..d.....> TrackFunctions
+DriveLapState ..d.....> PositionControl
 
 TrackFunctions ...d...> LineSensor
 TrackFunctions ...d..> DriveControl
