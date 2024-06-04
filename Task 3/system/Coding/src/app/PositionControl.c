@@ -15,7 +15,7 @@
 #define MAX_MOTOR_SPEED (100u)
 #define MIN_MOTOR_SPEED (0u)
 
-#define AVERAGE_THRESHHOLD (380u)
+#define SUM_THRESHHOLD (10000u)
 #define WHITE_THRESHHOLD (180u)
 
 /* MACROS *****************************************************************************************/
@@ -25,7 +25,6 @@
 /* PROTOTYPES *************************************************************************************/
 
 /* VARIABLES **************************************************************************************/
-
 static LineSensorValues gSensorValues;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
@@ -79,21 +78,10 @@ extern void PositionControl_DriveOnTrack(void)
 
 extern Bool PosionControl_checkForStartLine(void)
 {
-    UInt16 lineSensorAverage = 0u;
-    for (UInt8 Counter = 0; Counter < LINESENSOR_COUNT; Counter++)
-    {
-        if (Counter == 0 || Counter == 2  || Counter == 4)
-        {
-            lineSensorAverage += gSensorValues.value[Counter]*4;
-        }
-        else
-        {
-            lineSensorAverage += gSensorValues.value[Counter];
-        }
-    }
-    lineSensorAverage /= 14;
+    UInt16 sumOfWeightedValues = 0u;
+    static UInt16 sumOfWeightedValuesBefore = 0u;
 
-    if (AVERAGE_THRESHHOLD < lineSensorAverage)
+    if (SUM_THRESHHOLD < (sumOfWeightedValues - sumOfWeightedValuesBefore))
     {
         return TRUE;
     }
@@ -101,6 +89,25 @@ extern Bool PosionControl_checkForStartLine(void)
     { 
         return FALSE;
     } 
+
+    for (UInt8 Counter = 0; Counter < LINESENSOR_COUNT; Counter++)
+    {
+        if (Counter == 0 || Counter == 2  || Counter == 4)
+        {
+            sumOfWeightedValues += gSensorValues.value[Counter]*4;
+        }
+        else
+        {
+            sumOfWeightedValues += gSensorValues.value[Counter];
+        }
+    }
+    sumOfWeightedValuesBefore = sumOfWeightedValues;
+
+    UInt8 av[20];
+    snprintf(av, sizeof(av),"%d", (sumOfWeightedValues - sumOfWeightedValuesBefore));
+
+    Display_clear();
+    Display_write(av, sizeof(av));
 }
 
 extern Bool PosionControl_checkForLineLost(void)
