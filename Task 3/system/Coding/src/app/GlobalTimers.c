@@ -21,9 +21,9 @@
 
 /* VARIABLES **************************************************************************************/
 
-SoftTimer timer1;
-SoftTimer timer2;
-SoftTimer timer3;
+static SoftTimer timer1;
+static SoftTimer timer2;
+static SoftTimer timer3;
 
 SoftTimer* pTimer1 = &timer1;
 SoftTimer* pTimer2 = &timer2;

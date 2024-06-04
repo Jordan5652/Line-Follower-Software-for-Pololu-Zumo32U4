@@ -22,11 +22,6 @@
 /* PROTOTYPES *************************************************************************************/
 
 /* VARIABLES **************************************************************************************/
-
-extern SoftTimer timer1;
-extern SoftTimer timer2;
-extern SoftTimer timer3;
-
 extern SoftTimer* pTimer1;
 extern SoftTimer* pTimer2;
 extern SoftTimer* pTimer3;
