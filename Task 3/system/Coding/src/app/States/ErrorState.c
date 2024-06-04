@@ -25,7 +25,7 @@ static Bool gButtonTriggered = FALSE;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
-extern void ErrorState_enterStopDriveAndPlayAlarmAndDisplayError(UInt8 errorCode)
+extern void ErrorState_enterStopDriveAndPlayAlarmAndDisplayError(ErrorHandlerErrorCode errorCode)
 {
     // TODO  ErrorHandlerErrorCode errorcode rausfinden den richtignen   
     DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, 0, DRIVE_CONTROL_FORWARD);

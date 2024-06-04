@@ -49,9 +49,9 @@ extern void SearchingStartLineState_exitStartTimer2AndPlayBeepIfStartlineFound(v
 extern Bool SearchningStartLineState_checkTransitionTriggerStartlineFound(void);
 
 /**
- * @brief checks if timer1 exceeded 8s
- * @return Bool: returns true if timer exceeded 8s
+ * @brief checks if timer1 exceeded 2s
+ * @return Bool: returns true if timer exceeded 2s
 */
-extern Bool SearchningStartLineState_checkTransitionTriggerTimer1Exceeds8s(void);
+extern Bool SearchningStartLineState_checkTransitionTriggerTimer1Exceeds2s(void);
 
 #endif /* SEARCHING_START_LINE_STATE_H */

@@ -27,6 +27,8 @@
 /** array of the choosable parameter sets */
 static ParameterSet gParameterSets[MAX_NUMBER_OF_PARAMETER_SETS];
 
+ParameterSet* pParameters = &gParameterSets[INDEX_SET1];
+
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
 extern void Parameters_setParameterSet(UInt8 index)

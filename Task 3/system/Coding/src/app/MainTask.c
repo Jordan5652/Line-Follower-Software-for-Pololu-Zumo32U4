@@ -78,5 +78,6 @@ static void mainTaskWork(void * data)
     (void)data;
 
     /* TODO: Add your application here. */
+    StateHandler_stateHandler();
 }
 

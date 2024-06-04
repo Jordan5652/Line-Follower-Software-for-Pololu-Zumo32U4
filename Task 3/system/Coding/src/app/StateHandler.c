@@ -53,6 +53,7 @@ void StateHandler_stateHandler(void)
             else if(DriveLapState_checkTranstionTriggerTimer2Exceeds20s())
             {
                 gCurrentState = ERROR_STATE;
+                gErrorCode = ERRORHANDLER_DRIVING_TIMEOUT;
             }
             break;
 
@@ -108,6 +109,7 @@ void StateHandler_stateHandler(void)
                 SearchTrackState_exitStopTimer1();
                 gCurrentState = ERROR_STATE;
                 processedEntryFunction = FALSE;
+                gErrorCode = ERRORHANDLER_RELEASETRACK_TIMER_START_FAIL;
             }
             break;
 
@@ -126,11 +128,12 @@ void StateHandler_stateHandler(void)
                 gCurrentState = DRIVE_LAP_STATE;
                 processedEntryFunction = FALSE;
             }
-            else if(SearchningStartLineState_checkTransitionTriggerTimer1Exceeds8s())
+            else if(SearchningStartLineState_checkTransitionTriggerTimer1Exceeds2s())
             {
                 SearchingStartLineState_exitStartTimer2AndPlayBeepIfStartlineFound();
                 gCurrentState = ERROR_STATE;
                 processedEntryFunction = FALSE;
+                gErrorCode = ERRORHANDLER_RELEASETRACK_TIMER_START_FAIL;
             }
             break;
 

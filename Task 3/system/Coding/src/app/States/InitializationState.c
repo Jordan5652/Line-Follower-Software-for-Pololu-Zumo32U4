@@ -27,7 +27,7 @@
 extern void InitializationState_enterDisplayNameAndStartTimer1(void)
 {
     /** Display team name */
-    Int8 buffer[] = TEAM_NAME;
+    Char buffer[20] = TEAM_NAME;
     Display_clear();
     Display_write(buffer, sizeof(buffer));
 

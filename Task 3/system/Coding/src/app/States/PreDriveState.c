@@ -26,6 +26,10 @@
 
 extern void PreDriveState_enterStartTimer1AndWaitFor3s(void)
 {
+    Int8 buffer[] = "PreDriveState";
+    Display_clear();
+    Display_write(buffer, sizeof(buffer));
+    
     SoftTimer_start(pTimer1, THREE_SECONDS);
 }
 

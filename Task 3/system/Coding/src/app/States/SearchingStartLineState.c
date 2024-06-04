@@ -37,11 +37,11 @@ static UInt16 gLineSensorAverage = 0;
 
 extern void SearchingStartLineState_enterStartTimer1AndStartDriving(void)
 {
-    /*
+    
     Int8 buffer[] = "SearchingStartlineState";
     Display_clear();
     Display_write(buffer, sizeof(buffer));
-    */
+    
 
     SoftTimer_start(pTimer1, TWO_SECONDS);
 
@@ -86,16 +86,18 @@ extern Bool SearchningStartLineState_checkTransitionTriggerStartlineFound(void)
     if (gStartlineDetected)
     {
         gStartlineDetected = FALSE;
+        Display_clear();
         return TRUE;
     }
     return FALSE;
 }
 
-extern Bool SearchningStartLineState_checkTransitionTriggerTimer1Exceeds8s(void)
+extern Bool SearchningStartLineState_checkTransitionTriggerTimer1Exceeds2s(void)
 {
     if (SOFTTIMER_IS_EXPIRED(pTimer1))
     {
         gStartlineDetected = FALSE;
+        Display_clear();
         return TRUE;
     }
     return FALSE;

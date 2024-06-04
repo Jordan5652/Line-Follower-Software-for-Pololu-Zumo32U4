@@ -29,7 +29,7 @@
 /** 
  * @brief stops the motors when error occurs, emits an accustic alarm and displays the error message on the display and resets all timers
 */
-extern void ErrorState_enterStopDriveAndPlayAlarmAndDisplayError(UInt8 errorCode);
+extern void ErrorState_enterStopDriveAndPlayAlarmAndDisplayError(ErrorHandlerErrorCode errorCode);
 
 /** 
  * @brief checks if ButtonA is pressed by polling (ErrorState is left when ButtonA is pressed)
