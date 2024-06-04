@@ -13,7 +13,6 @@
 
 /* CONSTANTS **************************************************************************************/
 #define NO_SPEED (0U)
-#define ONE_SECOND (1000U)
 #define TEXT_TIME ("TIME: ")
 #define TEXT_COMMA (",")
 #define TEXT_SEC (" sec")
@@ -50,7 +49,7 @@ extern void LapFinishedState_enterStopTimer2AndDisplayTimeAndStopDriveAndPlayBee
 
     Buzzer_beep(BUZZER_NOTIFY);
     
-    gLapTimeCounter = 20000u - gLapTimeCounter;
+    gLapTimeCounter = TWENTY_SECONDS - gLapTimeCounter;
     gLapTimeSec = gLapTimeCounter / ONE_SECOND;
     gLapTimeMilliSec = gLapTimeCounter % ONE_SECOND;
 
