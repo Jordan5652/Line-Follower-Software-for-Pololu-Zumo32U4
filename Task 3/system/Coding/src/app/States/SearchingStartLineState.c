@@ -12,8 +12,6 @@
 #include "SearchingStartLineState.h"
 
 /* CONSTANTS **************************************************************************************/
-#define STARTING_SPEED 20u
-//#define AVERAGE_THRESHHOLD 480u
 
 /* MACROS *****************************************************************************************/
 #define FIVE_SECONDS (5000u)
@@ -45,9 +43,6 @@ extern void SearchingStartLineState_enterStartTimer1AndStartDriving(void)
 
     SoftTimer_start(pTimer1, FIVE_SECONDS);
 
-    DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, STARTING_SPEED, DRIVE_CONTROL_FORWARD);
-    DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, STARTING_SPEED, DRIVE_CONTROL_FORWARD);
-
     LineSensor_enableEmitter();
 }
 
@@ -75,6 +70,7 @@ extern void SearchingStartLineState_processSearchForStartline(void)
     }
     */
     PositionControl_UpdateSensorValues();
+    PositionControl_DriveOnTrack();
     if(TRUE == PosionControl_checkForStartLine())
     {
         gStartlineDetected = TRUE;
