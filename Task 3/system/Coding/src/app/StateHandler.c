@@ -24,12 +24,14 @@
 /**
  * @brief store the current state ID
 */
-static Bool gProcessedEntryFunction = FALSE;
+static Bool processedEntryFunction = FALSE;
 
 /**
  * @brief store the current state ID
 */
-static States gCurrentState;
+static States gCurrentState = INITIALIZATION_STATE;
+
+static ErrorHandlerErrorCode gErrorCode = ERRORHANDLER_MAIN_SCHEDULER_EXIT;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
@@ -55,10 +57,10 @@ void StateHandler_stateHandler(void)
             break;
 
         case ERROR_STATE:
-            if(!gProcessedEntryFunction)
+            if(!processedEntryFunction)
             {
-                ErrorState_enterStopDriveAndPlayAlarmAndDisplayError();
-                gProcessedEntryFunction = TRUE;
+                ErrorState_enterStopDriveAndPlayAlarmAndDisplayError(gErrorCode);
+                processedEntryFunction = TRUE;
             }
 
             ErrorState_processPollingButtonA();
@@ -66,15 +68,15 @@ void StateHandler_stateHandler(void)
             if(ErrorState_checkTransitionTriggerButtonAPressed())
             {
                 gCurrentState = READY_STATE;
-                gProcessedEntryFunction = FALSE;
+                processedEntryFunction = FALSE;
             }
             break;
 
         case LAP_FINISHED_STATE:
-            if(!gProcessedEntryFunction)
+            if(!processedEntryFunction)
             {
                 LapFinishedState_enterStopTimer2AndDisplayTimeAndStopDriveAndPlayBeep();
-                gProcessedEntryFunction = TRUE;
+                processedEntryFunction = TRUE;
             }
 
             LapFinishedState_processPollingButtonA();
@@ -82,15 +84,15 @@ void StateHandler_stateHandler(void)
             if(LapFinishedState_checkTransitionTriggerButtonAPressed())
             {
                 gCurrentState = READY_STATE;
-                gProcessedEntryFunction = FALSE;
+                processedEntryFunction = FALSE;
             }
             break;
 
         case SEARCH_TRACK_STATE:
-            if(!gProcessedEntryFunction)
+            if(!processedEntryFunction)
             {
                 SearchTrackState_enterStartTimer1();
-                gProcessedEntryFunction = TRUE;
+                processedEntryFunction = TRUE;
             }
 
             SearchTrackState_processFindTrackLine();
@@ -99,21 +101,21 @@ void StateHandler_stateHandler(void)
             {
                 SearchTrackState_exitStopTimer1();
                 gCurrentState = DRIVE_LAP_STATE;
-                gProcessedEntryFunction = FALSE;
+                processedEntryFunction = FALSE;
             }
             else if(SearchTrackState_checkTransitionTriggerTimer1Exceeds5s())
             {
                 SearchTrackState_exitStopTimer1();
                 gCurrentState = ERROR_STATE;
-                gProcessedEntryFunction = FALSE;
+                processedEntryFunction = FALSE;
             }
             break;
 
         case SEARCHING_STARTLINE_STATE:
-            if(!gProcessedEntryFunction)
+            if(!processedEntryFunction)
             {
                 SearchingStartLineState_enterStartTimer1AndStartDriving();
-                gProcessedEntryFunction = TRUE;
+                processedEntryFunction = TRUE;
             }
 
             SearchingStartLineState_processSearchForStartline();
@@ -122,28 +124,28 @@ void StateHandler_stateHandler(void)
             {
                 SearchingStartLineState_exitStartTimer2AndPlayBeepIfStartlineFound();
                 gCurrentState = DRIVE_LAP_STATE;
-                gProcessedEntryFunction = FALSE;
+                processedEntryFunction = FALSE;
             }
             else if(SearchningStartLineState_checkTransitionTriggerTimer1Exceeds8s())
             {
                 SearchingStartLineState_exitStartTimer2AndPlayBeepIfStartlineFound();
                 gCurrentState = ERROR_STATE;
-                gProcessedEntryFunction = FALSE;
+                processedEntryFunction = FALSE;
             }
             break;
 
         case INITIALIZATION_STATE:
-            if(!gProcessedEntryFunction)
+            if(!processedEntryFunction)
             {
                 InitializationState_enterDisplayNameAndStartTimer1();
-                gProcessedEntryFunction = TRUE;
+                processedEntryFunction = TRUE;
             }
 
             if(InitializationState_checkTransitionTriggerTimer1Exceeds2s())
             {
                 InitializationState_exitStopTimer1();
                 gCurrentState = CALIBRATION_STATE;
-                gProcessedEntryFunction = FALSE;
+                processedEntryFunction = FALSE;
             }
             break;
 
@@ -174,10 +176,10 @@ void StateHandler_stateHandler(void)
             break;
 
         case PARAMETER_SET_STATE:
-            if(!gProcessedEntryFunction)
+            if(!processedEntryFunction)
             {
                 ParameterSetState_enterDisplayParameterSets();
-                gProcessedEntryFunction = TRUE;
+                processedEntryFunction = TRUE;
             }
 
             ParameterSetState_processSetParameterSet();
@@ -186,22 +188,22 @@ void StateHandler_stateHandler(void)
             {
                 ParameterSetState_exitDisplaySelectedParameterSetFor3s();
                 gCurrentState = READY_STATE;
-                gProcessedEntryFunction = FALSE;
+                processedEntryFunction = FALSE;
             }
             break;
 
         case PRE_DRIVE_STATE:
-            if(!gProcessedEntryFunction)
+            if(!processedEntryFunction)
             {
                 PreDriveState_enterStartTimer1AndWaitFor3s();
-                gProcessedEntryFunction = TRUE;
+                processedEntryFunction = TRUE;
             }
 
             if(PreDriveState_checkTransitionTriggerTimer1Exceeds3s())
             {
                 PreDriveState_exitStopTimer1();
                 gCurrentState = SEARCHING_STARTLINE_STATE;
-                gProcessedEntryFunction = FALSE;
+                processedEntryFunction = FALSE;
             }
             break;
 
