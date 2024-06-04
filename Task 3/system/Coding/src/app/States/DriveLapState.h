@@ -17,7 +17,8 @@
 #include "Buzzer.h"
 #include "DriveControl.h"
 #include "LineSensor.h"
-#include "SoftTimer.h"
+#include "GlobalTimers.h"
+#include "PositionControl.h"
 
 /* CONSTANTS **************************************************************************************/
 
@@ -26,6 +27,8 @@
 /* TYPES ******************************************************************************************/
 
 /* PROTOTYPES *************************************************************************************/
+
+extern void DriveLapState_enterStartTimer3(void);
 
 /** 
  * @brief follows the TrackLine
@@ -40,7 +43,7 @@ extern Bool DriveLapState_checkTranstionTriggerTimer2Exceeds20s(void);
 
 /** 
  * @brief checks if track cannot be found
- * @return Bool: returns true track cannot be found
+ * @return Bool: returns true if track cannot be found
 */
 extern Bool DriveLapState_checkTranstionTriggerTrackNotFound(void);
 

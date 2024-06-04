@@ -12,6 +12,10 @@
 #include "PositionControl.h"
 
 /* CONSTANTS **************************************************************************************/
+#define MAX_MOTOR_SPEED (100u)
+#define MIN_MOTOR_SPEED (0u)
+
+#define WHITE_THRESHHOLD (180u)
 
 /* MACROS *****************************************************************************************/
 
@@ -21,57 +25,79 @@
 
 /* VARIABLES **************************************************************************************/
 
-static LineSensorValues values;
-UInt32 sumOfActualValues;
-Int16 sumOfWeightedValues;
-Int16 sumOfWeightedValuesBefore = 0u;
-Int16 sumOfWeightedValuesIntegrated = 0u;
-Int16 Pos = 0;
+static LineSensorValues gSensorValues;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
+extern void PositionControl_UpdateSensorValues(void)
+{
+    LineSensor_read(&gSensorValues);
+}
+
 extern void PositionControl_DriveOnTrack(void)
 {
-    LineSensor_read(&values);
+    Int16 sumOfWeightedValues;
+    Int16 sumOfWeightedValuesBefore = 0;
+    static Int16 sumOfWeightedValuesIntegrated = 0;
 
-    sumOfWeightedValues = 0;
-    sumOfWeightedValues += values.value[LINESENSOR_MIDDLE_LEFT] * -1;
-    sumOfWeightedValues += values.value[LINESENSOR_MIDDLE] * 0;
-    sumOfWeightedValues += values.value[LINESENSOR_MIDDLE_RIGHT] * 1;
-    sumOfWeightedValues += values.value[LINESENSOR_LEFT] * -5;
-    sumOfWeightedValues += values.value[LINESENSOR_RIGHT] * 5;
+    sumOfWeightedValues = 0u;
+    sumOfWeightedValues += gSensorValues.value[LINESENSOR_MIDDLE_LEFT] * -1;
+    sumOfWeightedValues += gSensorValues.value[LINESENSOR_MIDDLE] * 0;
+    sumOfWeightedValues += gSensorValues.value[LINESENSOR_MIDDLE_RIGHT] * 1;
     
     Int32 speedDifference = pParameters->kp*sumOfWeightedValues + pParameters->kd*(sumOfWeightedValues-sumOfWeightedValuesBefore) + pParameters->ki * (sumOfWeightedValuesIntegrated);
 
-    Int32 left = speedDifference + pParameters->motorspeed;
-    Int32 right = -speedDifference + pParameters->motorspeed;
+    Int32 leftSpeed = speedDifference + pParameters->motorspeed;
+    Int32 rightSpeed = -speedDifference + pParameters->motorspeed;
 
-    if (left < 0)
+    if (leftSpeed < MIN_MOTOR_SPEED)
     {
-        left = 0;
+        leftSpeed = MIN_MOTOR_SPEED;
     }
-    if (right < 0)
+    if (rightSpeed < MIN_MOTOR_SPEED)
     {
-        right = 0;
-    }
-
-    //if(left > (2*MOTORSPEED))
-    if (left > 100)
-    {
-        //left = 2*MOTORSPEED;
-        left = 100;
+        rightSpeed = MIN_MOTOR_SPEED;
     }
 
-    //if(right > 2*MOTORSPEED)
-    if (right > 100)
+    if (leftSpeed > MAX_MOTOR_SPEED)
     {
-        //right = 2*MOTORSPEED;
-        right = 100;
+        leftSpeed = MAX_MOTOR_SPEED;
     }
 
-    DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, left, DRIVE_CONTROL_FORWARD);
-    DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, right, DRIVE_CONTROL_FORWARD);
+    if (rightSpeed > MAX_MOTOR_SPEED)
+    {
+        rightSpeed = MAX_MOTOR_SPEED;
+    }
+
+    DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, leftSpeed, DRIVE_CONTROL_FORWARD);
+    DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, rightSpeed, DRIVE_CONTROL_FORWARD);
     sumOfWeightedValuesBefore = sumOfWeightedValues;
     sumOfWeightedValuesIntegrated += sumOfWeightedValues;
+}
+
+extern Bool PositionControl_checkForStartLine(void)
+{
+    
+    if ((gSensorValues.value[LINESENSOR_LEFT]) > 350u || 
+        (gSensorValues.value[LINESENSOR_RIGHT]) > 350u ||
+        ((gSensorValues.value[LINESENSOR_LEFT]) > 200u && (gSensorValues.value[LINESENSOR_RIGHT]) > 200u))
+    {
+        return true;
+    }
+    
+    return FALSE;
+}
+
+extern Bool PositionControl_checkForLineLost(void)
+{
+    Bool lineLost = TRUE;
+    for (UInt8 Counter = 0; Counter < LINESENSOR_COUNT; Counter++)
+    {
+        if(gSensorValues.value[Counter] > WHITE_THRESHHOLD)
+        {
+            lineLost = FALSE;
+        }
+    }
+    return lineLost;
 }
 
 /* INTERNAL FUNCTIONS *****************************************************************************/

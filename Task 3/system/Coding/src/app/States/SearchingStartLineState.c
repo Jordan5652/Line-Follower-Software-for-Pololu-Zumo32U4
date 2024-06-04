@@ -12,10 +12,9 @@
 #include "SearchingStartLineState.h"
 
 /* CONSTANTS **************************************************************************************/
-#define STARTING_SPEED 20u
-#define AVERAGE_THRESHHOLD 480u
 
 /* MACROS *****************************************************************************************/
+#define FIVE_SECONDS (5000u)
 
 /* TYPES ******************************************************************************************/
 
@@ -44,14 +43,12 @@ extern void SearchingStartLineState_enterStartTimer1AndStartDriving(void)
 
     SoftTimer_start(pTimer1, FIVE_SECONDS);
 
-    DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, STARTING_SPEED, DRIVE_CONTROL_FORWARD);
-    DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, STARTING_SPEED, DRIVE_CONTROL_FORWARD);
-
     LineSensor_enableEmitter();
 }
 
 extern void SearchingStartLineState_processSearchForStartline(void)
 {
+    /*
     LineSensor_read(&gLineSensorValues);
     gLineSensorAverage = 0;
     for (UInt8 gCounter = 0; gCounter < LINESENSOR_COUNT; gCounter++)
@@ -71,12 +68,19 @@ extern void SearchingStartLineState_processSearchForStartline(void)
     {
         gStartlineDetected = TRUE;
     }
+    */
+    PositionControl_UpdateSensorValues();
+    PositionControl_DriveOnTrack();
+    if(TRUE == PositionControl_checkForStartLine())
+    {
+        gStartlineDetected = TRUE;
+    }
 }
 
 extern void SearchingStartLineState_exitStartTimer2AndPlayBeepIfStartlineFound(void)
 {
     /*Start timer for measuring track time*/
-    SoftTimer_start(pTimer2, TWENTY_SECONDS);
+    SoftTimer_start(pTimer2, 20000u);
     Buzzer_beep(BUZZER_NOTIFY);
 }
 
