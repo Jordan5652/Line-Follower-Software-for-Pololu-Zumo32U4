@@ -79,8 +79,7 @@ extern void PositionControl_DriveOnTrack(void)
 
 extern Bool PosionControl_checkForStartLine(void)
 {
-
-    if(gSensorValues.value[LINESENSOR_MIDDLE] > 350u ||
+    /*if(gSensorValues.value[LINESENSOR_MIDDLE] > 350u ||
        gSensorValues.value[LINESENSOR_MIDDLE_LEFT] > 400u ||
        gSensorValues.value[LINESENSOR_MIDDLE_RIGHT] > 350u)
     {
@@ -89,13 +88,19 @@ extern Bool PosionControl_checkForStartLine(void)
            {
                 return TRUE;
            } 
+    }*/
+
+    if ((gSensorValues.value[LINESENSOR_LEFT]) > 350u || 
+        (gSensorValues.value[LINESENSOR_RIGHT]) > 350u ||
+        ((gSensorValues.value[LINESENSOR_LEFT]) > 200u && (gSensorValues.value[LINESENSOR_RIGHT]) > 200u))
+    {
+        return true;
     }
     
     return FALSE;
-
 }
 
-extern Bool PosionControl_checkForLineLost(void)
+extern Bool PositionControl_checkForLineLost(void)
 {
     Bool lineLost = TRUE;
     for (UInt8 Counter = 0; Counter < LINESENSOR_COUNT; Counter++)

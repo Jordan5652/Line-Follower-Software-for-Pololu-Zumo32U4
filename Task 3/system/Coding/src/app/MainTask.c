@@ -87,7 +87,7 @@ typedef enum
 }states;
 
 states State = INIT;
-extern LineSensorValues gSensorValues;
+//extern LineSensorValues gSensorValues;
 
 char value0Text[8]; 
 char value1Text[8]; 
@@ -170,14 +170,15 @@ static void mainTaskWork(void * data)
 
 
 
-
+            
                 
             }
 
             break;
+            
 
     }
-        */
 
+    */
 }
 
