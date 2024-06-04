@@ -2,17 +2,22 @@
   (c) NewTec GmbH 2024   -   www.newtec.de
 ***************************************************************************************************/
 /**
- * @file       PreDriveState.c
+ * @file       PositionControl.h
  *
- * Contains the functions and variables for the PreDriveState.
+ * Header of PositionControl.c.
  */
 /**************************************************************************************************/
+#ifndef POSITION_COTROL_H
+#define POSITION_COTROL_H
 
 /* INCLUDES ***************************************************************************************/
-#include "PreDriveState.h"
+#include "Types.h"
+
+#include "LineSensor.h"
+#include "DriveControl.h"
+#include "Parameters.h"
 
 /* CONSTANTS **************************************************************************************/
-#define THREE_SECONDS (3000U)
 
 /* MACROS *****************************************************************************************/
 
@@ -20,27 +25,6 @@
 
 /* PROTOTYPES *************************************************************************************/
 
-/* VARIABLES **************************************************************************************/
+extern void PositionControl_DriveOnTrack(void);
 
-/* EXTERNAL FUNCTIONS *****************************************************************************/
-
-extern void PreDriveState_enterStartTimer1AndWaitFor3s(void)
-{
-    SoftTimer_start(pTimer1, THREE_SECONDS);
-}
-
-extern void PreDriveState_exitStopTimer1(void)
-{
-    SoftTimer_Stop(pTimer1);
-}
-
-extern Bool PreDriveState_checkTransitionTriggerTimer1Exceeds3s(void)
-{
-    if (SOFTTIMER_IS_EXPIRED(pTimer1))
-    {
-        return TRUE;
-    }
-    return FALSE;
-}
-
-/* INTERNAL FUNCTIONS *****************************************************************************/
+#endif /* POSITION_COTROL_H */
