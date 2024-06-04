@@ -38,6 +38,7 @@ extern void Parameters_setParameterSet(UInt8 index)
 
 extern void Parameters_displayParameterSets(void)
 {
+    Display_clear();
     Display_gotoxy(0, 0);
     Display_write(TEXT_SET1, sizeof(TEXT_SET1));
     Display_gotoxy(0, 1);
