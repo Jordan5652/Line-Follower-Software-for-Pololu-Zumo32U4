@@ -48,6 +48,12 @@ extern void DriveLapState_processDriveOnTrackLine(void)
         SoftTimer_Stop(pTimer1);
         SoftTimer_start(pTimer1, 5000u);
         gOffTrack = TRUE;
+        DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, 0u, DRIVE_CONTROL_FORWARD);
+        DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, 0u, DRIVE_CONTROL_FORWARD);
+        Display_clear();
+        Display_write("TRACKLINE LOST!", sizeof("TRACKLINE LOST!"));
+        while(1);
+        
     }
 
     else
@@ -89,12 +95,22 @@ extern Bool DriveLapState_checkTranstionTriggerTimer2Exceeds20s(void)
 extern Bool DriveLapState_checkTranstionTriggerStartlineFound(void)
 {
     //Wait some time to prevent immediatly finding startline after starting to drive
+<<<<<<< Updated upstream
    
         if (gStartlineFound)
         {
             gStartlineFound = FALSE;
             return TRUE;
         }
+=======
+    if(SOFTTIMER_IS_EXPIRED(pTimer3))
+    {
+        //return PositionControl_checkForStartLine();
+        return FALSE;
+    }
+    else
+    {
+>>>>>>> Stashed changes
         return FALSE;
    
 }
