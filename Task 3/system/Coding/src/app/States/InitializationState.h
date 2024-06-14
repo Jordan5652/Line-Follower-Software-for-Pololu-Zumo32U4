@@ -13,7 +13,6 @@
 /* INCLUDES ***************************************************************************************/
 #include "Types.h"
 
-#include "SoftTimer.h"
 #include "Display.h"
 #include "GlobalTimers.h"
 #include "Parameters.h"
