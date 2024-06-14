@@ -11,6 +11,8 @@
 /* INCLUDES ***************************************************************************************/
 #include "DriveLapState.h"
 
+#include "Led.h"
+
 /* CONSTANTS **************************************************************************************/
 
 /* MACROS *****************************************************************************************/
@@ -41,6 +43,7 @@ extern void DriveLapState_processDriveOnTrackLine(void)
     PositionControl_UpdateSensorValues();
     if((TRUE == PositionControl_checkForLineLost()) && (FALSE == gOffTrack))
     {
+        Led_switchOn(LED_GREEN);
         SoftTimer_Stop(pTimer1);
         SoftTimer_start(pTimer1, 5000u);
         gOffTrack = TRUE;
@@ -50,6 +53,7 @@ extern void DriveLapState_processDriveOnTrackLine(void)
     {
         if((FALSE == PositionControl_checkForLineLost()) && (TRUE == gOffTrack))
         {
+            Led_switchOff(LED_GREEN);
             SoftTimer_Stop(pTimer1);
             gOffTrack = FALSE;
         }
