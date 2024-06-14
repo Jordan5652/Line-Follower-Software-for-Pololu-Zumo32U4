@@ -15,7 +15,7 @@
 #define MAX_MOTOR_SPEED (100u)
 #define MIN_MOTOR_SPEED (0u)
 
-#define WHITE_THRESHHOLD (180u)
+#define WHITE_THRESHHOLD (200u)
 
 /* MACROS *****************************************************************************************/
 
