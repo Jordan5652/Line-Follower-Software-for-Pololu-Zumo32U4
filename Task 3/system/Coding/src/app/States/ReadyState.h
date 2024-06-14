@@ -14,6 +14,7 @@
 #include "Types.h"
 
 #include "Button.h"
+#include "Display.h"
 
 /* CONSTANTS **************************************************************************************/
 
@@ -22,6 +23,12 @@
 /* TYPES ******************************************************************************************/
 
 /* PROTOTYPES *************************************************************************************/
+
+/**
+ * @brief shows ReadyState on display
+*/
+extern void ReadyState_enterDisplayState(void);
+
 /**
  * @brief checks if any of the Buttons is pressed by polling (ReadyState is left when some Button is pressed)
 */

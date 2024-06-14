@@ -139,19 +139,31 @@ void StateHandler_stateHandler(void)
             break;
 
         case READY_STATE:
+            if (!gProcessedEntryFunction)
+            {
+                ReadyState_enterDisplayState();
+                gProcessedEntryFunction = TRUE;
+            }
+
             ReadyState_processPollingButtons();
 
             if (ReadyState_checkTransitionTriggerButtonAPressed())
             {
+                Display_clear();
                 gCurrentState = PRE_DRIVE_STATE;
+                gProcessedEntryFunction = FALSE;
             }
             else if (ReadyState_checkTransitionTriggerButtonBPressed())
             {
+                Display_clear();
                 gCurrentState = PARAMETER_SET_STATE;
+                gProcessedEntryFunction = FALSE;
             }
             else if (ReadyState_checkTransitionTriggerButtonCPressed())
             {
+                Display_clear();
                 gCurrentState = CALIBRATION_STATE;
+                gProcessedEntryFunction = FALSE;
             }
             break;
 

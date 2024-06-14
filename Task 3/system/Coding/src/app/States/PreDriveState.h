@@ -15,6 +15,7 @@
 
 #include "SoftTimer.h"
 #include "GlobalTimers.h"
+#include "Display.h"
 
 /* CONSTANTS **************************************************************************************/
 

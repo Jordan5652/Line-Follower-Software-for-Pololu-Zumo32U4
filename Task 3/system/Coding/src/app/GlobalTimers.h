@@ -18,6 +18,7 @@
 #define TWENTY_SECONDS (20000u)
 #define ONE_SECOND (1000U)
 #define TWO_SECONDS (2000u)
+#define THREE_SECONDS (3000u)
 
 /* MACROS *****************************************************************************************/
 

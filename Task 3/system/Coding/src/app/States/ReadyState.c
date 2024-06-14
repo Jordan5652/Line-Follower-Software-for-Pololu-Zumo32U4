@@ -27,6 +27,12 @@ static Bool gButtonBTriggered = FALSE;
 static Bool gButtonCTriggered = FALSE;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
+extern void ReadyState_enterDisplayState(void)
+{
+    Display_clear();
+    Display_gotoxy(0,7);
+    Display_write("ReadyState", sizeof("ReadyState"));
+}
 
 extern void ReadyState_processPollingButtons(void)
 { 
