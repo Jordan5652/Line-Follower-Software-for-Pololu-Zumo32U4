@@ -25,14 +25,6 @@
 /* PROTOTYPES *************************************************************************************/
 
 /* VARIABLES **************************************************************************************/
-/** Counter value from lap time timer */
-static UInt16 gLapTimeCounter;
-
-/** Seconds portion of the lap time */
-static UInt16 gLapTimeSec;
-
-/** Milliseconds portion of the lap time */
-static UInt16 gLapTimeMilliSec;
 
 /** Button trigger state of button A */
 static Bool gButtonAPressed = FALSE;
@@ -41,7 +33,8 @@ static Bool gButtonAPressed = FALSE;
 
 extern void LapFinishedState_enterStopTimer2AndDisplayTimeAndStopDriveAndPlayBeep(void)
 {
-    gLapTimeCounter = SoftTimer_get(pTimer2);
+    /** Counter value from lap time timer */
+    UInt16 gLapTimeCounter = SoftTimer_get(pTimer2);
 
     DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, NO_SPEED, DRIVE_CONTROL_FORWARD);
     DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, NO_SPEED, DRIVE_CONTROL_FORWARD);
@@ -50,13 +43,14 @@ extern void LapFinishedState_enterStopTimer2AndDisplayTimeAndStopDriveAndPlayBee
 
     Buzzer_beep(BUZZER_NOTIFY);
 
+    /** Display lap time **/
     gLapTimeCounter = 20000u - gLapTimeCounter;
-    gLapTimeSec = gLapTimeCounter / ONE_SECOND;
-    gLapTimeMilliSec = gLapTimeCounter % ONE_SECOND;
+    UInt16 gLapTimeSec = gLapTimeCounter / ONE_SECOND;
+    UInt16 gLapTimeMilliSec = gLapTimeCounter % ONE_SECOND;
 
-    static char gTimeStringSec[4];
+    char gTimeStringSec[4];
     snprintf(gTimeStringSec, sizeof(gTimeStringSec), "%d", gLapTimeSec);
-    static char gTimeStringMilliSec[4];
+    char gTimeStringMilliSec[4];
     snprintf(gTimeStringMilliSec, sizeof(gTimeStringSec), "%d", gLapTimeMilliSec);
 
     Display_write(TEXT_TIME, sizeof(TEXT_TIME));

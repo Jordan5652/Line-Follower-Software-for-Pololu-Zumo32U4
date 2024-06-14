@@ -12,6 +12,9 @@
 #include "ParameterSetState.h"
 
 /* CONSTANTS **************************************************************************************/
+#define TEXT_SET1_SELECTED ("Set1 selected")
+#define TEXT_SET2_SELECTED ("Set2 selected")
+#define TEXT_SET3_SELECTED ("Set3 selected")
 
 /* MACROS *****************************************************************************************/
 
@@ -35,27 +38,33 @@ extern void ParameterSetState_processSetParameterSet(void)
     {
         Parameters_setParameterSet(INDEX_SET1);
         gButtonTriggered = TRUE;
+
+        /** Display selected set for 3s **/
         SoftTimer_start(pTimer1, THREE_SECONDS);
         Display_clear();
-        Display_write("Set1 selected", sizeof("Set1 selected"));
+        Display_write(TEXT_SET1_SELECTED, sizeof(TEXT_SET1_SELECTED));
     }
 
     if (BUTTON_STATE_TRIGGERED == Button_getState(BUTTON_ID_B))
     {
         Parameters_setParameterSet(INDEX_SET2);
         gButtonTriggered = TRUE;
+
+        /** Display selected set for 3s **/
         SoftTimer_start(pTimer1, THREE_SECONDS);
         Display_clear();
-        Display_write("Set2 selected", sizeof("Set2 selected"));
+        Display_write(TEXT_SET2_SELECTED, sizeof(TEXT_SET2_SELECTED));
     }
 
     if (BUTTON_STATE_TRIGGERED == Button_getState(BUTTON_ID_C))
     {
         Parameters_setParameterSet(INDEX_SET3);
         gButtonTriggered = TRUE;
+
+        /** Display selected set for 3s **/
         SoftTimer_start(pTimer1, THREE_SECONDS);
         Display_clear();
-        Display_write("Set3 selected", sizeof("Set3 selected"));
+        Display_write(TEXT_SET3_SELECTED, sizeof(TEXT_SET3_SELECTED));
     }
 }
 

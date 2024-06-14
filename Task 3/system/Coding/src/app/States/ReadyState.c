@@ -12,6 +12,7 @@
 #include "ReadyState.h"
 
 /* CONSTANTS **************************************************************************************/
+#define TEXT_READYSTATE ("ReadyState")
 
 /* MACROS *****************************************************************************************/
 
@@ -31,7 +32,7 @@ extern void ReadyState_enterDisplayState(void)
 {
     Display_clear();
     Display_gotoxy(0,7);
-    Display_write("ReadyState", sizeof("ReadyState"));
+    Display_write(TEXT_READYSTATE, sizeof(TEXT_READYSTATE));
 }
 
 extern void ReadyState_processPollingButtons(void)

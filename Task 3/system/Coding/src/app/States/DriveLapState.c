@@ -32,10 +32,6 @@ extern void DriveLapState_enterStartTimer3(void)
 {
     gTrackLeft = FALSE;
     gOffTrack = FALSE;
-
-    SoftTimer_Stop(pTimer3);
-    SoftTimer_start(pTimer3, 2000u);
-
 }
 
 extern void DriveLapState_processDriveOnTrackLine(void)
@@ -94,25 +90,12 @@ extern Bool DriveLapState_checkTranstionTriggerTimer2Exceeds20s(void)
 
 extern Bool DriveLapState_checkTranstionTriggerStartlineFound(void)
 {
-    //Wait some time to prevent immediatly finding startline after starting to drive
-<<<<<<< Updated upstream
-   
         if (gStartlineFound)
         {
             gStartlineFound = FALSE;
             return TRUE;
         }
-=======
-    if(SOFTTIMER_IS_EXPIRED(pTimer3))
-    {
-        //return PositionControl_checkForStartLine();
         return FALSE;
-    }
-    else
-    {
->>>>>>> Stashed changes
-        return FALSE;
-   
 }
 
 extern Bool DriveLapState_checkTranstionTriggerTrackNotFound(void)

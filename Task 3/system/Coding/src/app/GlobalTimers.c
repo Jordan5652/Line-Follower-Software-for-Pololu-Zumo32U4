@@ -21,13 +21,13 @@
 
 /* VARIABLES **************************************************************************************/
 
-static SoftTimer timer1;
-static SoftTimer timer2;
-static SoftTimer timer3;
+static SoftTimer gTimer1;
+static SoftTimer gTimer2;
+static SoftTimer gTimer3;
 
-SoftTimer* pTimer1 = &timer1;
-SoftTimer* pTimer2 = &timer2;
-SoftTimer* pTimer3 = &timer3;
+SoftTimer* pTimer1 = &gTimer1;
+SoftTimer* pTimer2 = &gTimer2;
+SoftTimer* pTimer3 = &gTimer3;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 

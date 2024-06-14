@@ -27,9 +27,8 @@
 extern void InitializationState_enterDisplayNameAndStartTimer1(void)
 {
     /** Display team name */
-    Char buffer[20] = TEAM_NAME;
     Display_clear();
-    Display_write(buffer, sizeof(buffer));
+    Display_write(TEAM_NAME, sizeof(TEAM_NAME));
 
     /** Register all timers for future usage */
     SoftTimerHandler_register(pTimer1);
