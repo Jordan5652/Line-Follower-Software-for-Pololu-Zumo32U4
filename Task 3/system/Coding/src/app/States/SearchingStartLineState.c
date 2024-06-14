@@ -66,10 +66,7 @@ extern void SearchingStartLineState_processSearchForStartline(void)
     */
     PositionControl_UpdateSensorValues();
     PositionControl_DriveOnTrack();
-    if(TRUE == PositionControl_checkForStartLine())
-    {
-        gStartlineDetected = TRUE;
-    }
+    gStartlineDetected = PositionControl_checkForStartLine();
 }
 
 extern void SearchingStartLineState_exitStartTimer2AndPlayBeepIfStartlineFound(void)

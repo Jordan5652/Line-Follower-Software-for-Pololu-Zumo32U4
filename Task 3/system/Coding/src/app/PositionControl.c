@@ -36,7 +36,7 @@ extern void PositionControl_UpdateSensorValues(void)
 extern void PositionControl_DriveOnTrack(void)
 {
     Int16 sumOfWeightedValues;
-    Int16 sumOfWeightedValuesBefore = 0;
+    static Int16 sumOfWeightedValuesBefore = 0;
     static Int16 sumOfWeightedValuesIntegrated = 0;
 
     sumOfWeightedValues = 0u;
@@ -76,14 +76,23 @@ extern void PositionControl_DriveOnTrack(void)
 
 extern Bool PositionControl_checkForStartLine(void)
 {
+    static UInt8 gCounter = 0;
     
-    if ((gSensorValues.value[LINESENSOR_LEFT]) > 350u || 
-        (gSensorValues.value[LINESENSOR_RIGHT]) > 350u ||
-        ((gSensorValues.value[LINESENSOR_LEFT]) > 200u && (gSensorValues.value[LINESENSOR_RIGHT]) > 200u))
+    /*
+    (gSensorValues.value[LINESENSOR_LEFT]) > 350u || 
+        (gSensorValues.value[LINESENSOR_RIGHT]) > 350u ||*/
+
+    if (((gSensorValues.value[LINESENSOR_LEFT]) > 200u && (gSensorValues.value[LINESENSOR_RIGHT]) > 200u)) 
     {
-        return true;
+        gCounter++;
     }
-    
+
+    if (2 < gCounter)
+    {
+        gCounter = 0;
+        return TRUE;
+    }
+
     return FALSE;
 }
 
@@ -101,5 +110,3 @@ extern Bool PositionControl_checkForLineLost(void)
 }
 
 /* INTERNAL FUNCTIONS *****************************************************************************/
-
-

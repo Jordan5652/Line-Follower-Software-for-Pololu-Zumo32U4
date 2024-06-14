@@ -50,15 +50,15 @@ extern void Parameters_displayParameterSets(void)
 extern void Parameters_initParameterSets(void)
 {
     /** Init of set 1 */
-    gParameterSets[0].kp = 0.1;
-    gParameterSets[0].ki = 0;
-    gParameterSets[0].kd = 0;
-    gParameterSets[0].motorspeed = 50;
+    gParameterSets[0].kp = 0.17;
+    gParameterSets[0].ki = 0.00005;
+    gParameterSets[0].kd = 0.04;
+    gParameterSets[0].motorspeed = 80;
 
     /** Init of set 2 */
-    gParameterSets[1].kp = 0.03;
-    gParameterSets[1].ki = 0;
-    gParameterSets[1].kd = 0;
+    gParameterSets[1].kp = 0.17;
+    gParameterSets[1].ki = 0.00005;
+    gParameterSets[1].kd = 0.04;
     gParameterSets[1].motorspeed = 50;
 
     /** Init of set 3 */

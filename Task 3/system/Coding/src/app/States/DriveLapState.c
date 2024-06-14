@@ -22,6 +22,7 @@
 /* VARIABLES **************************************************************************************/
 static Bool gTrackLeft = FALSE;
 static Bool gOffTrack = FALSE;
+static Bool gStartlineFound = FALSE;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
@@ -65,6 +66,7 @@ extern void DriveLapState_processDriveOnTrackLine(void)
         PositionControl_DriveOnTrack();
     }
     
+    gStartlineFound = PositionControl_checkForStartLine();
 }
 
 extern Bool DriveLapState_checkTranstionTriggerTimer2Exceeds20s(void)
@@ -77,22 +79,20 @@ extern Bool DriveLapState_checkTranstionTriggerTimer2Exceeds20s(void)
     {
         return FALSE;
     }
-
 }
 
 
 extern Bool DriveLapState_checkTranstionTriggerStartlineFound(void)
 {
     //Wait some time to prevent immediatly finding startline after starting to drive
-    if(SOFTTIMER_IS_EXPIRED(pTimer3))
-    {
-        return PositionControl_checkForStartLine();
-    }
-    else
-    {
+   
+        if (gStartlineFound)
+        {
+            gStartlineFound = FALSE;
+            return TRUE;
+        }
         return FALSE;
-    }
-
+   
 }
 
 extern Bool DriveLapState_checkTranstionTriggerTrackNotFound(void)
