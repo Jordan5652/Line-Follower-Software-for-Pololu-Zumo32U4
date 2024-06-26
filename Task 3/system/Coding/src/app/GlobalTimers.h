@@ -31,10 +31,11 @@
 /* PROTOTYPES *************************************************************************************/
 
 /* VARIABLES **************************************************************************************/
-extern SoftTimer* pTimer1;
-extern SoftTimer* pTimer2;
-extern SoftTimer* pTimer3;
 
+/**
+ * @brief returns one of the three global timers
+ * @return SoftTimer*: returns a pointer to timer
+*/
 extern SoftTimer* GlobalTimers_getTimer(UInt8 index);
 
 #endif /* GLOBALTIMERS_H */

@@ -12,7 +12,6 @@
 
 /* INCLUDES ***************************************************************************************/
 #include "Types.h"
-
 #include "LineSensor.h"
 #include "DriveControl.h"
 #include "Parameters.h"

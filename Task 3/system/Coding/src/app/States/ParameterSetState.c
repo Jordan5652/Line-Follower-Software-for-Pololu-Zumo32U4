@@ -40,7 +40,7 @@ extern void ParameterSetState_processSetParameterSet(void)
         gButtonTriggered = TRUE;
 
         /** Display selected set for 3s **/
-        SoftTimer_start(pTimer1, THREE_SECONDS);
+        SoftTimer_start(GlobalTimers_getTimer(TIMER1), THREE_SECONDS);
         Display_clear();
         Display_write(TEXT_SET1_SELECTED, sizeof(TEXT_SET1_SELECTED));
     }
@@ -51,7 +51,7 @@ extern void ParameterSetState_processSetParameterSet(void)
         gButtonTriggered = TRUE;
 
         /** Display selected set for 3s **/
-        SoftTimer_start(pTimer1, THREE_SECONDS);
+        SoftTimer_start(GlobalTimers_getTimer(TIMER1), THREE_SECONDS);
         Display_clear();
         Display_write(TEXT_SET2_SELECTED, sizeof(TEXT_SET2_SELECTED));
     }
@@ -62,7 +62,7 @@ extern void ParameterSetState_processSetParameterSet(void)
         gButtonTriggered = TRUE;
 
         /** Display selected set for 3s **/
-        SoftTimer_start(pTimer1, THREE_SECONDS);
+        SoftTimer_start(GlobalTimers_getTimer(TIMER1), THREE_SECONDS);
         Display_clear();
         Display_write(TEXT_SET3_SELECTED, sizeof(TEXT_SET3_SELECTED));
     }
@@ -75,7 +75,7 @@ extern void ParameterSetState_exitDisplaySelectedParameterSetFor3s(void)
 
 extern Bool ParameterSetState_checkTransitionTriggerConfigDone(void)
 {
-    if (SOFTTIMER_IS_EXPIRED(pTimer1))
+    if (SOFTTIMER_IS_EXPIRED(GlobalTimers_getTimer(TIMER1)))
     {
         gButtonTriggered = FALSE;
         return TRUE;

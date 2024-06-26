@@ -34,12 +34,12 @@ static Bool gButtonAPressed = FALSE;
 extern void LapFinishedState_enterStopTimer2AndDisplayTimeAndStopDriveAndPlayBeep(void)
 {
     /** Counter value from lap time timer */
-    UInt16 gLapTimeCounter = SoftTimer_get(pTimer2);
+    UInt16 gLapTimeCounter = SoftTimer_get(GlobalTimers_getTimer(TIMER2));
 
     DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, NO_SPEED, DRIVE_CONTROL_FORWARD);
     DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, NO_SPEED, DRIVE_CONTROL_FORWARD);
 
-    SoftTimer_Stop(pTimer2);
+    SoftTimer_Stop(GlobalTimers_getTimer(TIMER2));
 
     Buzzer_beep(BUZZER_NOTIFY);
 

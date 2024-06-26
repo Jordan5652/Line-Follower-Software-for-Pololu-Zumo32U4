@@ -31,6 +31,9 @@ static Bool gProcessedEntryFunction = FALSE;
 */
 static States gCurrentState = INITIALIZATION_STATE;
 
+/**
+ * @brief store the most recent error code
+*/
 static ErrorHandlerErrorCode gErrorCode = ERRORHANDLER_MAIN_SCHEDULER_EXIT;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
