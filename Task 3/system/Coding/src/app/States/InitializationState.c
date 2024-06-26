@@ -26,16 +26,16 @@
 
 extern void InitializationState_enterDisplayNameAndStartTimer1(void)
 {
-    /** Display team name */
+    /* Display team name */
     Display_clear();
     Display_write(TEAM_NAME, sizeof(TEAM_NAME));
 
-    /** Register all timers for future usage */
+    /* Register all timers for future usage */
     SoftTimerHandler_register(GlobalTimers_getTimer(TIMER1));
     SoftTimerHandler_register(GlobalTimers_getTimer(TIMER2));
     SoftTimerHandler_register(GlobalTimers_getTimer(TIMER3));
 
-    /** Start timer to transition into next state */
+    /* Start timer to transition into next state */
     SoftTimer_start(GlobalTimers_getTimer(TIMER1), TWO_SECONDS);
 
     Parameters_initParameterSets();

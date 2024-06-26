@@ -24,7 +24,7 @@
 /* PROTOTYPES *************************************************************************************/
 
 /* VARIABLES **************************************************************************************/
-/** array of the choosable parameter sets */
+/* array of the choosable parameter sets */
 static ParameterSet gParameterSets[MAX_NUMBER_OF_PARAMETER_SETS];
 
 static ParameterSet* gParameters = &gParameterSets[INDEX_SET1];
@@ -53,19 +53,19 @@ extern void Parameters_displayParameterSets(void)
 
 extern void Parameters_initParameterSets(void)
 {
-    /** Init of set 1 */
+    /* Init of set 1 */
     gParameterSets[0].kp = 0.17;
     gParameterSets[0].ki = 0.00005;
     gParameterSets[0].kd = 0.04;
     gParameterSets[0].motorspeed = 80;
 
-    /** Init of set 2 */
+    /* Init of set 2 */
     gParameterSets[1].kp = 0.17;
     gParameterSets[1].ki = 0.00005;
     gParameterSets[1].kd = 0.04;
     gParameterSets[1].motorspeed = 50;
 
-    /** Init of set 3 */
+    /* Init of set 3 */
     gParameterSets[2].kp = 0.03;
     gParameterSets[2].ki = 0;
     gParameterSets[2].kd = 0;

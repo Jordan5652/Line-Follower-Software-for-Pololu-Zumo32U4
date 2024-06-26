@@ -27,7 +27,6 @@ static Bool gButtonTriggered = FALSE;
 
 extern void ErrorState_enterStopDriveAndPlayAlarmAndDisplayError(ErrorHandlerErrorCode errorCode)
 {
-    // TODO  ErrorHandlerErrorCode errorcode rausfinden den richtignen   
     DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, 0, DRIVE_CONTROL_FORWARD);
     DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, 0, DRIVE_CONTROL_BACKWARD);
     ErrorHandler_show(errorCode);

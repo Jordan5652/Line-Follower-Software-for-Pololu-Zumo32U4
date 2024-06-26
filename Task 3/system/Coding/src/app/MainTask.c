@@ -15,15 +15,13 @@ For a detailed description see the detailed description in @ref MainTask.h.
 ***************************************************************************************************/
 
 /* INCLUDES ***************************************************************************************/
-
 #include "app/MainTask.h"
-
 #include "os/ErrorHandler.h"
 #include "os/Task.h"
 #include "os/Scheduler.h"
 #include "service/Button.h"
-
 #include "GlobalTimers.h"
+
 /* CONSTANTS **************************************************************************************/
 
 /* MACROS *****************************************************************************************/

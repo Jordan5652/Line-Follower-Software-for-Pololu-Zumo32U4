@@ -39,7 +39,7 @@ extern void ParameterSetState_processSetParameterSet(void)
         Parameters_setParameterSet(INDEX_SET1);
         gButtonTriggered = TRUE;
 
-        /** Display selected set for 3s **/
+        /* Display selected set for 3s **/
         SoftTimer_start(GlobalTimers_getTimer(TIMER1), THREE_SECONDS);
         Display_clear();
         Display_write(TEXT_SET1_SELECTED, sizeof(TEXT_SET1_SELECTED));
@@ -50,7 +50,7 @@ extern void ParameterSetState_processSetParameterSet(void)
         Parameters_setParameterSet(INDEX_SET2);
         gButtonTriggered = TRUE;
 
-        /** Display selected set for 3s **/
+        /* Display selected set for 3s **/
         SoftTimer_start(GlobalTimers_getTimer(TIMER1), THREE_SECONDS);
         Display_clear();
         Display_write(TEXT_SET2_SELECTED, sizeof(TEXT_SET2_SELECTED));
@@ -61,7 +61,7 @@ extern void ParameterSetState_processSetParameterSet(void)
         Parameters_setParameterSet(INDEX_SET3);
         gButtonTriggered = TRUE;
 
-        /** Display selected set for 3s **/
+        /* Display selected set for 3s **/
         SoftTimer_start(GlobalTimers_getTimer(TIMER1), THREE_SECONDS);
         Display_clear();
         Display_write(TEXT_SET3_SELECTED, sizeof(TEXT_SET3_SELECTED));

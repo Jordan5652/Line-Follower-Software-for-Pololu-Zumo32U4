@@ -21,7 +21,7 @@
 
 /* VARIABLES **************************************************************************************/
 
-/** State of startline detection*/
+/* State of startline detection*/
 static Bool gStartlineDetected = FALSE;
 
 

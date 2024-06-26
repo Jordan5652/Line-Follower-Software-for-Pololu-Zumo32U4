@@ -34,9 +34,6 @@ typedef struct
     Int16 motorspeed;
 }ParameterSet;
 
-/** Pointer to the selected parameter set */
-//extern ParameterSet* pParameters;
-
 /* PROTOTYPES *************************************************************************************/
 /**
  * @brief returns to pointer to the currently selected ParameterSet
