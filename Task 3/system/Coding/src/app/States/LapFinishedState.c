@@ -44,7 +44,7 @@ extern void LapFinishedState_enterStopTimer2AndDisplayTimeAndStopDriveAndPlayBee
     Buzzer_beep(BUZZER_NOTIFY);
 
     /* Display lap time **/
-    gLapTimeCounter = 20000u - gLapTimeCounter;
+    gLapTimeCounter = TWENTY_SECONDS - gLapTimeCounter;
     UInt16 gLapTimeSec = gLapTimeCounter / ONE_SECOND;
     UInt16 gLapTimeMilliSec = gLapTimeCounter % ONE_SECOND;
 

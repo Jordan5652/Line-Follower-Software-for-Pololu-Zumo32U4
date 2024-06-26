@@ -16,6 +16,7 @@
 #define MIN_MOTOR_SPEED (0u)
 
 #define WHITE_THRESHHOLD (250u)
+#define STARTLINE_THRESHHOLD (200u)
 
 /* MACROS *****************************************************************************************/
 
@@ -83,12 +84,12 @@ extern Bool PositionControl_checkForStartLine(void)
     (gSensorValues.value[LINESENSOR_LEFT]) > 350u || 
         (gSensorValues.value[LINESENSOR_RIGHT]) > 350u ||*/
 
-    if (((gSensorValues.value[LINESENSOR_LEFT]) > 200u && (gSensorValues.value[LINESENSOR_RIGHT]) > 200u)) 
+    if (((gSensorValues.value[LINESENSOR_LEFT]) > STARTLINE_THRESHHOLD && (gSensorValues.value[LINESENSOR_RIGHT]) > STARTLINE_THRESHHOLD)) 
     {
         gCounter++;
     }
 
-    if (2 < gCounter)
+    if (8 < gCounter)
     {
         gCounter = 0;
         return TRUE;

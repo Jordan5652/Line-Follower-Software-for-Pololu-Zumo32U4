@@ -35,9 +35,6 @@ extern void DriveLapState_enterStartTimer3(void)
     
 }
 
-#include <stdio.h>
-
-
 extern void DriveLapState_processDriveOnTrackLine(void)
 { 
     static Bool OffTrack = FALSE;
