@@ -29,15 +29,11 @@ static Bool gTrackLeft = FALSE;
 extern void DriveLapState_enterStartTimer3(void)
 {
     gTrackLeft = FALSE;
-<<<<<<< Updated upstream
-    gOffTrack = FALSE;
-=======
     //gOffTrack = FALSE;
 
     SoftTimer_Stop(pTimer3);
     SoftTimer_start(pTimer3, 2000u);
 
->>>>>>> Stashed changes
 }
 
 #include <stdio.h>
@@ -47,6 +43,7 @@ extern void DriveLapState_processDriveOnTrackLine(void)
 { 
     static Bool OffTrack = FALSE;
     static UInt16 LineNotFoundCounter = 0u;
+    ParameterSet* pParameters = Parameters_getParameterSet();
 
     // checking if line was left or line was refound 
     PositionControl_UpdateSensorValues();
