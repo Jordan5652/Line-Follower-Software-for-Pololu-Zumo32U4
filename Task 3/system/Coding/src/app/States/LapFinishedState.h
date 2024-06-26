@@ -28,17 +28,17 @@
 
 /* PROTOTYPES *************************************************************************************/
 /**
- * @brief stops timer2 measuring the lap-time, displays the lap-time, stops the motors and plays a beep as an accustic signal
+ * @brief stop timer2 measuring the lap-time, displays the lap-time, stop the motors and play a beep as an accustic signal
 */
 extern void LapFinishedState_enterStopTimer2AndDisplayTimeAndStopDriveAndPlayBeep(void);
 
 /**
- * @brief checks if ButtonA is pressed by polling
+ * @brief check if ButtonA is pressed by polling
 */
 extern void LapFinishedState_processPollingButtonA(void);
 
 /**
- * @brief checks if button A was pressed by a user
+ * @brief check if button A was pressed by a user
  * @return Bool: return true if button A was pressed
 */
 extern Bool LapFinishedState_checkTransitionTriggerButtonAPressed(void);
