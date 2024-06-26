@@ -32,16 +32,16 @@
 
 /* VARIABLES **************************************************************************************/
 
-/** Calibration state of local state machine */
+/* Calibration state of local state machine */
 static CalibrationState gState = CALIBRATION_STATE_INIT;
 
-/** Variable used for checking whether calibration was finished*/
+/* Variable used for checking whether calibration was finished*/
 static Bool gCalibrationFinished = false;
 
-/** buffer containing the text displayed when timeout occured during center line*/
+/* buffer containing the text displayed when timeout occured during center line*/
 static const UInt8 gCalibrationTimeOutMessage[] = "CALIBRATION TIMEOUT!";
 
-/** buffer containing the text displayed when timeout occured during center line*/
+/* buffer containing the text displayed when timeout occured during center line*/
 static const UInt8 gCenterLineTimeOutMessage[] = "CENTER-LINE TIMEOUT!";
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
@@ -165,8 +165,10 @@ extern Bool CalibrationState_checkTransitionTriggerCalibrationDone(void)
 {
     if (gCalibrationFinished)
     {
-        gCalibrationFinished = FALSE; //resetting variable in case calibration is done again later
-        gState = CALIBRATION_STATE_INIT; //resetting statemachine
+        /*resetting variable in case calibration is done again later*/
+        gCalibrationFinished = FALSE;
+        /*resetting statemachine*/
+        gState = CALIBRATION_STATE_INIT; 
         return TRUE;
 
     }
