@@ -25,10 +25,13 @@ static SoftTimer gTimer1;
 static SoftTimer gTimer2;
 static SoftTimer gTimer3;
 
-SoftTimer* pTimer1 = &gTimer1;
-SoftTimer* pTimer2 = &gTimer2;
-SoftTimer* pTimer3 = &gTimer3;
+static SoftTimer* pTimers[3] = {&gTimer1, &gTimer2, &gTimer3};
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
+
+extern SoftTimer* GlobalTimers_getTimer(UInt8 index)
+{
+    return pTimers[index];
+}
 
 /* INTERNAL FUNCTIONS *****************************************************************************/

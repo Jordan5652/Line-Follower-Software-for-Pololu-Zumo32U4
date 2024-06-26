@@ -147,14 +147,6 @@ extern Bool DriveLapState_checkTranstionTriggerTimer2Exceeds20s(void)
 
 extern Bool DriveLapState_checkTranstionTriggerStartlineFound(void)
 {
-<<<<<<< Updated upstream
-        if (gStartlineFound)
-        {
-            gStartlineFound = FALSE;
-            return TRUE;
-        }
-        return FALSE;
-=======
     //Wait some time to prevent immediatly finding startline after starting to drive
     if(SOFTTIMER_IS_EXPIRED(pTimer3))
     {
@@ -165,8 +157,6 @@ extern Bool DriveLapState_checkTranstionTriggerStartlineFound(void)
     {
         return FALSE;
     }
-
->>>>>>> Stashed changes
 }
 
 extern Bool DriveLapState_checkTranstionTriggerTrackNotFound(void)

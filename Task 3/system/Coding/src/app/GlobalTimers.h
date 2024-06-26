@@ -20,6 +20,10 @@
 #define TWO_SECONDS (2000u)
 #define THREE_SECONDS (3000u)
 
+#define TIMER1 (0u)
+#define TIMER2 (1u)
+#define TIMER3 (3u)
+
 /* MACROS *****************************************************************************************/
 
 /* TYPES ******************************************************************************************/
@@ -30,5 +34,7 @@
 extern SoftTimer* pTimer1;
 extern SoftTimer* pTimer2;
 extern SoftTimer* pTimer3;
+
+extern SoftTimer* GlobalTimers_getTimer(UInt8 index);
 
 #endif /* GLOBALTIMERS_H */
