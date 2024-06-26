@@ -32,6 +32,7 @@ extern void DriveLapState_enterStartTimer3(void)
 
     SoftTimer_Stop(GlobalTimers_getTimer(TIMER3));
     SoftTimer_start(GlobalTimers_getTimer(TIMER3), 2000u);
+    
 }
 
 #include <stdio.h>
@@ -139,12 +140,18 @@ extern Bool DriveLapState_checkTranstionTriggerTimer2Exceeds20s(void)
 
 }
 
-
 extern Bool DriveLapState_checkTranstionTriggerStartlineFound(void)
-{
+{ 
+    
     //Wait some time to prevent immediatly finding startline after starting to drive
+    
     if (SOFTTIMER_IS_EXPIRED(GlobalTimers_getTimer(TIMER3)))
     {
+        //DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, 0, DRIVE_CONTROL_FORWARD);
+        //DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, 0, DRIVE_CONTROL_FORWARD);
+        //Led_switchOn(LED_RED);
+        //while (1);
+        
         return PositionControl_checkForStartLine();
         
     }
@@ -152,6 +159,7 @@ extern Bool DriveLapState_checkTranstionTriggerStartlineFound(void)
     {
         return FALSE;
     }
+    
 }
 
 extern Bool DriveLapState_checkTranstionTriggerTrackNotFound(void)

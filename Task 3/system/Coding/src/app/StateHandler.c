@@ -43,21 +43,30 @@ void StateHandler_stateHandler(void)
     switch (gCurrentState)
     {
         case DRIVE_LAP_STATE:
+            if (!gProcessedEntryFunction)
+            {
+                DriveLapState_enterStartTimer3();
+                gProcessedEntryFunction = TRUE;
+            }
+
             DriveLapState_processDriveOnTrackLine();
 
             if (DriveLapState_checkTranstionTriggerStartlineFound())
             {
                 gCurrentState = LAP_FINISHED_STATE;
+                gProcessedEntryFunction = FALSE;
             }
             else if (DriveLapState_checkTranstionTriggerTrackNotFound())
             {
                 gCurrentState = ERROR_STATE;
                 gErrorCode = ERRORHANDLER_LINELOST_TIMEOUT;
+                gProcessedEntryFunction = FALSE;
             }
             else if (DriveLapState_checkTranstionTriggerTimer2Exceeds20s())
             {
                 gCurrentState = ERROR_STATE;
                 gErrorCode = ERRORHANDLER_DRIVING_TIMEOUT;
+                gProcessedEntryFunction = FALSE;
             }
             break;
 
