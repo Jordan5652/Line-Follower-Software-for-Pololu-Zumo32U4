@@ -29,15 +29,9 @@ static Bool gTrackLeft = FALSE;
 extern void DriveLapState_enterStartTimer3(void)
 {
     gTrackLeft = FALSE;
-<<<<<<< Updated upstream
-    gOffTrack = FALSE;
-=======
-    //gOffTrack = FALSE;
 
-    SoftTimer_Stop(pTimer3);
-    SoftTimer_start(pTimer3, 2000u);
-
->>>>>>> Stashed changes
+    SoftTimer_Stop(GlobalTimers_getTimer(TIMER3));
+    SoftTimer_start(GlobalTimers_getTimer(TIMER3), 2000u);
 }
 
 #include <stdio.h>
@@ -57,8 +51,8 @@ extern void DriveLapState_processDriveOnTrackLine(void)
         if(FALSE == OffTrack)
         {
             Led_switchOn(LED_YELLOW);
-            SoftTimer_Stop(pTimer1);
-            SoftTimer_start(pTimer1, 5000u);
+            SoftTimer_Stop(GlobalTimers_getTimer(TIMER1));
+            SoftTimer_start(GlobalTimers_getTimer(TIMER1), 5000u);
             OffTrack = TRUE;
             //DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, 0u, DRIVE_CONTROL_FORWARD);
             //DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, 0u, DRIVE_CONTROL_FORWARD);
@@ -69,10 +63,10 @@ extern void DriveLapState_processDriveOnTrackLine(void)
         else
         {
             //Counter++;
-            if SOFTTIMER_IS_EXPIRED(pTimer1)
+            if SOFTTIMER_IS_EXPIRED(GlobalTimers_getTimer(TIMER1))
             {
                 gTrackLeft = TRUE;
-                SoftTimer_Stop(pTimer1);
+                SoftTimer_Stop(GlobalTimers_getTimer(TIMER1));
                 LineNotFoundCounter = 0u;
                 
                 //DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, 0u, DRIVE_CONTROL_FORWARD);
@@ -113,7 +107,7 @@ extern void DriveLapState_processDriveOnTrackLine(void)
             
             {
                 Led_switchOff(LED_YELLOW);
-                SoftTimer_Stop(pTimer1);
+                SoftTimer_Stop(GlobalTimers_getTimer(TIMER1));
                 OffTrack = FALSE;
             }
         }
@@ -133,7 +127,7 @@ extern void DriveLapState_processDriveOnTrackLine(void)
 
 extern Bool DriveLapState_checkTranstionTriggerTimer2Exceeds20s(void)
 {
-    if SOFTTIMER_IS_EXPIRED(pTimer2)
+    if SOFTTIMER_IS_EXPIRED(GlobalTimers_getTimer(TIMER2))
     {
         return TRUE;
     }
@@ -148,7 +142,7 @@ extern Bool DriveLapState_checkTranstionTriggerTimer2Exceeds20s(void)
 extern Bool DriveLapState_checkTranstionTriggerStartlineFound(void)
 {
     //Wait some time to prevent immediatly finding startline after starting to drive
-    if(SOFTTIMER_IS_EXPIRED(pTimer3))
+    if(SOFTTIMER_IS_EXPIRED(GlobalTimers_getTimer(TIMER3)))
     {
         return PositionControl_checkForStartLine();
         
@@ -166,7 +160,7 @@ extern Bool DriveLapState_checkTranstionTriggerTrackNotFound(void)
     {
         gTrackLeft = FALSE;
         Led_switchOff(LED_YELLOW);
-        SoftTimer_Stop(pTimer1);
+        SoftTimer_Stop(GlobalTimers_getTimer(TIMER1));
         return TRUE;
     }
     

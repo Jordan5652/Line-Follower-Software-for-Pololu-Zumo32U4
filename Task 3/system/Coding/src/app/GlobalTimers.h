@@ -31,9 +31,6 @@
 /* PROTOTYPES *************************************************************************************/
 
 /* VARIABLES **************************************************************************************/
-extern SoftTimer* pTimer1;
-extern SoftTimer* pTimer2;
-extern SoftTimer* pTimer3;
 
 extern SoftTimer* GlobalTimers_getTimer(UInt8 index);
 
