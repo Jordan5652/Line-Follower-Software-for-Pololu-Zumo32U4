@@ -43,7 +43,8 @@ extern void PositionControl_DriveOnTrack(void)
     sumOfWeightedValues += gSensorValues.value[LINESENSOR_MIDDLE_LEFT] * -1;
     sumOfWeightedValues += gSensorValues.value[LINESENSOR_MIDDLE] * 0;
     sumOfWeightedValues += gSensorValues.value[LINESENSOR_MIDDLE_RIGHT] * 1;
-    
+    ParameterSet* pParameters = Parameters_getParameterSet();
+
     Int32 speedDifference = pParameters->kp*sumOfWeightedValues + pParameters->kd*(sumOfWeightedValues-sumOfWeightedValuesBefore) + pParameters->ki * (sumOfWeightedValuesIntegrated);
 
     Int32 leftSpeed = speedDifference + pParameters->motorspeed;

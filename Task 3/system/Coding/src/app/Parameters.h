@@ -35,11 +35,19 @@ typedef struct
 }ParameterSet;
 
 /** Pointer to the selected parameter set */
-extern ParameterSet* pParameters;
+//extern ParameterSet* pParameters;
 
 /* PROTOTYPES *************************************************************************************/
 /**
+ * @brief returns to pointer to the currently selected ParameterSet
+ * @return ParameterSet*: pointer to the currently selected ParameterSet 
+ */
+extern ParameterSet* Parameters_getParameterSet(void);
+
+
+/**
  * @brief sets the selected ParameterSet
+ * @param index the index used to set the parameterset
 */
 extern void Parameters_setParameterSet(UInt8 index);
 
