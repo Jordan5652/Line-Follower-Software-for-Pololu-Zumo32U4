@@ -49,9 +49,9 @@ extern void LapFinishedState_enterStopTimer2AndDisplayTimeAndStopDriveAndPlayBee
     UInt16 gLapTimeMilliSec = gLapTimeCounter % ONE_SECOND;
 
     char gTimeStringSec[4];
-    snprintf(gTimeStringSec, sizeof(gTimeStringSec), "%d", gLapTimeSec);
+    snprintf(gTimeStringSec, sizeof(gTimeStringSec), "%u", gLapTimeSec);
     char gTimeStringMilliSec[4];
-    snprintf(gTimeStringMilliSec, sizeof(gTimeStringSec), "%d", gLapTimeMilliSec);
+    snprintf(gTimeStringMilliSec, sizeof(gTimeStringSec), "%u", gLapTimeMilliSec);
 
     Display_write(TEXT_TIME, sizeof(TEXT_TIME));
     Display_write(gTimeStringSec, sizeof(gTimeStringSec));
