@@ -12,7 +12,6 @@
 
 /* INCLUDES ***************************************************************************************/
 #include "Types.h"
-
 #include "Parameters.h"
 #include "Buzzer.h"
 #include "DriveControl.h"
@@ -28,6 +27,9 @@
 
 /* PROTOTYPES *************************************************************************************/
 
+/** 
+ * @brief starts timer for left track error detection
+*/
 extern void DriveLapState_enterStartTimer3(void);
 
 /** 

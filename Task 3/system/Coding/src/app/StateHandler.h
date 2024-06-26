@@ -12,7 +12,6 @@
 
 /* INCLUDES ***************************************************************************************/
 #include "Types.h"
-
 #include "CalibrationState.h"
 #include "DriveLapState.h"
 #include "ErrorState.h"
@@ -44,7 +43,8 @@ typedef enum
 }States;
 
 /* PROTOTYPES *************************************************************************************/
-/** @fn StateHandler_stateHandler(void)
+
+/**
  * @brief runs the statemachine
  * @return void
 */

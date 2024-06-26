@@ -12,8 +12,8 @@
 
 /* INCLUDES ***************************************************************************************/
 #include "stdio.h"
-#include "Types.h"
 
+#include "Types.h"
 #include "Button.h"
 #include "Buzzer.h"
 #include "DriveControl.h"

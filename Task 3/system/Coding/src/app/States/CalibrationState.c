@@ -154,7 +154,7 @@ void CalibrationState_processCalibrate(void)
         case CALIBRATION_STATE_FINISHED:
             LineSensor_stopCalibration();
             SoftTimer_Stop(GlobalTimers_getTimer(TIMER1));
-            gCalibrationFinished = true;
+            gCalibrationFinished = TRUE;
             break;
     }
 
@@ -165,14 +165,14 @@ extern Bool CalibrationState_checkTransitionTriggerCalibrationDone(void)
 {
     if (gCalibrationFinished)
     {
-        gCalibrationFinished = false; //resetting variable in case calibration is done again later
+        gCalibrationFinished = FALSE; //resetting variable in case calibration is done again later
         gState = CALIBRATION_STATE_INIT; //resetting statemachine
-        return true;
+        return TRUE;
 
     }
     else
     {
-        return false; 
+        return FALSE; 
     }
 
 }

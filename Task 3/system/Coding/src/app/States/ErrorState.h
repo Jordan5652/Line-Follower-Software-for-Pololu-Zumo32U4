@@ -12,7 +12,6 @@
 
 /* INCLUDES ***************************************************************************************/
 #include "Types.h"
-
 #include "Buzzer.h"
 #include "Display.h"
 #include "Button.h"

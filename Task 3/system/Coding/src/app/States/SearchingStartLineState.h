@@ -12,7 +12,6 @@
 
 /* INCLUDES ***************************************************************************************/
 #include "Types.h"
-
 #include "GlobalTimers.h"
 #include "DriveControl.h"
 #include "LineSensor.h"
