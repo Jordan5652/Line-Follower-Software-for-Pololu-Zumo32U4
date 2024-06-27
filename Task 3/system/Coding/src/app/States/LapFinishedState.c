@@ -31,7 +31,7 @@ static Bool gButtonAPressed = FALSE;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
-extern void LapFinishedState_enterStopTimer2AndDisplayTimeAndStopDriveAndPlayBeep(void)
+extern void LapFinishedState_enterDisplayTimeAndStopDriveAndPlayBeep(void)
 {
     /* Counter value from lap time timer */
     UInt16 lapTimeCounter = SoftTimer_get(GlobalTimers_getTimer(TIMER2));

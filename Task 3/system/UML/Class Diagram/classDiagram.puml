@@ -109,6 +109,7 @@ package App
             -gLapTimeSec: UInt16
             -gLapTimeMilliSec: UInt16
             -gButtonAPressed: Bool
+            -convertTimeToText(char*, UInt16): void
             +enterStopTimer2AndDisplayTimeAndStopDriveAndPlayBeep(void): void
             +processPollingButtonA(void): void
             +checkTransitionTriggerButtonAPressed(void): Bool

@@ -13,11 +13,10 @@
 
 
 /* CONSTANTS **************************************************************************************/
-#define CALIB_SPEED 30u       /**< Motor speed while calibrating */
-#define CALIB_SPEED_SLOW 25u  /**< Motor speed while centering on line  */
+#define CALIB_SPEED 30u       /* Motor speed while calibrating */
+#define CALIB_SPEED_SLOW 25u  /* Motor speed while centering on line  */
 
-#define WHITE_BACKGROUND_VALUE_TRESHHOLD 200u /**< Thresshhold of value of linesensor: when value is below, white background is beeing detected */
-//#define BLACK_LINE_VALUE_TRESHHOLD 650u /**< Thresshhold of value of linesensor: when value is below, white background is beeing detected */
+#define WHITE_BACKGROUND_VALUE_TRESHHOLD 200u
 #define BLACK_LINE_VALUE_TRESHHOLD 750u
 
 /* MACROS *****************************************************************************************/
@@ -32,16 +31,16 @@
 
 /* VARIABLES **************************************************************************************/
 
-/** Calibration state of local state machine */
+/* Calibration state of local state machine */
 static CalibrationState gState = CALIBRATION_STATE_INIT;
 
-/** Variable used for checking whether calibration was finished*/
-static Bool gCalibrationFinished = false;
+/* Variable used for checking whether calibration was finished*/
+static Bool gCalibrationFinished = FALSE;
 
-/** buffer containing the text displayed when timeout occured during center line*/
+/* buffer containing the text displayed when timeout occured during center line*/
 static const UInt8 gCalibrationTimeOutMessage[] = "CALIBRATION TIMEOUT!";
 
-/** buffer containing the text displayed when timeout occured during center line*/
+/* buffer containing the text displayed when timeout occured during center line*/
 static const UInt8 gCenterLineTimeOutMessage[] = "CENTER-LINE TIMEOUT!";
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
@@ -138,9 +137,9 @@ void CalibrationState_processCalibrate(void)
             LineSensor_stopCalibration();
             Display_clear();
             Display_write(gCalibrationTimeOutMessage, sizeof(gCalibrationTimeOutMessage));
-            gState = CALIBRATION_STATE_FINISHED;
-            
+            gState = CALIBRATION_STATE_FINISHED;  
             break;
+
         case CALIBRATION_STATE_TIMEOUT_CENTER_LINE:
             DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, 0u, DRIVE_CONTROL_FORWARD);
             DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, 0u, DRIVE_CONTROL_BACKWARD);
@@ -148,7 +147,6 @@ void CalibrationState_processCalibrate(void)
             Display_clear();
             Display_write(gCenterLineTimeOutMessage, sizeof(gCenterLineTimeOutMessage));
             gState = CALIBRATION_STATE_FINISHED;
-            
             break;
 
         case CALIBRATION_STATE_FINISHED:
@@ -165,8 +163,10 @@ extern Bool CalibrationState_checkTransitionTriggerCalibrationDone(void)
 {
     if (gCalibrationFinished)
     {
-        gCalibrationFinished = FALSE; //resetting variable in case calibration is done again later
-        gState = CALIBRATION_STATE_INIT; //resetting statemachine
+        /* resetting variable in case calibration is done again later */
+        gCalibrationFinished = FALSE; 
+        /* resetting statemachine */
+        gState = CALIBRATION_STATE_INIT;
         return TRUE;
 
     }

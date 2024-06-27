@@ -21,19 +21,13 @@
 
 /* VARIABLES **************************************************************************************/
 
-/**
- * @brief store the current state ID
-*/
+/* store the current state ID */
 static Bool gProcessedEntryFunction = FALSE;
 
-/**
- * @brief store the current state ID
-*/
+/* store the current state ID */
 static States gCurrentState = INITIALIZATION_STATE;
 
-/**
- * @brief store the most recent error code
-*/
+/* store the most recent error code */
 static ErrorHandlerErrorCode gErrorCode = ERRORHANDLER_MAIN_SCHEDULER_EXIT;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
@@ -89,7 +83,7 @@ void StateHandler_stateHandler(void)
         case LAP_FINISHED_STATE:
             if (!gProcessedEntryFunction)
             {
-                LapFinishedState_enterStopTimer2AndDisplayTimeAndStopDriveAndPlayBeep();
+                LapFinishedState_enterDisplayTimeAndStopDriveAndPlayBeep();
                 gProcessedEntryFunction = TRUE;
             }
 
