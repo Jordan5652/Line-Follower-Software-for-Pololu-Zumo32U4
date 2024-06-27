@@ -1,22 +1,22 @@
 @startuml stateDiagram
 [*] --> State1
 
-state State1 as "InitializationState\n": /enter init() start timer 1 \n /enter displayTeamName() \n /leave stop timer 1
-state State2 as "ReadyState\n": /process watch buttons
-state State3 as "CalibrationState\n": /enter calibrate
-state State4 as "ParameterSetState\n": /enter display ParameterSet \n /process setParameterSet()
-state State5 as "SearchingStartlineState\n": /enter start Timer 1 \n /enter  start dual drive motor system \n /exit if track found  start Timer 2\n /exit if track found playBeep()
+state State1 as "InitializationState\n": /enter start Timer1 \n/enter display TeamName \n/enter init ParameterSets \n/exit stop timer 1
+state State2 as "ReadyState\n": /enter display state \n/process poll buttons
+state State3 as "CalibrationState\n": /process calibrate
+state State4 as "ParameterSetState\n": /enter display ParameterSets \n/process set ParameterSet\n/exit display selected parameter set
+state State5 as "SearchingStartlineState\n": /enter start Timer1 \n/enter  start dual drive motor system \n/process search for startline \n/exit if startline found  start Timer2\n/exit if startline found play Beep
 state State6 as "DriveLapState\n": /process drive on track
-state State7 as "LapFinishedState\n": /enter stop timer 2 \n /enter  display Lap Time \n /enter  stop dual drive motor system \n /enter play Beep
-state State9 as "ErrorState\n": /enter stop timer 1 and 2 \n /enter stop dual drive motor system \n /enter  play Alarm \n /enter  display Error
-state State10 as "PreDriveState\n": /enter start Timer 1 \n /exit stop Timer 1
+state State7 as "LapFinishedState\n": /enter stop timer 2 \n/enter  display Lap Time \n/enter  stop dual drive motor system \n/enter play Beep
+state State9 as "ErrorState\n": /enter stop timer 1 and 2 \n/enter stop dual drive motor system \n/enter  play Alarm \n/enter  display Error
+state State10 as "PreDriveState\n": /enter start Timer 1 \n/exit stop Timer 1
 
 
 State1 -down--> State3 : [timer 1 >= 2s]
 State2 -up-> State3 : ButtonC triggered 
 State2 -down-> State4 : ButtonB triggered
 State2 -right-> State10 : ButtonA triggered
-State10 -right-> State5 : [timer 1 >= 3s] 
+State10 -right-> State5 : [timer 1 >= 3s]
 State2 <-down- State3 : calibration done
 State2 <-left- State4 : configuration done
 
