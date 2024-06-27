@@ -13,7 +13,7 @@
 
 /* CONSTANTS **************************************************************************************/
 #define MAX_MOTOR_SPEED (100u)
-#define MIN_MOTOR_SPEED (0u)
+#define MIN_MOTOR_SPEED (20u)
 
 #define WHITE_THRESHHOLD (250u)
 
@@ -33,6 +33,40 @@ extern void PositionControl_UpdateSensorValues(void)
     LineSensor_read(&gSensorValues);
 }
 
+#define BUFFER_SIZE (9)
+Int16 calcMovingAverage(Int16 currentWeightedValues)
+{
+    static Int16 Buffer[BUFFER_SIZE] = {0};
+    static UInt8 NumberOfElements = 0; 
+    Int16 movingAvr = 0;
+
+    if(NumberOfElements < BUFFER_SIZE)
+    {
+        Buffer[NumberOfElements] = currentWeightedValues;
+        NumberOfElements++;        
+    }
+    else
+    {
+        for(UInt8 counter1 = 1u; counter1 < NumberOfElements; counter1++)
+        {
+            Buffer[counter1-1u] = Buffer[counter1];
+        }
+        Buffer[NumberOfElements-1] = currentWeightedValues;   
+    }
+
+    for(UInt8 counter2 = 0u; counter2 < NumberOfElements; counter2++)
+    {
+        movingAvr += Buffer[counter2];
+    }  
+    movingAvr = movingAvr / NumberOfElements;
+    return movingAvr;
+
+}
+
+#include "Led.h"
+Bool onStraightLine = TRUE;
+UInt16 TESTCOUNTER = 0u;
+UInt16 TESTCOUNTER2 = 0u;
 extern void PositionControl_DriveOnTrack(void)
 {
     Int16 sumOfWeightedValues;
@@ -43,7 +77,82 @@ extern void PositionControl_DriveOnTrack(void)
     sumOfWeightedValues += gSensorValues.value[LINESENSOR_MIDDLE_LEFT] * -1;
     sumOfWeightedValues += gSensorValues.value[LINESENSOR_MIDDLE] * 0;
     sumOfWeightedValues += gSensorValues.value[LINESENSOR_MIDDLE_RIGHT] * 1;
+
+    // NEW
+    sumOfWeightedValues = calcMovingAverage(sumOfWeightedValues);
+
+    // NOT NEW 
+
     ParameterSet* pParameters = Parameters_getParameterSet();
+
+    /*
+    Int32 speedDifference;
+    
+    //if(onStraightLine && ((sumOfWeightedValues > 280) || (sumOfWeightedValues < -280)))
+    if((onStraightLine) && ((sumOfWeightedValues > 550) || (sumOfWeightedValues < -550)))
+    {
+        TESTCOUNTER++;
+        if(TESTCOUNTER >= 15u)
+        {
+            onStraightLine = FALSE;
+            TESTCOUNTER = 0u;
+            Led_switchOn(LED_RED);
+        }
+        //speedDifference = pParameters->kp*sumOfWeightedValues + pParameters->kd*(sumOfWeightedValues-sumOfWeightedValuesBefore) + pParameters->ki * (sumOfWeightedValuesIntegrated);
+        //Led_switchOn(LED_RED);
+    }
+    else 
+    {
+        if(FALSE == onStraightLine)
+        {
+            if((sumOfWeightedValues < 140) && (sumOfWeightedValues > -140))
+            {
+                TESTCOUNTER++;
+                if(TESTCOUNTER >= 15u)
+                {
+                    onStraightLine = TRUE;
+                    //DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, 0, DRIVE_CONTROL_FORWARD);
+                    //DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, 0, DRIVE_CONTROL_FORWARD);
+
+                    //Led_switchOn(LED_GREEN);
+                    //while(1);
+
+                    TESTCOUNTER = 0u;
+                }
+            }
+            else
+            {
+                TESTCOUNTER = 0u;
+            }
+    }
+    } 
+
+    if(onStraightLine)
+    {
+        //speedDifference = 0.0001*sumOfWeightedValues + 0*(sumOfWeightedValues-sumOfWeightedValuesBefore) + 0.0000001 * (sumOfWeightedValuesIntegrated);
+        //if(speedDifference > 3)
+        //{
+        //    speedDifference = 3;
+        //}
+        //if(speedDifference < -3)
+        //{
+        //    speedDifference = -3;
+        //}
+
+        //speedDifference = 0.0;
+        speedDifference = pParameters->kp*sumOfWeightedValues + pParameters->kd*(sumOfWeightedValues-sumOfWeightedValuesBefore) + pParameters->ki * (sumOfWeightedValuesIntegrated);
+    }
+    else
+    {
+        speedDifference = pParameters->kp*sumOfWeightedValues + pParameters->kd*(sumOfWeightedValues-sumOfWeightedValuesBefore) + pParameters->ki * (sumOfWeightedValuesIntegrated);
+        //speedDifference = 0.0;
+        Led_switchOff(LED_RED);
+    }
+    */
+    if(PositionControl_checkForLineLost())
+    {
+        sumOfWeightedValues = 0;
+    }
 
     Int32 speedDifference = pParameters->kp*sumOfWeightedValues + pParameters->kd*(sumOfWeightedValues-sumOfWeightedValuesBefore) + pParameters->ki * (sumOfWeightedValuesIntegrated);
 
@@ -52,11 +161,17 @@ extern void PositionControl_DriveOnTrack(void)
 
     if (leftSpeed < MIN_MOTOR_SPEED)
     {
+        rightSpeed += leftSpeed;
         leftSpeed = MIN_MOTOR_SPEED;
+        
     }
     if (rightSpeed < MIN_MOTOR_SPEED)
     {
+
+        leftSpeed += rightSpeed;
         rightSpeed = MIN_MOTOR_SPEED;
+        
+
     }
 
     if (leftSpeed > MAX_MOTOR_SPEED)

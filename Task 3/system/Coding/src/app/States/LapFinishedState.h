@@ -11,7 +11,7 @@
 #define LAP_FINISHED_STATE_H
 
 /* INCLUDES ***************************************************************************************/
-#include "stdio.h"
+#include <stdio.h>
 
 #include "Types.h"
 #include "Button.h"
