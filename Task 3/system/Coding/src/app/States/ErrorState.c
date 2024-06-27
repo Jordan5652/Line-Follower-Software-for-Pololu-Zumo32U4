@@ -1,3 +1,4 @@
+
 /***************************************************************************************************
   (c) NewTec GmbH 2024   -   www.newtec.de
 ***************************************************************************************************/
@@ -20,25 +21,35 @@
 /* PROTOTYPES *************************************************************************************/
 
 /* VARIABLES **************************************************************************************/
+static Bool gButtonTriggered = FALSE;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
 
-extern void ErrorState_enterStopDriveAndPlayAlarmAndDisplayError(void)
+extern void ErrorState_enterStopDriveAndPlayAlarmAndDisplayError(ErrorHandlerErrorCode errorCode)
 {
-
-
+    DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, 0, DRIVE_CONTROL_FORWARD);
+    DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, 0, DRIVE_CONTROL_BACKWARD);
+    ErrorHandler_show(errorCode);
+    Buzzer_beep(BUZZER_ALARM);
 }
 
 extern void ErrorState_processPollingButtonA(void)
 {
-
-
+    if (BUTTON_STATE_TRIGGERED == Button_getState(BUTTON_ID_A))
+    {
+        gButtonTriggered = TRUE;
+        Display_clear();
+    }
 }
 
 extern Bool ErrorState_checkTransitionTriggerButtonAPressed(void)
 {
-
-
+    if (TRUE == gButtonTriggered)
+    {
+        gButtonTriggered = FALSE;
+        return TRUE;
+    } 
+    return FALSE;
 }
 
 /* INTERNAL FUNCTIONS *****************************************************************************/

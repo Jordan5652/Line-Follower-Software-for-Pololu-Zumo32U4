@@ -12,12 +12,12 @@
 
 /* INCLUDES ***************************************************************************************/
 #include "Types.h"
-
 #include "Parameters.h"
 #include "Buzzer.h"
 #include "DriveControl.h"
 #include "LineSensor.h"
-#include "SoftTimer.h"
+#include "GlobalTimers.h"
+#include "PositionControl.h"
 
 /* CONSTANTS **************************************************************************************/
 
@@ -26,10 +26,11 @@
 /* TYPES ******************************************************************************************/
 
 /* PROTOTYPES *************************************************************************************/
+
 /** 
- * @brief starts timer2 measuring the lap-time plays a beep as an accustic signal
+ * @brief starts timer for left track error detection
 */
-extern void DriveLapState_enterRestartTimer2AndPlayBeep(void);
+extern void DriveLapState_enterStartTimer3(void);
 
 /** 
  * @brief follows the TrackLine
@@ -44,7 +45,7 @@ extern Bool DriveLapState_checkTranstionTriggerTimer2Exceeds20s(void);
 
 /** 
  * @brief checks if track cannot be found
- * @return Bool: returns true track cannot be found
+ * @return Bool: returns true if track cannot be found
 */
 extern Bool DriveLapState_checkTranstionTriggerTrackNotFound(void);
 

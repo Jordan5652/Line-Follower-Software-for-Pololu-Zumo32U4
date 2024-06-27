@@ -12,6 +12,7 @@
 #include "ReadyState.h"
 
 /* CONSTANTS **************************************************************************************/
+#define TEXT_READYSTATE ("ReadyState")
 
 /* MACROS *****************************************************************************************/
 
@@ -21,16 +22,22 @@
 
 /* VARIABLES **************************************************************************************/
 
-/** Button trigger state of Button A, B, C */
+/* Button trigger state of Button A, B, C */
 static Bool gButtonATriggered = FALSE;
 static Bool gButtonBTriggered = FALSE;
 static Bool gButtonCTriggered = FALSE;
 
 /* EXTERNAL FUNCTIONS *****************************************************************************/
+extern void ReadyState_enterDisplayState(void)
+{
+    Display_clear();
+    Display_gotoxy(0,7);
+    Display_write(TEXT_READYSTATE, sizeof(TEXT_READYSTATE));
+}
 
 extern void ReadyState_processPollingButtons(void)
 { 
-    /** Checks if any button is triggered */
+    /* Checks if any button is triggered */
     if (BUTTON_STATE_TRIGGERED == Button_getState(BUTTON_ID_A))
     {
         gButtonATriggered = TRUE;

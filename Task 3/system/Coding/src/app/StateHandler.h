@@ -12,7 +12,6 @@
 
 /* INCLUDES ***************************************************************************************/
 #include "Types.h"
-
 #include "CalibrationState.h"
 #include "DriveLapState.h"
 #include "ErrorState.h"
@@ -22,7 +21,6 @@
 #include "PreDriveState.h"
 #include "ReadyState.h"
 #include "SearchingStartlineState.h"
-#include "SearchTrackState.h"
 
 /* CONSTANTS **************************************************************************************/
 
@@ -30,22 +28,23 @@
 
 /* TYPES ******************************************************************************************/
 
+/* The different states for the statemachine*/
 typedef enum
 {
-    initializationState,
-    ReadyState,
-    CalibrationState,
-    ParameterSetState,
-    SearchingStartLineState,
-    DriveLapState,
-    LapFinishedState,
-    SearchTrackState,
-    ErrorState,
-    PreDriveState,
+    INITIALIZATION_STATE,
+    READY_STATE,
+    CALIBRATION_STATE,
+    PARAMETER_SET_STATE,
+    SEARCHING_STARTLINE_STATE,
+    DRIVE_LAP_STATE,
+    LAP_FINISHED_STATE,
+    ERROR_STATE,
+    PRE_DRIVE_STATE,
 }States;
 
 /* PROTOTYPES *************************************************************************************/
-/** @fn StateHandler_stateHandler(void)
+
+/**
  * @brief runs the statemachine
  * @return void
 */

@@ -25,20 +25,25 @@
 
 extern void PreDriveState_enterStartTimer1AndWaitFor3s(void)
 {
-
-
+    SoftTimer_start(GlobalTimers_getTimer(TIMER1), THREE_SECONDS);
+    Display_clear();
+    Display_gotoxy(0,7);
+    Display_write("PreDriveState", sizeof("PreDriveState"));
 }
 
 extern void PreDriveState_exitStopTimer1(void)
 {
-
-
+    SoftTimer_Stop(GlobalTimers_getTimer(TIMER1));
+    Display_clear();
 }
 
 extern Bool PreDriveState_checkTransitionTriggerTimer1Exceeds3s(void)
 {
-
-
+    if (SOFTTIMER_IS_EXPIRED(GlobalTimers_getTimer(TIMER1)))
+    {
+        return TRUE;
+    }
+    return FALSE;
 }
 
 /* INTERNAL FUNCTIONS *****************************************************************************/

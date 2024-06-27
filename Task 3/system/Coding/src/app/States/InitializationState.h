@@ -12,9 +12,10 @@
 
 /* INCLUDES ***************************************************************************************/
 #include "Types.h"
-
-#include "SoftTimer.h"
 #include "Display.h"
+#include "GlobalTimers.h"
+#include "Parameters.h"
+
 /* CONSTANTS **************************************************************************************/
 
 /* MACROS *****************************************************************************************/
@@ -23,18 +24,18 @@
 
 /* PROTOTYPES *************************************************************************************/
 /** 
- * @brief displays the teamname and starts the timer1 to display the teamname for 2s 
+ * @brief display the teamname and startsthe timer1 to display the teamname for 2s 
 */
 extern void InitializationState_enterDisplayNameAndStartTimer1(void);
 
-/** 
- * @brief resets the timer1 
+/**
+ * @brief reset the timer1
 */
 extern void InitializationState_exitStopTimer1(void);
 
-/** 
- * @brief checks if timer1 exeeded 2s
- * @return Bool: returns true if timer1 exceeded 2s
+/**
+ * @brief check if timer1 exeeded 2s
+ * @return Bool: return true if timer1 exceeded 2s
 */
 extern Bool InitializationState_checkTransitionTriggerTimer1Exceeds2s(void);
 

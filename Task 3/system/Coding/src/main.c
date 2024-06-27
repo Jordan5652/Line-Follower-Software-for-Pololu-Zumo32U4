@@ -14,6 +14,7 @@ Main function for pololu Line follower.
 ***************************************************************************************************/
 
 /* INCLUDES ***************************************************************************************/
+#include "Types.h"
 
 #include "os/Os.h"
 #include "hal/Hal.h"
@@ -21,6 +22,10 @@ Main function for pololu Line follower.
 #include "os/Scheduler.h"
 #include "os/ErrorHandler.h"
 #include "app/MainTask.h"
+
+#include "GlobalTimers.h"
+#include "CalibrationState.h"
+#include "Display.h"
 
 int main(void)
 {
@@ -32,12 +37,14 @@ int main(void)
     Service_init();
 
     MainTask_init();
-
+    
     /* Run Scheduler. */
     Scheduler_execute();
 
     /* Should not be reachable. */
     ErrorHandler_halt(ERRORHANDLER_MAIN_SCHEDULER_EXIT);
+
+
 }
 
 

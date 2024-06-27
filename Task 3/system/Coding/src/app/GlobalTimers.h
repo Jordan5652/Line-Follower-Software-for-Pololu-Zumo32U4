@@ -14,6 +14,15 @@
 #include "SoftTimer.h"
 
 /* CONSTANTS **************************************************************************************/
+#define FIVE_SECONDS (5000u)
+#define TWENTY_SECONDS (20000u)
+#define ONE_SECOND (1000U)
+#define TWO_SECONDS (2000u)
+#define THREE_SECONDS (3000u)
+
+#define TIMER1 (0u)
+#define TIMER2 (1u)
+#define TIMER3 (2u)
 
 /* MACROS *****************************************************************************************/
 
@@ -23,12 +32,10 @@
 
 /* VARIABLES **************************************************************************************/
 
-extern SoftTimer timer1;
-extern SoftTimer timer2;
-extern SoftTimer timer3;
-
-extern SoftTimer* pTimer1;
-extern SoftTimer* pTimer2;
-extern SoftTimer* pTimer3;
+/**
+ * @brief return one of the three global timers
+ * @return SoftTimer*: return a pointer to the specified timer
+*/
+extern SoftTimer* GlobalTimers_getTimer(UInt8 index);
 
 #endif /* GLOBALTIMERS_H */

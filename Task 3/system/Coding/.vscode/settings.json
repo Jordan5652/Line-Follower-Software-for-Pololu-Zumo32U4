@@ -1,8 +1,14 @@
 {
     "files.associations": {
-        "parametersetstate.h": "c",
+
         "initializationstate.h": "c",
+        "globaltimers.h": "c",
+        "button.h": "c"
+        "calibrationstate.h": "c",
         "statehandler.h": "c",
+        "linesensor.h": "c",
+        "drivecontrol.h": "c"
+        "parametersetstate.h": "c",
         "searchingstartlinestate.h": "c"
     }
 }

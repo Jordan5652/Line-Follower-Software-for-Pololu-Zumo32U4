@@ -12,8 +12,8 @@
 
 /* INCLUDES ***************************************************************************************/
 #include "Types.h"
-
 #include "Button.h"
+#include "Display.h"
 
 /* CONSTANTS **************************************************************************************/
 
@@ -22,26 +22,32 @@
 /* TYPES ******************************************************************************************/
 
 /* PROTOTYPES *************************************************************************************/
+
 /**
- * @brief checks if any of the Buttons is pressed by polling (ReadyState is left when some Button is pressed)
+ * @brief show ReadyState on display
+*/
+extern void ReadyState_enterDisplayState(void);
+
+/**
+ * @brief check if any of the Buttons is pressed by polling (ReadyState is left when some Button is pressed)
 */
 extern void ReadyState_processPollingButtons(void);
 
 /**
- * @brief checks if button A was pressed by a user
- * @return Bool: returns true if button A was pressed
+ * @brief check if button A was pressed by a user
+ * @return Bool: return true if button A was pressed
 */
 extern Bool ReadyState_checkTransitionTriggerButtonAPressed(void);
 
 /**
- * @brief checks if button B was pressed by a user
- * @return Bool: returns true if button B was pressed
+ * @brief check if button B was pressed by a user
+ * @return Bool: return true if button B was pressed
 */
 extern Bool ReadyState_checkTransitionTriggerButtonBPressed(void);
 
 /**
- * @brief checks if button C was pressed by a user
- * @return Bool: returns true if button C was pressed
+ * @brief check if button C was pressed by a user
+ * @return Bool: return true if button C was pressed
 */
 extern Bool ReadyState_checkTransitionTriggerButtonCPressed(void);
 

@@ -11,37 +11,51 @@
 #define PARAMETERS_H
 
 /* INCLUDES ***************************************************************************************/
+#include "Types.h"
+#include "Display.h"
 
 /* CONSTANTS **************************************************************************************/
+#define INDEX_SET1 (0U)
+#define INDEX_SET2 (1U)
+#define INDEX_SET3 (2U)
 
 /* MACROS *****************************************************************************************/
 
 /* TYPES ******************************************************************************************/
+
 /** @struct ParameterSet
  * @brief struct to represent a ParameterSet
 */
 typedef struct
 {
-
+    Float32 kp;
+    Float32 kd;
+    Float32 ki;
+    Int16 motorspeed;
 }ParameterSet;
 
 /* PROTOTYPES *************************************************************************************/
-/** 
- * @brief sets the selected ParameterSet
- * 
-*/
-void Parameters_setParameterSet(void);
+/**
+ * @brief return to pointer to the currently selected ParameterSet
+ * @return ParameterSet*: pointer to the currently selected ParameterSet 
+ */
+extern ParameterSet* Parameters_getParameterSet(void);
 
-/** 
- * @brief gets the current ParameterSet
- * 
-*/
-ParameterSet Parameters_getParameterSet(void);
 
-/** 
- * @brief displays the ParameterSet on the OLED-Display
- * 
+/**
+ * @brief set the selected ParameterSet
+ * @param index the index used to set the parameterset
 */
-void Parameters_displayParameterSets(void);
+extern void Parameters_setParameterSet(UInt8 index);
+
+/**
+ * @brief display the ParameterSet on the OLED-Display
+*/
+extern void Parameters_displayParameterSets(void);
+
+/**
+ * @brief initialize the ParameterSets
+*/
+extern void Parameters_initParameterSets(void);
 
 #endif /* PARAMETERS_H */
