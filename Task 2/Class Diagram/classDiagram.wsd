@@ -45,7 +45,10 @@ package App
     package StatesPackage
     {
         class ReadyState
-        {
+        {   
+            -gButtonAPressed: bool
+            -gButtonBReleased: bool
+            -gButtonCPressed: bool
             +processPollingButtons(void): void
             +checkTransitionTriggerButtonAPressed(void): bool
             +checkTransitionTriggerButtonBPressed(void): bool
