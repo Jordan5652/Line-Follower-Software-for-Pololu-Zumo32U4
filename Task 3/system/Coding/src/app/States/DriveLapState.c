@@ -147,13 +147,7 @@ extern Bool DriveLapState_checkTranstionTriggerStartlineFound(void)
     
     if (SOFTTIMER_IS_EXPIRED(GlobalTimers_getTimer(TIMER3)))
     {
-        //DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, 0, DRIVE_CONTROL_FORWARD);
-        //DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, 0, DRIVE_CONTROL_FORWARD);
-        //Led_switchOn(LED_RED);
-        //while (1);
-        
-        return PositionControl_checkForStartLine();
-        
+        return PositionControl_checkForStartLine();   
     }
     else
     {
