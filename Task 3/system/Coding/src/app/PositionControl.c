@@ -60,6 +60,35 @@ Int16 calcMovingAverage(Int16 currentWeightedValues)
     }  
     movingAvr = movingAvr / NumberOfElements;
     return movingAvr;
+}
+#define BUFFER_SIZE2 (30)
+
+Int16 calcMovingAverage2(Int16 currentWeightedValues)
+{
+    static Int16 Buffer[BUFFER_SIZE2] = {0};
+    static UInt8 NumberOfElements = 0; 
+    Int16 movingAvr = 0;
+
+    if(NumberOfElements < BUFFER_SIZE)
+    {
+        Buffer[NumberOfElements] = currentWeightedValues;
+        NumberOfElements++;        
+    }
+    else
+    {
+        for(UInt8 counter1 = 1u; counter1 < NumberOfElements; counter1++)
+        {
+            Buffer[counter1-1u] = Buffer[counter1];
+        }
+        Buffer[NumberOfElements-1] = currentWeightedValues;   
+    }
+
+    for(UInt8 counter2 = 0u; counter2 < NumberOfElements; counter2++)
+    {
+        movingAvr += Buffer[counter2];
+    }  
+    movingAvr = movingAvr / NumberOfElements;
+    return movingAvr;
 
 }
 
@@ -80,24 +109,25 @@ extern void PositionControl_DriveOnTrack(void)
 
     // NEW
     sumOfWeightedValues = calcMovingAverage(sumOfWeightedValues);
+    Int16 movAverage2 = 0;
 
     // NOT NEW 
 
     ParameterSet* pParameters = Parameters_getParameterSet();
 
-    /*
+    
     Int32 speedDifference;
     
     //if(onStraightLine && ((sumOfWeightedValues > 280) || (sumOfWeightedValues < -280)))
-    if((onStraightLine) && ((sumOfWeightedValues > 550) || (sumOfWeightedValues < -550)))
+    if((onStraightLine) && ((sumOfWeightedValues > 450) || (sumOfWeightedValues < -450)))
     {
         TESTCOUNTER++;
-        if(TESTCOUNTER >= 15u)
-        {
+        //if(TESTCOUNTER >= 15u)
+        //{
             onStraightLine = FALSE;
             TESTCOUNTER = 0u;
-            Led_switchOn(LED_RED);
-        }
+
+        //}
         //speedDifference = pParameters->kp*sumOfWeightedValues + pParameters->kd*(sumOfWeightedValues-sumOfWeightedValuesBefore) + pParameters->ki * (sumOfWeightedValuesIntegrated);
         //Led_switchOn(LED_RED);
     }
@@ -105,17 +135,17 @@ extern void PositionControl_DriveOnTrack(void)
     {
         if(FALSE == onStraightLine)
         {
-            if((sumOfWeightedValues < 140) && (sumOfWeightedValues > -140))
+            if((sumOfWeightedValues < 80) && (sumOfWeightedValues > -80))
             {
                 TESTCOUNTER++;
-                if(TESTCOUNTER >= 15u)
+                if(TESTCOUNTER >= 25u)
                 {
                     onStraightLine = TRUE;
-                    //DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, 0, DRIVE_CONTROL_FORWARD);
-                    //DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, 0, DRIVE_CONTROL_FORWARD);
+                    DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, 0, DRIVE_CONTROL_FORWARD);
+                    DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, 0, DRIVE_CONTROL_FORWARD);
 
-                    //Led_switchOn(LED_GREEN);
-                    //while(1);
+                    Led_switchOn(LED_GREEN);
+                    while(1);
 
                     TESTCOUNTER = 0u;
                 }
@@ -129,7 +159,7 @@ extern void PositionControl_DriveOnTrack(void)
 
     if(onStraightLine)
     {
-        //speedDifference = 0.0001*sumOfWeightedValues + 0*(sumOfWeightedValues-sumOfWeightedValuesBefore) + 0.0000001 * (sumOfWeightedValuesIntegrated);
+        speedDifference = 0.001*sumOfWeightedValues + 0*(sumOfWeightedValues-sumOfWeightedValuesBefore) + 0.0000001 * (sumOfWeightedValuesIntegrated);
         //if(speedDifference > 3)
         //{
         //    speedDifference = 3;
@@ -140,7 +170,7 @@ extern void PositionControl_DriveOnTrack(void)
         //}
 
         //speedDifference = 0.0;
-        speedDifference = pParameters->kp*sumOfWeightedValues + pParameters->kd*(sumOfWeightedValues-sumOfWeightedValuesBefore) + pParameters->ki * (sumOfWeightedValuesIntegrated);
+        //speedDifference = pParameters->kp*sumOfWeightedValues + pParameters->kd*(sumOfWeightedValues-sumOfWeightedValuesBefore) + pParameters->ki * (sumOfWeightedValuesIntegrated);
     }
     else
     {
@@ -148,13 +178,13 @@ extern void PositionControl_DriveOnTrack(void)
         //speedDifference = 0.0;
         Led_switchOff(LED_RED);
     }
-    */
+    
     if(PositionControl_checkForLineLost())
     {
         sumOfWeightedValues = 0;
     }
 
-    Int32 speedDifference = pParameters->kp*sumOfWeightedValues + pParameters->kd*(sumOfWeightedValues-sumOfWeightedValuesBefore) + pParameters->ki * (sumOfWeightedValuesIntegrated);
+    //Int32 speedDifference = pParameters->kp*sumOfWeightedValues + pParameters->kd*(sumOfWeightedValues-sumOfWeightedValuesBefore) + pParameters->ki * (sumOfWeightedValuesIntegrated);
 
     Int32 leftSpeed = speedDifference + pParameters->motorspeed;
     Int32 rightSpeed = -speedDifference + pParameters->motorspeed;

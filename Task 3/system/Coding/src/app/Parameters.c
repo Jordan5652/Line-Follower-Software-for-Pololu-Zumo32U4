@@ -54,7 +54,7 @@ extern void Parameters_displayParameterSets(void)
 extern void Parameters_initParameterSets(void)
 {
     /* Init of set 1 */
-    gParameterSets[0].kp = 0.22;
+    gParameterSets[0].kp = 0.28;
     //gParameterSets[0].ki = 0.00005;
     gParameterSets[0].ki = 0.00001;
     //gParameterSets[0].kd = 0.04;
