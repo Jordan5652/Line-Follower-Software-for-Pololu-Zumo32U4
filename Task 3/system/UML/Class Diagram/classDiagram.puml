@@ -111,7 +111,7 @@ package App
         class LapFinishedState
         {
             -gButtonAPressed: Bool
-            +enterStopTimer2AndDisplayTimeAndStopDriveAndPlayBeep(void): void
+            +enterDisplayTimeAndStopDriveAndPlayBeep(void): void
             +processPollingButtonA(void): void
             +checkTransitionTriggerButtonAPressed(void): Bool
         }
@@ -350,6 +350,7 @@ GlobalTimers ..d..> SoftTimer
 PositionControl ..d..> LineSensor
 PositionControl ..d..> DriveControl
 PositionControl ..d..> Parameters
+PositionControl ..d..> GlobalTimers
 
 ' ++++++++++++++++++++++++++++++++
 ' Service
