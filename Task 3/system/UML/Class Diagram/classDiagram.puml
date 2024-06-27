@@ -5,8 +5,7 @@ top to bottom direction
 
 package App
 {
-    class "MainTask" 
-    {
+    class "MainTask" {
         + MainTask_init(void) : MainTask_Ret
     }
     
@@ -35,26 +34,22 @@ package App
     class Parameters
     {
         -gParameterSets: ParameterSet[MAX_NUMBER_OF_PARAMETER_SETS]
-        -gParameters: ParameterSet*
-        +getParamterSet(void): ParameterSet*
+        +pParameters: ParameterSet*
         +setParameterSet(UInt8): void
         +displayParameterSets(void): void
-        +initParameterSets(void): void
     }
 
     struct ParameterSet
     {
         kp: Float32
-        kd: Float32
-        ki: Float32
+        kd: Float32 
+        ki: Float32 
         motorspeed: Int16
     }
 
     class PositionControl
     {
         -gSensorValues: LineSensorValues
-        -calcMovingAverage(Int16): Int16
-        +updateSensorValues(void): void
         +driveOnTrack(void): void
         +checkForStartline(void): Bool
         +checkForLineLost(void): Bool
@@ -62,21 +57,21 @@ package App
 
     class GlobalTimers
     {
-        -gTimer1: SoftTimer
-        -gTimer2: SoftTimer
-        -gTimer3: SoftTimer
-        -gTimers[3]: SoftTimer*
-        +getTimer(UInt8): SoftTimer*
+        -timer1: SoftTimer
+        -timer2: SoftTimer
+        -timer3: SoftTimer
+        +pTimer1: SoftTimer*
+        +pTimer2: SoftTimer*
+        +pTimer3: SoftTimer*
     }
 
     package StatesPackage
     {
         class ReadyState
-        {
+        {   
             -gButtonATriggered: Bool
             -gButtonBTriggered: Bool
             -gButtonCTriggered: Bool
-            +enterDisplayState(void): void
             +processPollingButtons(void): void
             +checkTransitionTriggerButtonAPressed(void): Bool
             +checkTransitionTriggerButtonBPressed(void): Bool
@@ -110,16 +105,19 @@ package App
 
         class LapFinishedState
         {
+            -gLapTimeCounter: UInt16
+            -gLapTimeSec: UInt16
+            -gLapTimeMilliSec: UInt16
             -gButtonAPressed: Bool
-            +enterDisplayTimeAndStopDriveAndPlayBeep(void): void
+            -convertTimeToText(char*, UInt16): void
+            +enterStopTimer2AndDisplayTimeAndStopDriveAndPlayBeep(void): void
             +processPollingButtonA(void): void
             +checkTransitionTriggerButtonAPressed(void): Bool
         }
 
         class DriveLapState
         {
-            -gTrackLeft: Bool
-            +enterStartTimer3(void): void
+            +enterRestartTimer2AndPlayBeep(void): void
             +processDriveOnTrackline(void): void
             +checkTransitionTriggerTimer2Exceeds20s(void): Bool
             +checkTransitionTriggerTrackNotFound(void): Bool
@@ -131,26 +129,21 @@ package App
             -gButtonTriggered: Bool
             +enterDisplayParameterSets(void): void
             +processSetParamterSet(void): void
-            +exitDisplaySelectedParameterSetFor3s(void): void
             +checkTransitionTriggerConfigDone(void): Bool
         }
 
         class ErrorState
         {
             -gButtonTriggered: Bool
-            +enterStopDriveAndPlayAlarmAndDisplayError(ErrorHandlerErrorCode): void
+            +enterStopDriveAndPlayAlarmAndDisplayError(void): void
             +processPollingButtonA(void): void
             +checkTransitionTriggerButtonAPressed(void): Bool
         }
 
         class CalibrationState
         {
-            -gState: CalibrationStates
-            -gCalibrationFinished: Bool
-            -gCalibrationTimeoutMessage: UInt8
-            -gCenterLineTimeoutMessage: UInt8
             +processCalibrate(void): void
-            +checkTransitionTriggerCalibrationDone(void): Bool
+            +checkTransitionTriggerCalibrationDone(void): bool
         }
 
         enum CalibrationStates
@@ -295,15 +288,15 @@ StateHandler ...> States
 Parameters ..d..> Display
 Parameters ..> ParameterSet
 
+InitializationState ..d..........> SoftTimer
 InitializationState ..d..........> Display
 InitializationState ..d..........> GlobalTimers
 InitializationState ..d..........> Parameters
 
 ReadyState ..d....> Button
-ReadyState ..d....> Display
 
 PreDriveState ..d....> GlobalTimers
-PreDriveState ..d....> Display
+PreDriveState ..d....> SoftTimer
 
 CalibrationState ..d........> LineSensor
 CalibrationState ..d.....> DriveControl
@@ -313,7 +306,7 @@ CalibrationState ..d.....> CalibrationStates
 
 ParameterSetState ..d....> Button
 ParameterSetState .......> Parameters
-ParameterSetState ..d.....> GlobalTimers
+ParameterSetState ..d.....> SoftTimer
 
 SearchingStartLineState ..d.....> SoftTimer
 SearchingStartLineState ..d.....> GlobalTimers
@@ -325,7 +318,7 @@ DriveLapState ..d.....> Buzzer
 DriveLapState ......> Parameters
 DriveLapState ..d....> DriveControl
 DriveLapState ..d.....> LineSensor
-DriveLapState ..d.....> GlobalTimers
+DriveLapState ..d.....> SoftTimer
 DriveLapState ..d.....> PositionControl
 
 TrackFunctions ...d...> LineSensor
@@ -334,23 +327,21 @@ TrackFunctions ...d..> DriveControl
 LapFinishedState ..d..> Button
 LapFinishedState ..d.......> Buzzer
 LapFinishedState ..d....> DriveControl
+LapFinishedState ..d....> SoftTimer
 LapFinishedState ..d....> GlobalTimers
 LapFinishedState ..d....> Display
 
+SearchTrackState ..d..> SoftTimer
+SearchTrackState ..d......> DriveControl
+SearchTrackState ..d..> LineSensor
+
 ErrorState ..d....> Buzzer
-ErrorState ..d....> Display
 ErrorState ..d.....> Button
 ErrorState ..d.....> DriveControl
 ErrorState ..d.....> ErrorHandler
+ErrorState ..d.....> SoftTimer
 
 PreDriveState ..d..> SoftTimer
-
-GlobalTimers ..d..> SoftTimer
-
-PositionControl ..d..> LineSensor
-PositionControl ..d..> DriveControl
-PositionControl ..d..> Parameters
-PositionControl ..d..> GlobalTimers
 
 ' ++++++++++++++++++++++++++++++++
 ' Service

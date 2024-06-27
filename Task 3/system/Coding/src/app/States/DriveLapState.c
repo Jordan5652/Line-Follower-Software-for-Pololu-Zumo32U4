@@ -40,10 +40,9 @@ extern void DriveLapState_processDriveOnTrackLine(void)
     static Bool OffTrack = FALSE;
     static UInt16 LineNotFoundCounter = 0u;
     ParameterSet* pParameters = Parameters_getParameterSet();
-
-    // checking if line was left or line was refound 
+ 
     PositionControl_UpdateSensorValues();
-    if ((TRUE == PositionControl_checkForLineLost())) // && (FALSE == OffTrack))
+    if ((TRUE == PositionControl_checkForLineLost()))
     {
         LineNotFoundCounter = 0u;
 
@@ -53,46 +52,15 @@ extern void DriveLapState_processDriveOnTrackLine(void)
             SoftTimer_Stop(GlobalTimers_getTimer(TIMER1));
             SoftTimer_start(GlobalTimers_getTimer(TIMER1), 5000u);
             OffTrack = TRUE;
-            //DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, 0u, DRIVE_CONTROL_FORWARD);
-            //DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, 0u, DRIVE_CONTROL_FORWARD);
-            //Display_clear();
-            //Display_write("TRACKLINE LOST!", sizeof("TRACKLINE LOST!"));
-            //while(1);
         }
         else
         {
-            //Counter++;
             if (SOFTTIMER_IS_EXPIRED(GlobalTimers_getTimer(TIMER1)))
             {
                 gTrackLeft = TRUE;
                 SoftTimer_Stop(GlobalTimers_getTimer(TIMER1));
                 LineNotFoundCounter = 0u;
-                
-                //DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, 0u, DRIVE_CONTROL_FORWARD);
-                //DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, 0u, DRIVE_CONTROL_FORWARD);
-                //Display_clear();
-                //Display_write("YAY FINALLY!", sizeof("YAY FINALLY!"));
-                //while(1);
             }
-
-            /*
-            if(Counter >= 20u)
-            {
-                
-                DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, 0u, DRIVE_CONTROL_FORWARD);
-                DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, 0u, DRIVE_CONTROL_FORWARD);
-                char buffer[8];
-                UInt16 timerValue = SoftTimer_get(pTimer1);
-                snprintf(buffer, sizeof(buffer), "%u", timerValue);
-                Display_clear();
-                Display_write("TRACKLINE LOST!", sizeof("TRACKLINE LOST!"));
-                Display_gotoxy(1,1);
-                Display_write(buffer, sizeof(buffer));
-                while(1);
-                
-            }
-            */
-            
         }
     }
 
@@ -101,7 +69,7 @@ extern void DriveLapState_processDriveOnTrackLine(void)
         if (OffTrack)
         {
             LineNotFoundCounter++;
-            // Measurement against Noise: preventing Softtimer to constantly stop due to noise of sensors (black line detected)
+            /* Measurement against Noise: preventing Softtimer to constantly stop due to noise of sensors (black line detected) */
             if (LineNotFoundCounter >= 100u)
             
             {
@@ -140,17 +108,11 @@ extern Bool DriveLapState_checkTranstionTriggerTimer2Exceeds20s(void)
 extern Bool DriveLapState_checkTranstionTriggerStartlineFound(void)
 { 
     
-    //Wait some time to prevent immediatly finding startline after starting to drive
+    /* Wait some time to prevent immediatly finding startline after starting to drive */
     
     if (SOFTTIMER_IS_EXPIRED(GlobalTimers_getTimer(TIMER3)))
     {
-        //DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, 0, DRIVE_CONTROL_FORWARD);
-        //DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, 0, DRIVE_CONTROL_FORWARD);
-        //Led_switchOn(LED_RED);
-        //while (1);
-        
-        return PositionControl_checkForStartLine();
-        
+        return PositionControl_checkForStartLine();   
     }
     else
     {

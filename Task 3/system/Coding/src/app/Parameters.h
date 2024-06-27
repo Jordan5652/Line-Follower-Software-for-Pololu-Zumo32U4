@@ -36,25 +36,25 @@ typedef struct
 
 /* PROTOTYPES *************************************************************************************/
 /**
- * @brief returns to pointer to the currently selected ParameterSet
+ * @brief return to pointer to the currently selected ParameterSet
  * @return ParameterSet*: pointer to the currently selected ParameterSet 
  */
 extern ParameterSet* Parameters_getParameterSet(void);
 
 
 /**
- * @brief sets the selected ParameterSet
+ * @brief set the selected ParameterSet
  * @param index the index used to set the parameterset
 */
 extern void Parameters_setParameterSet(UInt8 index);
 
 /**
- * @brief displays the ParameterSet on the OLED-Display
+ * @brief display the ParameterSet on the OLED-Display
 */
 extern void Parameters_displayParameterSets(void);
 
 /**
- * @brief initializes the ParameterSets
+ * @brief initialize the ParameterSets
 */
 extern void Parameters_initParameterSets(void);
 

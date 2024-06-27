@@ -26,18 +26,18 @@
 
 /* PROTOTYPES *************************************************************************************/
 /** 
- * @brief stops the motors when error occurs, emits an accustic alarm and displays the error message on the display and resets all timers
+ * @brief stop the motors when error occurs, emits an accustic alarm and displays the error message on the display and resets all timers
 */
 extern void ErrorState_enterStopDriveAndPlayAlarmAndDisplayError(ErrorHandlerErrorCode errorCode);
 
 /** 
- * @brief checks if ButtonA is pressed by polling (ErrorState is left when ButtonA is pressed)
+ * @brief check if ButtonA is pressed by polling (ErrorState is left when ButtonA is pressed)
 */
 extern void ErrorState_processPollingButtonA(void);
 
 /** 
- * @brief checks if button A was pressed by a user
- * @return Bool: returns true if button A was pressed
+ * @brief check if button A was pressed by a user
+ * @return Bool: return true if button A was pressed
 */
 extern Bool ErrorState_checkTransitionTriggerButtonAPressed(void);
 

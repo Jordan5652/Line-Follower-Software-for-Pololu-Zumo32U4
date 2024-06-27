@@ -28,9 +28,9 @@
 
 /* PROTOTYPES *************************************************************************************/
 /**
- * @brief stop timer2 measuring the lap-time, displays the lap-time, stop the motors and play a beep as an accustic signal
+ * @brief stop timer2 measuring the lap-time, display the lap-time, stop the motors and play a beep as an accustic signal
 */
-extern void LapFinishedState_enterStopTimer2AndDisplayTimeAndStopDriveAndPlayBeep(void);
+extern void LapFinishedState_enterDisplayTimeAndStopDriveAndPlayBeep(void);
 
 /**
  * @brief check if ButtonA is pressed by polling
@@ -42,5 +42,10 @@ extern void LapFinishedState_processPollingButtonA(void);
  * @return Bool: return true if button A was pressed
 */
 extern Bool LapFinishedState_checkTransitionTriggerButtonAPressed(void);
+
+/**
+ * @brief convert a UInt16 to text
+*/
+static void convertTimeToText(char* string, UInt16 time);
 
 #endif /* LAP_FINISHED_STATE_H */

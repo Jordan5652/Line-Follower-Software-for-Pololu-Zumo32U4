@@ -21,12 +21,11 @@
 
 /* MACROS *****************************************************************************************/
 
-
 /* TYPES ******************************************************************************************/
+
 /** 
  * @brief each element represents a state of the internal statemachine of the calibration
 */
-
 typedef enum
 {
     CALIBRATION_STATE_INIT,
@@ -39,8 +38,8 @@ typedef enum
 
 }CalibrationState;
 
-
 /* PROTOTYPES *************************************************************************************/
+
 /** 
  * @brief starts calibrating the Line-Sensors
 */

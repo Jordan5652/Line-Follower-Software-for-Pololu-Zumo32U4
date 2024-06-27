@@ -23,18 +23,18 @@
 
 /* PROTOTYPES *************************************************************************************/
 /**
- * @brief starts timer1 to measure delay before starting to drive
+ * @brief start timer1 to measure delay before starting to drive
 */
 extern void PreDriveState_enterStartTimer1AndWaitFor3s(void);
 
 /**
- * @brief stops timer 1
+ * @brief stop timer 1
 */
 extern void PreDriveState_exitStopTimer1(void);
 
 /**
- * @brief checks if timer1 exceeded 3s
- * @return Bool: returns true if timer1 exceeded 3s
+ * @brief check if timer1 exceeded 3s
+ * @return Bool: return true if timer1 exceeded 3s
 */
 extern Bool PreDriveState_checkTransitionTriggerTimer1Exceeds3s(void);
 

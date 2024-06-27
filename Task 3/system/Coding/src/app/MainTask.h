@@ -31,7 +31,7 @@ extern "C"
 
 /* TYPES ******************************************************************************************/
 
-/** Statuses of the Main task. */
+/* Statuses of the Main task. */
 typedef enum
 {
     MAINTASK_RET_SUCCESS = 0,             /**< Ok.                                */
@@ -44,7 +44,7 @@ typedef enum
 
 /* PROTOTYPES *************************************************************************************/
 
-/** Initialize the main task. */
+/* Initialize the main task. */
 extern MainTask_Ret MainTask_init (void);
 
 #ifdef __cplusplus
