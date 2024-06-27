@@ -53,6 +53,7 @@ package App
     class PositionControl
     {
         -gSensorValues: LineSensorValues
+        -calcMovingAverage(Int16): Int16
         +updateSensorValues(void): void
         +driveOnTrack(void): void
         +checkForStartline(void): Bool
