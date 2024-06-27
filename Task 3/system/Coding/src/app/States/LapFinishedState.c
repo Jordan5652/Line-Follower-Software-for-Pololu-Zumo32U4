@@ -39,8 +39,6 @@ extern void LapFinishedState_enterDisplayTimeAndStopDriveAndPlayBeep(void)
     DriveControl_drive(DRIVE_CONTROL_MOTOR_LEFT, NO_SPEED, DRIVE_CONTROL_FORWARD);
     DriveControl_drive(DRIVE_CONTROL_MOTOR_RIGHT, NO_SPEED, DRIVE_CONTROL_FORWARD);
 
-    //SoftTimer_Stop(GlobalTimers_getTimer(TIMER2));
-
     Buzzer_beep(BUZZER_NOTIFY);
 
     /* Display lap time */
@@ -86,6 +84,5 @@ static void convertTimeToText(char* string, UInt16 time)
     string[4] = (char)(((LapTimeMilliSec / 10) % 10) + NUMBER_TO_CHAR_OFFSET);
     string[5] = (char)((LapTimeMilliSec % 10) + NUMBER_TO_CHAR_OFFSET);
     string[6] = 's';
-    string[7] = '\0';     
-
+    string[7] = '\0';
 }

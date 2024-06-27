@@ -16,6 +16,8 @@
 #define MIN_MOTOR_SPEED (20u)
 
 #define WHITE_THRESHHOLD (250u)
+#define BUFFER_SIZE (9)
+#define BUFFER_SIZE2 (30)
 
 /* MACROS *****************************************************************************************/
 
@@ -33,7 +35,6 @@ extern void PositionControl_UpdateSensorValues(void)
     LineSensor_read(&gSensorValues);
 }
 
-#define BUFFER_SIZE (9)
 Int16 calcMovingAverage(Int16 currentWeightedValues)
 {
     static Int16 Buffer[BUFFER_SIZE] = {0};
@@ -61,42 +62,7 @@ Int16 calcMovingAverage(Int16 currentWeightedValues)
     movingAvr = movingAvr / NumberOfElements;
     return movingAvr;
 }
-#define BUFFER_SIZE2 (30)
 
-Int16 calcMovingAverage2(Int16 currentWeightedValues)
-{
-    static Int16 Buffer2[BUFFER_SIZE2] = {0};
-    static UInt8 NumberOfElements2 = 0; 
-    Int16 movingAvr = 0;
-
-    if(NumberOfElements2 < BUFFER_SIZE)
-    {
-        Buffer2[NumberOfElements2] = currentWeightedValues;
-        NumberOfElements2++;       
-        return 0; 
-    }
-    else
-    {
-        for(UInt8 counter1 = 1u; counter1 < NumberOfElements2; counter1++)
-        {
-            Buffer2[counter1-1u] = Buffer2[counter1];
-        }
-        Buffer2[NumberOfElements2-1] = currentWeightedValues;   
-    }
-
-    for(UInt8 counter2 = 0u; counter2 < NumberOfElements2; counter2++)
-    {
-        movingAvr += Buffer2[counter2];
-    }  
-    movingAvr = movingAvr / NumberOfElements2;
-    return movingAvr;
-
-}
-
-#include "Led.h"
-Bool onStraightLine = TRUE;
-UInt16 TESTCOUNTER = 0u;
-UInt16 TESTCOUNTER2 = 0u;
 extern void PositionControl_DriveOnTrack(void)
 {
     Int16 sumOfWeightedValues;
@@ -154,7 +120,7 @@ extern Bool PositionControl_checkForStartLine(void)
 {
     static UInt8 gCounter = 0;
     
-    if (((gSensorValues.value[LINESENSOR_LEFT]) > 200u && (gSensorValues.value[LINESENSOR_RIGHT]) > 200u)) 
+    if (((gSensorValues.value[LINESENSOR_LEFT]) > WHITE_THRESHHOLD && (gSensorValues.value[LINESENSOR_RIGHT]) > WHITE_THRESHHOLD)) 
     {
         gCounter++;
     }
@@ -183,3 +149,33 @@ extern Bool PositionControl_checkForLineLost(void)
 }
 
 /* INTERNAL FUNCTIONS *****************************************************************************/
+
+Int16 calcMovingAverage2(Int16 currentWeightedValues)
+{
+    static Int16 Buffer2[BUFFER_SIZE2] = {0};
+    static UInt8 NumberOfElements2 = 0; 
+    Int16 movingAvr = 0;
+
+    if(NumberOfElements2 < BUFFER_SIZE)
+    {
+        Buffer2[NumberOfElements2] = currentWeightedValues;
+        NumberOfElements2++;       
+        return 0; 
+    }
+    else
+    {
+        for(UInt8 counter1 = 1u; counter1 < NumberOfElements2; counter1++)
+        {
+            Buffer2[counter1-1u] = Buffer2[counter1];
+        }
+        Buffer2[NumberOfElements2-1] = currentWeightedValues;   
+    }
+
+    for(UInt8 counter2 = 0u; counter2 < NumberOfElements2; counter2++)
+    {
+        movingAvr += Buffer2[counter2];
+    }  
+    movingAvr = movingAvr / NumberOfElements2;
+    return movingAvr;
+
+}

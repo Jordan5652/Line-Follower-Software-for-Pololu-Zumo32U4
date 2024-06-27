@@ -43,7 +43,7 @@ extern void SearchingStartLineState_processSearchForStartline(void)
 
 extern void SearchingStartLineState_exitStartTimer2AndPlayBeepIfStartlineFound(void)
 {
-    /*Start timer for measuring lap time*/
+    /* Start timer for measuring lap time */
     SoftTimer_start(GlobalTimers_getTimer(TIMER2), 20000u);
     Buzzer_beep(BUZZER_NOTIFY);
 }

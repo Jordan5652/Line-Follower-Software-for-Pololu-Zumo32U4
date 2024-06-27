@@ -33,8 +33,8 @@
 /* VARIABLES **************************************************************************************/
 
 /**
- * @brief returns one of the three global timers
- * @return SoftTimer*: returns a pointer to timer
+ * @brief return one of the three global timers
+ * @return SoftTimer*: return a pointer to the specified timer
 */
 extern SoftTimer* GlobalTimers_getTimer(UInt8 index);
 

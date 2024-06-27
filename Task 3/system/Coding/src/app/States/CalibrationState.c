@@ -20,7 +20,7 @@
 #define BLACK_LINE_VALUE_TRESHHOLD 750u
 
 /* MACROS *****************************************************************************************/
-#define CALIB_NO_LINE(sensorValue) \ 
+#define CALIB_NO_LINE(sensorValue) \
     ((WHITE_BACKGROUND_VALUE_TRESHHOLD) > (sensorValue))
 #define CALIB_OVER_LINE(sensorValue) \
     ((BLACK_LINE_VALUE_TRESHHOLD) < (sensorValue))
@@ -54,7 +54,7 @@ void CalibrationState_processCalibrate(void)
         case CALIBRATION_STATE_INIT:
             
                 gState = CALIBRATION_STATE_TURN_RIGHT_UNTIL_LEFT_SENSOR;
-                SoftTimer_start(GlobalTimers_getTimer(TIMER1), 5000u);
+                SoftTimer_start(GlobalTimers_getTimer(TIMER1), FIVE_SECONDS);
                 LineSensor_startCalibration();
             
             break;
