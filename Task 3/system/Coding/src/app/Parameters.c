@@ -13,9 +13,9 @@
 
 /* CONSTANTS **************************************************************************************/
 #define MAX_NUMBER_OF_PARAMETER_SETS 3u
-#define TEXT_SET1 ("A: NAME SET 1")
-#define TEXT_SET2 ("B: NAME SET 2")
-#define TEXT_SET3 ("C: NAME SET 3")
+#define TEXT_SET1 ("A: FAST SET 1")
+#define TEXT_SET2 ("B: SAFE SET 2")
+#define TEXT_SET3 ("C: RAND SET 3")
 
 /* MACROS *****************************************************************************************/
 
@@ -54,24 +54,21 @@ extern void Parameters_displayParameterSets(void)
 extern void Parameters_initParameterSets(void)
 {
     /* Init of set 1 */
-    gParameterSets[0].kp = 0.18;
-    //gParameterSets[0].ki = 0.00005;
-    gParameterSets[0].ki = 0.00000;
-    //gParameterSets[0].kd = 0.04;
-    //gParameterSets[0].kd = 0.3;
-    gParameterSets[0].kd = 0.0;
+    gParameterSets[0].kp = 0.265;
+    gParameterSets[0].ki = 0.00005;
+    gParameterSets[0].kd = 2.2;
     gParameterSets[0].motorspeed = 100;
 
     /* Init of set 2 */
-    gParameterSets[1].kp = 0.17;
-    gParameterSets[1].ki = 0.00005;
-    gParameterSets[1].kd = 0.04;
+    gParameterSets[1].kp = 0.3;
+    gParameterSets[1].ki = 0.00001;
+    gParameterSets[1].kd = 2.0;
     gParameterSets[1].motorspeed = 80;
 
     /* Init of set 3 */
-    gParameterSets[2].kp = 0.03;
-    gParameterSets[2].ki = 0;
-    gParameterSets[2].kd = 0;
+    gParameterSets[2].kp = 0.3;
+    gParameterSets[2].ki = 0.00001;
+    gParameterSets[2].kd = 2.0;
     gParameterSets[2].motorspeed = 50;
 }
 

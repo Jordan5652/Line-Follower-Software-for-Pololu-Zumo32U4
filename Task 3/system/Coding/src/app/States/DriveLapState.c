@@ -11,8 +11,6 @@
 /* INCLUDES ***************************************************************************************/
 #include "DriveLapState.h"
 
-#include "Led.h"
-
 /* CONSTANTS **************************************************************************************/
 
 /* MACROS *****************************************************************************************/
@@ -48,7 +46,6 @@ extern void DriveLapState_processDriveOnTrackLine(void)
 
         if (FALSE == OffTrack)
         {
-            Led_switchOn(LED_YELLOW);
             SoftTimer_Stop(GlobalTimers_getTimer(TIMER1));
             SoftTimer_start(GlobalTimers_getTimer(TIMER1), 5000u);
             OffTrack = TRUE;
@@ -73,7 +70,6 @@ extern void DriveLapState_processDriveOnTrackLine(void)
             if (LineNotFoundCounter >= 100u)
             
             {
-                Led_switchOff(LED_YELLOW);
                 SoftTimer_Stop(GlobalTimers_getTimer(TIMER1));
                 OffTrack = FALSE;
             }
@@ -126,7 +122,6 @@ extern Bool DriveLapState_checkTranstionTriggerTrackNotFound(void)
     if (gTrackLeft)
     {
         gTrackLeft = FALSE;
-        Led_switchOff(LED_YELLOW);
         SoftTimer_Stop(GlobalTimers_getTimer(TIMER1));
         return TRUE;
     }
